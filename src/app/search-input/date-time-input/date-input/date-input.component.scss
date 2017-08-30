@@ -1,0 +1,29 @@
+:host {
+  display: inline-block;
+  width: 120px;
+  cursor: pointer;
+  float: right;
+}
+
+.date-display {
+  display: inline-block;
+  width: 90px;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.arrows {
+  cursor: pointer;
+  font-size: 0.8em;
+
+  .glyphicon:hover {
+    color: grey;
+  }
+}
+
+.arrows .glyphicon-triangle-right {
+  /*margin-left: -5px;*/
+}
+

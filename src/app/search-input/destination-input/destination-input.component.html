@@ -1,0 +1,21 @@
+<div class="form-group has-feedback has-clear">
+  <label for="destination">Destination</label>
+  <input
+    #destinationInput
+    type="text"
+    class="form-control"
+    id="destination"
+    aria-describedby="destinationHelp"
+    placeholder="Enter destination"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    [value]="searchDestinationName | async"
+    (input)="showOrHideX($event)">
+  <span
+    *ngIf="searchDestinationShowX | async"
+    class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
+    (click)="onXClick()"
+  >
+  </span>
+</div>

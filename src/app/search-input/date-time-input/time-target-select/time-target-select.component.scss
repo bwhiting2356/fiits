@@ -1,0 +1,16 @@
+.btn-group.open .dropdown-toggle {
+  box-shadow: none;
+}
+
+.glyphicon-triangle-bottom {
+  top: 3px;
+  font-size: 0.8em;
+}
+
+.open .glyphicon-triangle-bottom {
+  transform: rotateX(180deg);
+}
+
+.time-target-container .btn-group {
+  cursor: pointer;
+}

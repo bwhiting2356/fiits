@@ -1,0 +1,7 @@
+<div class="time-input-container">
+  <span class="time-display">{{ searchDatetime | async | date:'shortTime' }}</span>
+  <span class="arrows">
+    <span class="glyphicon glyphicon-triangle-left" (click)="subtractTime()"></span>
+    <span class="glyphicon glyphicon-triangle-right" (click)="addTime()"></span>
+  </span>
+</div>

@@ -1,0 +1,23 @@
+:host {
+  display: inline-block;
+  width: 110px;
+  cursor: pointer;
+}
+
+.hidden-input {
+  display: none;
+}
+
+.arrows {
+  cursor: pointer;
+  font-size: 0.8em;
+
+  .glyphicon:hover {
+    color: grey;
+  }
+}
+
+.time-display {
+  display: inline-block;
+  width: 70px;
+}

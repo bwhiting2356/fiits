@@ -1,0 +1,132 @@
+<div
+  class="result" *ngIf="true">
+  <!--*ngIf="searchResult | async">-->
+
+  <!-- START LOCATION -->
+  <div class="result-row">
+    <div class="left-col">{{ searchResult.startTime | date: 'shortTime' }}</div>
+    <div class="icon-col">
+      <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
+    </div>
+    <div class="middle-col">{{ searchResult.startAddress }}</div>
+  </div>
+
+  <!-- WALKING DIRECTIONS # 1 -->
+  <div class="result-row">
+    <div class="left-col">
+      <span class="glyphicon glyphicon-plane"></span> <!-- TODO: replace with walking icon -->
+    </div>
+    <div class="icon-col">
+      <span class="glyphicon glyphicon-option-vertical"></span> <!-- TODO: replace with more google maps like dots -->
+    </div>
+    <div class="middle-col">
+      <i>Walk {{ searchResult.walkingTime1 }} ({{ searchResult.walkingDistance1 }})</i> <!-- TODO: change this to a string instead of a nuber, including the measurements -->
+    </div>
+  </div>
+
+  <!-- STATION #1 -->
+  <div class="result-row">
+
+    <div class="inner-row">
+      <div class="left-col">{{ searchResult.station1ReservationStartTime | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <span class="glyphicon glyphicon-oil"></span>
+      </div>
+      <div class="middle-col">
+        <b>Bike pickup reservation</b>
+      </div>
+    </div>
+
+    <div class="inner">
+      <div class="left-col">{{ searchResult.station1ReservationEndTime | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <span class="glyphicon glyphicon-resize-vertical"></span>
+      </div>
+      <div class="middle-col">
+        {{ searchResult.station1Address }}
+      </div>
+      <div class="right-col" [ngStyle]="{'color': station1Price >= 0 ? 'green' : 'black'}">
+        {{ searchResult.station1ReservationPrice | currency:'USD':true }}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BICYCLE DIRECTIONS -->
+  <div class="result-row">
+    <div class="left-col">
+      <span class="glyphicon glyphicon-plane"></span>
+    </div>
+    <div class="icon-col">
+      <span class="glyphicon glyphicon-option-vertical"></span> <!-- TODO: replace with actual symbols (others too) -->
+    </div>
+    <div class="middle-col">
+      <i>Ride {{ searchResult.bikeTime }} ({{ searchResult.bikeDistance }})</i>
+    </div>
+    <div class="right-col" [ngStyle]="{'color': searchResult.bikeRentalPrice >= 0 ? 'green' : 'black'}">
+      {{ searchResult.bikeRentalPrice | currency:'USD':true }}
+    </div>
+  </div>
+
+  <!-- STATION #2 -->
+  <div class="result-row">
+
+    <div class="inner-row">
+      <div class="left-col">{{ searchResult.station2ReservationStartTime | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <span class="glyphicon glyphicon-oil"></span>
+      </div>
+      <div class="middle-col">
+        <b>Bike dropoff reservation</b>
+      </div>
+    </div>
+
+    <div class="inner-row">
+      <div class="left-col">{{ searchResult.station2ReservationEndTime | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <span class="glyphicon glyphicon-resize-vertical"></span>
+      </div>
+      <div class="middle-col">
+        {{ searchResult.station2Address }}
+      </div>
+      <div class="right-col" [ngStyle]="{'color': station2Price >= 0 ? 'green' : 'black'}">
+        {{ searchResult.station2ReservationPrice | currency:'USD':true }}
+      </div>
+    </div>
+
+  </div>
+
+  <!-- WALKING DIRECTIONS # 2 -->
+  <div class="result-row">
+    <div class="left-col">
+      <span class="glyphicon glyphicon-plane"></span> <!-- TODO: replace with walking icon -->
+    </div>
+    <div class="icon-col">
+      <span class="glyphicon glyphicon-option-vertical"></span> <!-- TODO: replace with more google maps like dots -->
+    </div>
+    <div class="middle-col">
+      <i>Walk {{ searchResult.walkingTime2 }} ({{ searchResult.walkingDistance2 }})</i>
+    </div>
+  </div>
+
+  <!-- END LOCATION -->
+  <div class="result-row">
+    <div class="left-col">{{ searchResult.endTime | date: 'shortTime' }}</div>
+    <div class="icon-col">
+      <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
+    </div>
+    <div class="middle-col">{{ searchResult.endAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
+  </div>
+
+  <div class="horizontal-line"></div>
+  <div class="total-price">Total {{ totalPrice > 0 ? 'earnings' : 'cost' }}:
+    <span class="price" [ngStyle]="{'color': totalPrice >= 0 ? 'green' : 'black'}">
+      {{ totalPrice | currency:'USD':true }}
+    </span>
+  </div>
+  <button type="button" class="btn btn-primary bike-reservation-submit">Book Bike Reservations</button>
+  <!-- TODO: button submit behavior - grey color for disabled, different pointer, spinner... -->
+  <!-- TODO: scrollable y? -->
+  <!-- TODO: info/tooltips -->
+</div>
+

@@ -1,12 +1,12 @@
 import { tassign } from 'tassign';
 import {} from 'googlemaps';
 
-import { Coords } from '../models/coords.model';
-import { Place } from '../models/place.model';
-import { TimeTarget } from '../models/timetarget.model';
-import { MapMarker } from '../models/mapmarker.model';
-import { MapMarkerType } from '../models/mapmarkertype.model';
-import { SearchResult } from '../models/searchresult.model';
+import { Coords } from '../shared/coords.model';
+import { Place } from '../shared/place.model';
+import { TimeTarget } from '../shared/timetarget.model';
+import { MapMarker } from '../shared/mapmarker.model';
+import { MapMarkerType } from '../shared/mapmarkertype.model';
+import { TripQueryResponse } from '../shared/tripqueryresponse.model';
 
 import { Reducer } from 'redux';
 
@@ -27,20 +27,23 @@ import {
   SEARCH_SET_TIME_TO_NOW,
   MAP_REDO_FITBOUNDS,
   SEARCH_FETCH_RESULT,
-  SEARCH_CANCEL_FETCH
+  SEARCH_CANCEL_FETCH,
+  SEARCH_RESULT_RECEIVED
 } from './actions';
+
+
 
 
 export interface IAppState {
   searchOrigin: Place;
-  searchOriginShowX: boolean;
+  searchOriginXShowing: boolean;
   searchDestination: Place;
-  searchDestinationShowX: boolean;
+  searchDestinationXShowing: boolean;
   searchResponse?: any;
   searchTimeTarget: String;
   searchDatetime: Date;
   searchFetching: boolean;
-  searchResult: SearchResult;
+  searchResult: TripQueryResponse;
   mapBounds: google.maps.LatLngBounds;
 }
 
@@ -51,14 +54,14 @@ interface Action {
 
 export const INITIAL_STATE: IAppState = {
   searchOrigin: undefined,
-  searchOriginShowX: false,
+  searchOriginXShowing: false,
   searchDestination: undefined,
-  searchDestinationShowX: false,
+  searchDestinationXShowing: false,
   searchTimeTarget: TimeTarget.LEAVE_NOW,
   searchDatetime: new Date(),
   searchFetching: false,
   searchResult: undefined,
-  mapBounds: undefined
+  mapBounds: undefined,
 };
 
 const searchOriginChange: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -72,11 +75,11 @@ const searchOriginClear: Reducer<IAppState> = (state: IAppState, action: Action)
 };
 
 const searchOriginShowX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchOriginShowX: true });
+  return tassign(state, { searchOriginXShowing: true });
 };
 
 const searchOriginHideX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchOriginShowX: false });
+  return tassign(state, { searchOriginXShowing: false });
 };
 
 const searchDestinationChange: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -89,16 +92,14 @@ const searchDestinationClear: Reducer<IAppState> = (state: IAppState, action: Ac
 };
 
 const searchDestinationShowX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchDestinationShowX: true });
+  return tassign(state, { searchDestinationXShowing: true });
 };
 
 const searchDestinationHideX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchDestinationShowX: false });
+  return tassign(state, { searchDestinationXShowing: false });
 };
 
 const mapRedoFitBounds: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  // TODO: also fit bounds to stations when they're there too
-
   const newBounds = new google.maps.LatLngBounds();
   if (state.searchOrigin) {
     newBounds.extend(state.searchOrigin.coords);
@@ -106,11 +107,16 @@ const mapRedoFitBounds: Reducer<IAppState> = (state: IAppState, action: Action):
   if (state.searchDestination) {
     newBounds.extend(state.searchDestination.coords);
   }
+  if (state.searchResult) {
+    newBounds.extend(state.searchResult.station1Location);
+    newBounds.extend(state.searchResult.station2Location);
+  }
   return tassign(state, { mapBounds: newBounds});
 };
 
 const DAY = 86400000;
 const TEN_MINUTES = 1000 * 60 * 10;
+
 const searchAddDay = (state: IAppState, action: Action): IAppState => {
   return tassign(state, { searchDatetime: new Date(state.searchDatetime.getTime() + DAY)});
 };
@@ -143,6 +149,10 @@ const searchCancelFetch: Reducer<IAppState> = (state: IAppState, action: Action)
   return tassign(state, { searchFetching: false})
 };
 
+const searchResultReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchFetching: false, searchResult: action.body})
+};
+
 export function rootReducer(state: IAppState, action: Action): IAppState {
   switch (action.type) {
     case SEARCH_ORIGIN_CHANGE: return searchOriginChange(state, action);
@@ -166,6 +176,8 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
 
     case SEARCH_FETCH_RESULT: return searchFetchResult(state, action);
     case SEARCH_CANCEL_FETCH: return searchCancelFetch(state, action);
+
+    case SEARCH_RESULT_RECEIVED: return searchResultReceived(state, action);
   }
   return state;
 }

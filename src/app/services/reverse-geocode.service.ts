@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { MapsAPILoader } from '@agm/core';
 import { } from 'googlemaps';
 
-import { Coords } from '../models/coords.model';
+import { Coords } from '../shared/coords.model';
 
 @Injectable()
 export class ReverseGeocodeService {

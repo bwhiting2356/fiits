@@ -1,0 +1,22 @@
+<div class="form-group has-feedback has-clear">
+  <label for="origin">Origin</label>
+  <input
+    #originInput
+    type="text"
+    class="form-control"
+    id="origin"
+    aria-describedby="origin"
+    placeholder="Enter start location"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    [value]="searchOriginName | async"
+    (input)="showOrHideX($event)"/>
+  <span
+    *ngIf="searchOriginXShowing | async"
+    class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
+    (click)="onXClick()"
+  >
+  </span>
+
+</div>

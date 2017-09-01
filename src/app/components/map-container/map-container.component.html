@@ -1,0 +1,29 @@
+<agm-map
+  appMapExtension
+  [latitude]="searchOriginLat | async"
+  [longitude]="searchOriginLng | async"
+  [disableDefaultUI]="false"
+  [zoom]="14"
+  [maxZoom]="16"
+  [fitBounds]="mapBounds | async">
+  <agm-marker
+    *ngIf="searchOriginLat | async"
+    [latitude]="searchOriginLat | async"
+    [longitude]="searchOriginLng | async"
+    [markerDraggable]="true"
+    (dragEnd)="originMarkerDragEnd($event)">
+  </agm-marker>
+  <agm-marker
+    *ngIf="searchDestinationLat | async"
+    [latitude]="searchDestinationLat | async"
+    [longitude]="searchDestinationLng | async"
+    [markerDraggable]="true"
+    (dragEnd)="destinationMarkerDragEnd($event)">
+  </agm-marker>
+
+
+
+</agm-map>
+
+<app-search-input>
+</app-search-input>

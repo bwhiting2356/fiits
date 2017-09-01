@@ -1,0 +1,3 @@
+<div class="horizontal-line"></div>
+<app-search-loader *ngIf="searchFetching | async"></app-search-loader>
+<app-search-result *ngIf="searchResult | async" [searchResult]="searchResult | async"></app-search-result>

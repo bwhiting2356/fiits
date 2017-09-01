@@ -5,7 +5,8 @@ import {
   SEARCH_CANCEL_FETCH
 } from './actions';
 import { IAppState } from './store';
-import { TripQueryRequest } from '../models/tripqueryrequest.model';
+import { TripQueryRequest } from '../shared/tripqueryrequest.model';
+
 
 export const searchParametersChanged = () => (dispatch, getState) => {
   const state: IAppState = getState();

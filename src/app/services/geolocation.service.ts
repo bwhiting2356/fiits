@@ -3,7 +3,7 @@ import { NgRedux } from '@angular-redux/store';
 import { } from 'googlemaps';
 
 import { IAppState } from '../redux/store';
-import { Place } from '../models/place.model';
+import { Place } from '../shared/place.model';
 import { SEARCH_ORIGIN_CHANGE, SEARCH_ORIGIN_SHOW_X } from '../redux/actions';
 import { ReverseGeocodeService } from './reverse-geocode.service';
 

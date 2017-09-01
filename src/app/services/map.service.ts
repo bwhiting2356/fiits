@@ -1,9 +1,10 @@
-import { Injectable, OnInit } from '@angular/core';
-import { GoogleMapsAPIWrapper, MapsAPILoader} from '@agm/core';
+import { Injectable } from '@angular/core';
+import { MapsAPILoader } from '@agm/core';
+
 import { Coords } from '../shared/coords.model';
 
 @Injectable()
-export class MapService implements OnInit {
+export class MapService {
   directionsService;
   directionsDisplayWalking1;
   directionsDisplayBicycle;
@@ -11,26 +12,14 @@ export class MapService implements OnInit {
 
 
   constructor(
-    // private googleMapsApiWrapper: GoogleMapsAPIWrapper
     private mapsAPILoader: MapsAPILoader
   ) {
-    console.log('this happened');
     this.mapsAPILoader.load().then(() => {
       this.directionsService = new google.maps.DirectionsService();
       this.directionsDisplayWalking1 = new google.maps.DirectionsRenderer();
       this.directionsDisplayBicycle = new google.maps.DirectionsRenderer();
       this.directionsDisplayWalking2 = new google.maps.DirectionsRenderer();
     });
-
-  }
-
-  ngOnInit() {
-    // this.mapsAPILoader.load().then(() => {
-    //   // this.directionsService = new google.maps.DirectionsService();
-    //   // this.directionsDisplay = new google.maps.DirectionsRenderer();
-    // });
-    // console.log('this happened');
-
   }
 
   renderWalking1Directions(origin: Coords, destination: Coords) {

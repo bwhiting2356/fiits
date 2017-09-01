@@ -2,11 +2,12 @@
   <label for="origin">Origin</label>
   <input
     #originInput
+    [disabled]="searchOriginAddressFetching | async"
     type="text"
     class="form-control"
     id="origin"
-    aria-describedby="origin"
-    placeholder="Enter start location"
+    aria-describedby="originHelp"
+    [placeholder]="placeholderText"
     autocorrect="off"
     autocapitalize="off"
     spellcheck="false"

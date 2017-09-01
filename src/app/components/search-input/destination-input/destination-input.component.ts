@@ -1,10 +1,11 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { select } from '@angular-redux/store';
+import {NgRedux, select} from '@angular-redux/store';
 
 import { Place } from '../../../shared/place.model';
-import { findSearchDestinationName } from '../../../redux/selectFunctions';
+import { findSearchDestinationName } from '../../../redux/selectHelperFunctions';
 import { SearchService } from '../../../services/search.service';
+import {IAppState} from '../../../redux/store';
 
 @Component({
   selector: 'app-destination-input',
@@ -14,9 +15,14 @@ import { SearchService } from '../../../services/search.service';
 export class DestinationInputComponent implements OnInit {
   @select(findSearchDestinationName) searchDestinationName;
   @select() searchDestinationXShowing;
+  @select() searchDestinationAddressFetching;
 
   @ViewChild('destinationInput')
   public destinationInput: ElementRef;
+
+  get placeholderText() {
+    return this.ngRedux.getState().searchDestinationAddressFetching ? 'Retrieving address...' : 'Enter destination';
+  }
 
   showOrHideX($event) {
     const value = $event.srcElement.value;
@@ -38,7 +44,8 @@ export class DestinationInputComponent implements OnInit {
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private ngRedux: NgRedux<IAppState>
   ) { }
 
   ngOnInit() {

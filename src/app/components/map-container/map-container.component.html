@@ -4,7 +4,7 @@
   [longitude]="searchOriginLng | async"
   [disableDefaultUI]="false"
   [zoom]="14"
-  [maxZoom]="16"
+  [maxZoom]="17"
   [fitBounds]="mapBounds | async">
   <agm-marker
     *ngIf="searchOriginLat | async"
@@ -20,10 +20,4 @@
     [markerDraggable]="true"
     (dragEnd)="destinationMarkerDragEnd($event)">
   </agm-marker>
-
-
-
 </agm-map>
-
-<app-search-input>
-</app-search-input>

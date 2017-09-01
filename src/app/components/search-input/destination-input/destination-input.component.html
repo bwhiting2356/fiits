@@ -2,11 +2,12 @@
   <label for="destination">Destination</label>
   <input
     #destinationInput
+    [disabled]="searchDestinationAddressFetching | async"
     type="text"
     class="form-control"
     id="destination"
     aria-describedby="destinationHelp"
-    placeholder="Enter destination"
+    [placeholder]="placeholderText"
     autocorrect="off"
     autocapitalize="off"
     spellcheck="false"

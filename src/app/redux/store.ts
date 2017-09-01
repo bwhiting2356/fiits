@@ -1,11 +1,8 @@
 import { tassign } from 'tassign';
 import {} from 'googlemaps';
 
-import { Coords } from '../shared/coords.model';
 import { Place } from '../shared/place.model';
 import { TimeTarget } from '../shared/timetarget.model';
-import { MapMarker } from '../shared/mapmarker.model';
-import { MapMarkerType } from '../shared/mapmarkertype.model';
 import { TripQueryResponse } from '../shared/tripqueryresponse.model';
 
 import { Reducer } from 'redux';
@@ -15,10 +12,16 @@ import {
   SEARCH_ORIGIN_CLEAR,
   SEARCH_ORIGIN_SHOW_X,
   SEARCH_ORIGIN_HIDE_X,
+  SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR,
+  SEARCH_ORIGIN_ADDRESS_START_FETCH,
+  SEARCH_ORIGIN_ADDRESS_STOP_FETCH,
   SEARCH_DESTINATION_CHANGE,
   SEARCH_DESTINATION_CLEAR,
   SEARCH_DESTINATION_SHOW_X,
   SEARCH_DESTINATION_HIDE_X,
+  SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR,
+  SEARCH_DESTINATION_ADDRESS_START_FETCH,
+  SEARCH_DESTINATION_ADDRESS_STOP_FETCH,
   SEARCH_ADD_DAY,
   SEARCH_SUBTRACT_DAY,
   SEARCH_ADD_TEN_MINUTES,
@@ -37,9 +40,10 @@ import {
 export interface IAppState {
   searchOrigin: Place;
   searchOriginXShowing: boolean;
+  searchOriginAddressFetching: boolean;
   searchDestination: Place;
   searchDestinationXShowing: boolean;
-  searchResponse?: any;
+  searchDestinationAddressFetching: boolean;
   searchTimeTarget: String;
   searchDatetime: Date;
   searchFetching: boolean;
@@ -55,8 +59,10 @@ interface Action {
 export const INITIAL_STATE: IAppState = {
   searchOrigin: undefined,
   searchOriginXShowing: false,
+  searchOriginAddressFetching: false,
   searchDestination: undefined,
   searchDestinationXShowing: false,
+  searchDestinationAddressFetching: false,
   searchTimeTarget: TimeTarget.LEAVE_NOW,
   searchDatetime: new Date(),
   searchFetching: false,
@@ -82,6 +88,25 @@ const searchOriginHideX: Reducer<IAppState> = (state: IAppState, action: Action)
   return tassign(state, { searchOriginXShowing: false });
 };
 
+const searchOriginAddressStartFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchOriginAddressFetching: true });
+};
+
+const searchOriginAddressStopFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchOriginAddressFetching: false });
+};
+
+const searchOriginAddressTempClear: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  const newSearchOrigin: Place = {
+    name: '',
+    coords: {
+      lat: state.searchOrigin.coords.lat,
+      lng: state.searchOrigin.coords.lng
+    }
+  };
+  return tassign(state, { searchOrigin: newSearchOrigin })
+};
+
 const searchDestinationChange: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   return tassign(state, { searchDestination: action.body });
 };
@@ -97,6 +122,25 @@ const searchDestinationShowX: Reducer<IAppState> = (state: IAppState, action: Ac
 
 const searchDestinationHideX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   return tassign(state, { searchDestinationXShowing: false });
+};
+
+const searchDestinationAddressStartFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchDestinationAddressFetching: true });
+};
+
+const searchDestinationAddressStopFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, {searchDestinationAddressFetching: false});
+};
+
+const searchDestinationAddressTempClear: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  const newSearchDestination: Place = {
+    name: '',
+    coords: {
+      lat: state.searchDestination.coords.lat,
+      lng: state.searchDestination.coords.lng
+    }
+  };
+  return tassign(state, { searchDestination: newSearchDestination })
 };
 
 const mapRedoFitBounds: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -146,12 +190,16 @@ const searchFetchResult: Reducer<IAppState> = (state: IAppState, action: Action)
 };
 
 const searchCancelFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchFetching: false})
+  return tassign(state, { searchFetching: false, searchResult: undefined })
 };
+
+// TODO: if someone cancels or redos their search while a request was in progress, it needs to cancal that
 
 const searchResultReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   return tassign(state, { searchFetching: false, searchResult: action.body})
 };
+
+
 
 export function rootReducer(state: IAppState, action: Action): IAppState {
   switch (action.type) {
@@ -160,10 +208,18 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
     case SEARCH_ORIGIN_SHOW_X: return searchOriginShowX(state, action);
     case SEARCH_ORIGIN_HIDE_X: return searchOriginHideX(state, action);
 
+    case SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR: return searchOriginAddressTempClear(state, action);
+    case SEARCH_ORIGIN_ADDRESS_START_FETCH: return searchOriginAddressStartFetch(state, action);
+    case SEARCH_ORIGIN_ADDRESS_STOP_FETCH: return searchOriginAddressStopFetch(state, action);
+
     case SEARCH_DESTINATION_CHANGE: return searchDestinationChange(state, action);
     case SEARCH_DESTINATION_CLEAR: return searchDestinationClear(state, action);
     case SEARCH_DESTINATION_SHOW_X: return searchDestinationShowX(state, action);
     case SEARCH_DESTINATION_HIDE_X: return searchDestinationHideX(state, action);
+
+    case SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR: return searchDestinationAddressTempClear(state, action);
+    case SEARCH_DESTINATION_ADDRESS_START_FETCH: return searchDestinationAddressStartFetch(state, action);
+    case SEARCH_DESTINATION_ADDRESS_STOP_FETCH: return searchDestinationAddressStopFetch(state, action);
 
     case SEARCH_ADD_DAY: return searchAddDay(state, action);
     case SEARCH_SUBTRACT_DAY: return searchSubtractDay(state, action);
@@ -173,6 +229,7 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
     case SEARCH_CHANGE_TIMETARGET: return searchChangeTimeTarget(state, action);
     case SEARCH_SET_TIME_TO_NOW: return searchSetTimeToNow(state, action);
     case MAP_REDO_FITBOUNDS: return mapRedoFitBounds(state, action);
+
 
     case SEARCH_FETCH_RESULT: return searchFetchResult(state, action);
     case SEARCH_CANCEL_FETCH: return searchCancelFetch(state, action);

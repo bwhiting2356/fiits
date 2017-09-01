@@ -1,10 +1,11 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { MapsAPILoader } from '@agm/core';
-import { } from 'googlemaps';
 
 import { Coords } from '../shared/coords.model';
+import { Place } from '../shared/place.model';
+import { SearchService } from 'app/services/search.service';
 
 @Injectable()
 export class ReverseGeocodeService {
@@ -13,15 +14,40 @@ export class ReverseGeocodeService {
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
-    private ngZone: NgZone,
+    private searchService: SearchService
   ) {
     this.mapsAPILoader.load().then(() => {
       this.geocoder = new google.maps.Geocoder();
     });
   }
 
-  // TODO: refactor with redux-thunk pattern/best practices with async api call events
+  originMarkerDragEnd($event) {
+    this.searchService.searchOriginAddressStartFetch();
+    this.searchService.searchOriginAddressTempClear();
 
+    this.geocode($event.coords).subscribe(address => {
+      const newOrigin: Place = {
+        name: address,
+        coords: $event.coords
+      };
+      this.searchService.searchOriginChange(newOrigin);
+      this.searchService.searchOriginAddressStopFetch();
+    });
+  }
+
+  destinationMarkerDragEnd($event) {
+    this.searchService.searchDestinationAddressStartFetch();
+    this.searchService.searchDestinationAddressTempClear();
+
+    this.geocode($event.coords).subscribe(address => {
+      const newDestination: Place = {
+        name: address,
+        coords: $event.coords
+      };
+      this.searchService.searchDestinationChange(newDestination);
+      this.searchService.searchDestinationAddressStopFetch();
+    });
+  }
   geocode(latLng: Coords): Observable<String> {
     return new Observable((observer: Observer<String>) => {
       this.geocoder.geocode({'location': latLng }, (

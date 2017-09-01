@@ -1,33 +1,33 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule, isDevMode } from '@angular/core';
-import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import thunk from 'redux-thunk';
 
 import { BsDropdownModule } from 'ngx-bootstrap';
 
 import { AppComponent } from './app.component';
-import { SearchInputComponent } from './components/search-input/search-input.component';
 import { MapContainerComponent } from './components/map-container/map-container.component';
+import { MapExtensionDirective } from './components/map-container/map-extension.directive';
+import { SearchInputComponent } from './components/search-input/search-input.component';
 import { DateTimeInputComponent } from './components/search-input/date-time-input/date-time-input.component';
 import { TimeTargetSelectComponent } from './components/search-input/date-time-input/time-target-select/time-target-select.component';
 import { DateInputComponent } from './components/search-input/date-time-input/date-input/date-input.component';
 import { TimeInputComponent } from './components/search-input/date-time-input/time-input/time-input.component';
 import { OriginInputComponent } from './components/search-input/origin-input/origin-input.component';
 import { DestinationInputComponent } from './components/search-input/destination-input/destination-input.component';
+import { SearchResultContainerComponent } from './components/search-input/search-result-container/search-result-container.component';
 import { SearchResultComponent } from './components/search-input/search-result-container/search-result/search-result.component';
+import { SearchLoaderComponent } from './components/search-input/search-result-container/search-loader/search-loader.component';
+
 
 import { GeolocationService } from './services/geolocation.service';
 import { ReverseGeocodeService } from './services/reverse-geocode.service';
-import { DirectionsService } from './services/directions.service';
 import { SearchService } from './services/search.service';
 import { MapService } from './services/map.service';
 
 import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
 import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
-import {MapExtensionDirective} from "./components/map-container/map-extension.directive";
-import { SearchResultContainerComponent } from './components/search-input/search-result-container/search-result-container.component';
-import { SearchLoaderComponent } from './components/search-input/search-result-container/search-loader/search-loader.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,6 @@ import { SearchLoaderComponent } from './components/search-input/search-result-c
   providers: [
     GeolocationService,
     ReverseGeocodeService,
-    DirectionsService,
     SearchService,
     MapService,
     GoogleMapsAPIWrapper

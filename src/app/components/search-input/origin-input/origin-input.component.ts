@@ -1,22 +1,13 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { } from 'googlemaps';
-import { NgRedux, select } from '@angular-redux/store';
+import { select, NgRedux } from '@angular-redux/store';
 
-import { IAppState } from '../../../redux/store';
 import { Place } from '../../../shared/place.model';
-import {
-  SEARCH_ORIGIN_CHANGE,
-  SEARCH_ORIGIN_CLEAR,
-  SEARCH_ORIGIN_SHOW_X,
-  SEARCH_ORIGIN_HIDE_X,
-  MAP_REDO_FITBOUNDS
-} from '../../../redux/actions';
 
-import { searchParametersChanged } from '../../../redux/actionCreators';
-
-import { findSearchOriginName } from '../../../redux/selectFunctions';
+import { findSearchOriginName } from '../../../redux/selectHelperFunctions';
 import { SearchService } from '../../../services/search.service';
+import { GeolocationService } from '../../../services/geolocation.service';
+import { IAppState } from '../../../redux/store';
 
 @Component({
   selector: 'app-origin-input',
@@ -26,9 +17,14 @@ import { SearchService } from '../../../services/search.service';
 export class OriginInputComponent implements OnInit {
   @select(findSearchOriginName) searchOriginName;
   @select() searchOriginXShowing;
+  @select() searchOriginAddressFetching;
 
   @ViewChild('originInput')
   public originInput: ElementRef;
+
+  get placeholderText() {
+    return this.ngRedux.getState().searchOriginAddressFetching ? 'Retrieving address...' : 'Enter start location';
+  }
 
   showOrHideX($event) {
     const value = $event.srcElement.value;
@@ -50,11 +46,13 @@ export class OriginInputComponent implements OnInit {
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
-    private ngRedux: NgRedux<IAppState>,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private geolocationService: GeolocationService,
+    private ngRedux: NgRedux<IAppState>
   ) { }
 
   ngOnInit() {
+    this.geolocationService.getCurrentPosition();
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.originInput.nativeElement, {
         types: ['address']

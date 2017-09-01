@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { IAppState } from '../redux/store';
 import { Place } from '../shared/place.model';
 import {
@@ -7,15 +7,25 @@ import {
   SEARCH_ADD_TEN_MINUTES,
   SEARCH_CANCEL_FETCH,
   SEARCH_CHANGE_TIMETARGET,
+  SEARCH_DESTINATION_ADDRESS_START_FETCH,
+  SEARCH_DESTINATION_ADDRESS_STOP_FETCH,
+  SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR,
   SEARCH_DESTINATION_CHANGE,
   SEARCH_DESTINATION_CLEAR,
   SEARCH_DESTINATION_HIDE_X,
-  SEARCH_DESTINATION_SHOW_X, SEARCH_FETCH_RESULT,
+  SEARCH_DESTINATION_SHOW_X,
+  SEARCH_FETCH_RESULT,
+  SEARCH_ORIGIN_ADDRESS_START_FETCH,
+  SEARCH_ORIGIN_ADDRESS_STOP_FETCH,
+  SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR,
   SEARCH_ORIGIN_CHANGE,
   SEARCH_ORIGIN_CLEAR,
   SEARCH_ORIGIN_HIDE_X,
-  SEARCH_ORIGIN_SHOW_X, SEARCH_RESULT_RECEIVED, SEARCH_SET_TIME_TO_NOW,
-  SEARCH_SUBTRACT_DAY, SEARCH_SUBTRACT_TEN_MINUTES
+  SEARCH_ORIGIN_SHOW_X,
+  SEARCH_RESULT_RECEIVED,
+  SEARCH_SET_TIME_TO_NOW,
+  SEARCH_SUBTRACT_DAY,
+  SEARCH_SUBTRACT_TEN_MINUTES
 } from '../redux/actions';
 import { NgRedux } from '@angular-redux/store';
 import { TimeTarget } from '../shared/timetarget.model';
@@ -25,18 +35,12 @@ import { TripQueryResponse} from '../shared/tripqueryresponse.model'
 import { MapService } from './map.service';
 
 @Injectable()
-export class SearchService implements OnInit {
+export class SearchService {
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private mapService: MapService
-  ) {
-
-  }
-
-  ngOnInit() {
-
-  }
+  ) { }
 
   searchParametersChanged() {
     const state: IAppState = this.ngRedux.getState();
@@ -119,7 +123,7 @@ export class SearchService implements OnInit {
           tripQueryResponse.endLocation);
 
         // TODO: redo the bounds of the map after the directions have been loaded
-
+        // this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS }); // this isn't working for some reason....
 
       }, 3000)
 
@@ -132,6 +136,7 @@ export class SearchService implements OnInit {
 
   searchOriginChange(origin: Place) {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: origin});
+    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_SHOW_X });
     this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
     this.searchParametersChanged();
   }
@@ -149,8 +154,22 @@ export class SearchService implements OnInit {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_HIDE_X });
   }
 
+  searchOriginAddressTempClear() {
+    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR });
+  }
+
+  searchOriginAddressStartFetch() {
+    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_HIDE_X });
+    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_ADDRESS_START_FETCH });
+  }
+
+  searchOriginAddressStopFetch() {
+    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_ADDRESS_STOP_FETCH });
+  }
+
   searchDestinationChange(destination: Place) {
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: destination});
+    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_SHOW_X });
     this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
     this.searchParametersChanged();
   }
@@ -166,6 +185,19 @@ export class SearchService implements OnInit {
 
   searchDestinationHideX() {
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_HIDE_X });
+  }
+
+  searchDestinationAddressTempClear() {
+    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR });
+  }
+
+  searchDestinationAddressStartFetch() {
+    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_HIDE_X });
+    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_ADDRESS_START_FETCH });
+  }
+
+  searchDestinationAddressStopFetch() {
+    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_ADDRESS_STOP_FETCH });
   }
 
   addDay() {

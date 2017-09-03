@@ -24,19 +24,31 @@ export class GeolocationService {
 
   dispatchPosition(position) {
     const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
-    this.reverseGeocodeService.geocode(coords).subscribe(address => {
+    const origin: Place = {
+      name: 'Current Location ',
+      coords: {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      }
+    };
 
-      const origin: Place = {
-        name: address,
-        coords: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        }
-      };
+    this.searchService.searchOriginAddressStopFetch();
+    this.searchService.searchOriginChange(origin);
+    this.searchService.searchOriginShowX();
 
-      this.searchService.searchOriginAddressStopFetch();
-      this.searchService.searchOriginChange(origin);
-      this.searchService.searchOriginShowX();
-    });
+    // this.reverseGeocodeService.geocode(coords).subscribe(address => {
+    //
+    //   const origin: Place = {
+    //     name: address,
+    //     coords: {
+    //       lat: position.coords.latitude,
+    //       lng: position.coords.longitude
+    //     }
+    //   };
+    //
+    //   this.searchService.searchOriginAddressStopFetch();
+    //   this.searchService.searchOriginChange(origin);
+    //   this.searchService.searchOriginShowX();
+    // });
   }
 }

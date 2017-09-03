@@ -3,7 +3,6 @@
   <input
     #originInput
     [disabled]="searchOriginAddressFetching | async"
-    type="text"
     class="form-control"
     id="origin"
     aria-describedby="originHelp"
@@ -16,8 +15,6 @@
   <span
     *ngIf="searchOriginXShowing | async"
     class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
-    (click)="onXClick()"
-  >
+    (click)="onXClick()">
   </span>
-
 </div>

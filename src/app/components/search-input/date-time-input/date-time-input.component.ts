@@ -5,7 +5,11 @@ import { IAppState } from '../../../redux/store';
 
 @Component({
   selector: 'app-date-time-input',
-  templateUrl: './date-time-input.component.html',
+  template: `
+    <app-time-target-select></app-time-target-select>
+    <app-time-input *ngIf="showDateTimeOptions"></app-time-input>
+    <app-date-input *ngIf="showDateTimeOptions"></app-date-input>
+  `,
   styleUrls: ['./date-time-input.component.scss']
 })
 export class DateTimeInputComponent {

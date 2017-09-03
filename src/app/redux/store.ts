@@ -1,5 +1,4 @@
 import { tassign } from 'tassign';
-import {} from 'googlemaps';
 
 import { Place } from '../shared/place.model';
 import { TimeTarget } from '../shared/timetarget.model';
@@ -31,10 +30,8 @@ import {
   MAP_REDO_FITBOUNDS,
   SEARCH_FETCH_RESULT,
   SEARCH_CANCEL_FETCH,
-  SEARCH_RESULT_RECEIVED
+  SEARCH_RESULT_RECEIVED, MAP_RENDERING_START, MAP_RENDERING_STOP
 } from './actions';
-
-
 
 
 export interface IAppState {
@@ -49,6 +46,7 @@ export interface IAppState {
   searchFetching: boolean;
   searchResult: TripQueryResponse;
   mapBounds: google.maps.LatLngBounds;
+  mapRendering: boolean
 }
 
 interface Action {
@@ -68,6 +66,7 @@ export const INITIAL_STATE: IAppState = {
   searchFetching: false,
   searchResult: undefined,
   mapBounds: undefined,
+  mapRendering: true
 };
 
 const searchOriginChange: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -132,6 +131,14 @@ const searchDestinationAddressStopFetch: Reducer<IAppState> = (state: IAppState,
   return tassign(state, {searchDestinationAddressFetching: false});
 };
 
+const mapRenderingStart: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { mapRendering: true });
+};
+
+const mapRenderingStop: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { mapRendering: false });
+};
+
 const searchDestinationAddressTempClear: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   const newSearchDestination: Place = {
     name: '',
@@ -186,7 +193,7 @@ const searchSetTimeToNow: Reducer<IAppState> = (state: IAppState, action: Action
 };
 
 const searchFetchResult: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchFetching: true})
+  return tassign(state, { searchFetching: true, searchResult: undefined})
 };
 
 const searchCancelFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -228,13 +235,15 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
 
     case SEARCH_CHANGE_TIMETARGET: return searchChangeTimeTarget(state, action);
     case SEARCH_SET_TIME_TO_NOW: return searchSetTimeToNow(state, action);
-    case MAP_REDO_FITBOUNDS: return mapRedoFitBounds(state, action);
-
 
     case SEARCH_FETCH_RESULT: return searchFetchResult(state, action);
     case SEARCH_CANCEL_FETCH: return searchCancelFetch(state, action);
 
     case SEARCH_RESULT_RECEIVED: return searchResultReceived(state, action);
+
+    case MAP_REDO_FITBOUNDS: return mapRedoFitBounds(state, action);
+    case MAP_RENDERING_START: return mapRenderingStart(state, action);
+    case MAP_RENDERING_STOP: return mapRenderingStop(state, action);
   }
   return state;
 }

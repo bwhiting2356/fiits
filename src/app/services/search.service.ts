@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { IAppState } from '../redux/store';
 import { Place } from '../shared/place.model';
 import {
-  MAP_REDO_FITBOUNDS,
+  MAP_REDO_FITBOUNDS, MAP_RENDERING_START, MAP_RENDERING_STOP,
   SEARCH_ADD_DAY,
   SEARCH_ADD_TEN_MINUTES,
   SEARCH_CANCEL_FETCH,
@@ -43,6 +43,8 @@ export class SearchService {
   ) { }
 
   searchParametersChanged() {
+    this.mapService.removePolylines(); // TODO: is there a more redux-like way of taking care of this?
+    this.ngRedux.dispatch({ type: MAP_RENDERING_START });
     const state: IAppState = this.ngRedux.getState();
 
     if (state.searchOrigin && state.searchDestination) {
@@ -57,7 +59,6 @@ export class SearchService {
       // TODO: check if new trip query is the same as the old trip query before sending
       // TODO: throttle events when requests keep changing? Client side or server side?
 
-      console.log(tripQueryRequest);
       this.ngRedux.dispatch({ type: SEARCH_FETCH_RESULT });
 
       // make request to server
@@ -110,20 +111,21 @@ export class SearchService {
         this.ngRedux.dispatch({ type: SEARCH_CANCEL_FETCH });
         this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED, body: tripQueryResponse });
 
-        this.mapService.renderWalking1Directions(
+        this.mapService.addWalking1Directions(
           tripQueryResponse.startLocation,
           tripQueryResponse.station1Location);
 
-        this.mapService.renderBikeDirections(
+        this.mapService.addBikeDirections(
           tripQueryResponse.station1Location,
           tripQueryResponse.station2Location);
 
-        this.mapService.renderWalking2Directions(
+        this.mapService.addWalking2Directions(
           tripQueryResponse.station2Location,
           tripQueryResponse.endLocation);
 
-        // TODO: redo the bounds of the map after the directions have been loaded
-        // this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS }); // this isn't working for some reason....
+        // TODO: get directions on the server side, send list of points back with the response data
+
+        this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
 
       }, 3000)
 
@@ -131,6 +133,7 @@ export class SearchService {
 
     } else {
       this.ngRedux.dispatch({ type: SEARCH_CANCEL_FETCH });
+      this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
     }
   }
 

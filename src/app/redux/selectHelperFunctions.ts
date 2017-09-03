@@ -1,24 +1,41 @@
 import { IAppState} from './store';
 
-export function findSearchOriginLat(s: IAppState): number {
+export const findSearchOriginLat = (s: IAppState): number => {
   return s.searchOrigin ? s.searchOrigin.coords.lat : undefined;
-}
-export function findSearchOriginLng(s: IAppState): number {
+};
+
+export const findSearchOriginLng = (s: IAppState): number => {
   return s.searchOrigin ? s.searchOrigin.coords.lng : undefined;
-}
+};
 
-export function findSearchDestinationLat(s: IAppState): number {
+export const findSearchDestinationLat = (s: IAppState): number => {
   return s.searchDestination ? s.searchDestination.coords.lat : undefined;
-}
+};
 
-export function findSearchDestinationLng(s: IAppState): number {
+export const findSearchDestinationLng = (s: IAppState): number => {
   return s.searchDestination ? s.searchDestination.coords.lng : undefined;
-}
+};
 
-export function findSearchOriginName(s: IAppState): String {
+export const findSearchOriginName = (s: IAppState): String =>{
   return s.searchOrigin ? s.searchOrigin.name : '';
-}
+};
 
-export function findSearchDestinationName(s: IAppState): String {
+export const findSearchDestinationName = (s: IAppState): String => {
   return s.searchDestination ? s.searchDestination.name : '';
-}
+};
+
+export const findStation1Lat = (s: IAppState): number => {
+  return s.searchResult ? s.searchResult.station1Location.lat : undefined;
+};
+
+export const findStation1Lng = (s: IAppState): number => {
+  return s.searchResult ? s.searchResult.station1Location.lng : undefined;
+};
+
+export const findStation2Lat = (s: IAppState): number => {
+  return s.searchResult ? s.searchResult.station2Location.lat : undefined;
+};
+
+export const findStation2Lng = (s: IAppState): number => {
+  return s.searchResult ? s.searchResult.station2Location.lng : undefined;
+};

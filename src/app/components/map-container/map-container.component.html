@@ -1,3 +1,5 @@
+<div class="overlay" *ngIf="mapRendering | async">
+</div>
 <agm-map
   appMapExtension
   [latitude]="searchOriginLat | async"
@@ -6,6 +8,8 @@
   [zoom]="14"
   [maxZoom]="17"
   [fitBounds]="mapBounds | async">
+
+  <!--start location-->
   <agm-marker
     *ngIf="searchOriginLat | async"
     [latitude]="searchOriginLat | async"
@@ -13,6 +17,24 @@
     [markerDraggable]="true"
     (dragEnd)="originMarkerDragEnd($event)">
   </agm-marker>
+
+  <!--station 1 location-->
+  <agm-marker
+    *ngIf="station1Lat | async"
+    [latitude]="station1Lat | async"
+    [longitude]="station1Lng | async"
+    [markerDraggable]="false">
+  </agm-marker>
+
+  <!--station 2 location-->
+  <agm-marker
+    *ngIf="station2Lat | async"
+    [latitude]="station2Lat | async"
+    [longitude]="station2Lng | async"
+    [markerDraggable]="false">
+  </agm-marker>
+
+  <!--destination-->
   <agm-marker
     *ngIf="searchDestinationLat | async"
     [latitude]="searchDestinationLat | async"
@@ -20,4 +42,5 @@
     [markerDraggable]="true"
     (dragEnd)="destinationMarkerDragEnd($event)">
   </agm-marker>
+
 </agm-map>

@@ -12,7 +12,12 @@ import { IAppState } from '../../../redux/store';
 @Component({
   selector: 'app-origin-input',
   templateUrl: './origin-input.component.html',
-  styleUrls: ['./origin-input.component.scss']
+  styles: [`
+    .form-control-clear {
+      pointer-events: all;
+      cursor: pointer;
+    }
+  `]
 })
 export class OriginInputComponent implements OnInit {
   @select(findSearchOriginName) searchOriginName;
@@ -23,7 +28,7 @@ export class OriginInputComponent implements OnInit {
   public originInput: ElementRef;
 
   get placeholderText() {
-    return this.ngRedux.getState().searchOriginAddressFetching ? 'Retrieving address...' : 'Enter start location';
+    return this.ngRedux.getState().searchOriginAddressFetching ? 'Updating location...' : 'Enter start location';
   }
 
   showOrHideX($event) {

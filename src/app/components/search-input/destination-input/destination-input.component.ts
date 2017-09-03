@@ -1,16 +1,22 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import {NgRedux, select} from '@angular-redux/store';
+import { NgRedux, select} from '@angular-redux/store';
+import {} from 'googlemaps';
 
 import { Place } from '../../../shared/place.model';
 import { findSearchDestinationName } from '../../../redux/selectHelperFunctions';
 import { SearchService } from '../../../services/search.service';
-import {IAppState} from '../../../redux/store';
+import { IAppState } from '../../../redux/store';
 
 @Component({
   selector: 'app-destination-input',
   templateUrl: './destination-input.component.html',
-  styleUrls: ['./destination-input.component.scss']
+  styles: [`
+    .form-control-clear {
+      pointer-events: all;
+      cursor: pointer;
+    }
+  `]
 })
 export class DestinationInputComponent implements OnInit {
   @select(findSearchDestinationName) searchDestinationName;
@@ -21,7 +27,7 @@ export class DestinationInputComponent implements OnInit {
   public destinationInput: ElementRef;
 
   get placeholderText() {
-    return this.ngRedux.getState().searchDestinationAddressFetching ? 'Retrieving address...' : 'Enter destination';
+    return this.ngRedux.getState().searchDestinationAddressFetching ? 'Updating location...' : 'Enter destination';
   }
 
   showOrHideX($event) {

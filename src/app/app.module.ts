@@ -26,8 +26,11 @@ import { ReverseGeocodeService } from './services/reverse-geocode.service';
 import { SearchService } from './services/search.service';
 import { MapService } from './services/map.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
 import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
+import { MapOverlayComponent } from './components/map-container/map-overlay/map-overlay.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +46,8 @@ import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
     SearchResultComponent,
     MapExtensionDirective,
     SearchResultContainerComponent,
-    SearchLoaderComponent
+    SearchLoaderComponent,
+    MapOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +57,8 @@ import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAwPYOksRcTuVdLW4qRxj86I9_w0uJ7OqU',
       libraries: ['places']
-    })
+    }),
+    BrowserAnimationsModule
   ],
   providers: [
     GeolocationService,

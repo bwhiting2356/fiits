@@ -28,7 +28,6 @@ export class MapContainerComponent {
   @select(findStation1Lng) station1Lng;
   @select(findStation2Lat) station2Lat;
   @select(findStation2Lng) station2Lng;
-  @select() mapRendering;
   @select() mapBounds;
 
   // TODO: fit bounds and zoom to markers according to advice in this blog post:
@@ -42,8 +41,7 @@ export class MapContainerComponent {
     this.reverseGeocodeService.destinationMarkerDragEnd($event);
   }
 
-
   constructor(
-    private reverseGeocodeService: ReverseGeocodeService,
+    private reverseGeocodeService: ReverseGeocodeService
   ) { }
 }

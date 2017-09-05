@@ -18,13 +18,8 @@ export class DateTimeInputComponent {
 
   get showDateTimeOptions() {
     const searchTimeTarget = this.ngRedux.getState().searchTimeTarget;
-    // TODO: should I refactor with the select pattern for consistency?
 
-    if (searchTimeTarget ===  TimeTarget.LEAVE_NOW) {
-      return false;
-    } else {
-      return true;
-    }
+    return searchTimeTarget === TimeTarget.LEAVE_NOW ? false : true ;
   }
 
   constructor(

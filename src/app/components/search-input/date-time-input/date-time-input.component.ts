@@ -19,7 +19,7 @@ export class DateTimeInputComponent {
   get showDateTimeOptions() {
     const searchTimeTarget = this.ngRedux.getState().searchTimeTarget;
 
-    return searchTimeTarget === TimeTarget.LEAVE_NOW ? false : true ;
+    return searchTimeTarget !== TimeTarget.LEAVE_NOW;
   }
 
   constructor(

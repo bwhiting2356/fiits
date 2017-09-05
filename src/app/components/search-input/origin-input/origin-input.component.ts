@@ -80,7 +80,7 @@ export class OriginInputComponent implements OnInit {
           }
         };
         this.searchService.searchOriginChange(origin);
-        this.searchService.searchOriginShowX();
+        this.searchService.searchOriginShowX(); // TODO: is this redundant?
       });
     });
   }

@@ -17,6 +17,11 @@ export class SwitchInputsComponent {
   switchInputs() {
     this.searchService.searchSwitchInputs();
   }
-  constructor(private searchService: SearchService) { }
+
+  // TODO: disable and grey out while one of the addresses is updating
+
+  constructor(
+    private searchService: SearchService
+  ) { }
 
 }

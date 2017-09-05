@@ -6,8 +6,8 @@ import { Component } from '@angular/core';
     <div class="horizontal-line"></div>
     <div class="loading">
       Finding bike rentals...
-      <!--<span class="glyphicon glyphicon-repeat fast-right-spinner"></span>-->
       <div id="loading"></div>
+      <!-- TODO: clea up this spinner -->
     </div>
   `,
   styles: [`
@@ -35,7 +35,5 @@ import { Component } from '@angular/core';
   `]
 })
 export class SearchLoaderComponent {
-
   constructor() { }
-
 }

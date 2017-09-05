@@ -46,8 +46,6 @@ export class DestinationInputComponent implements OnInit {
     this.searchService.searchDestinationHideX();
   }
 
-  // TODO: disable destination input and display loading message when retrieving new address from reverse geocode
-
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private searchService: SearchService,
@@ -77,7 +75,7 @@ export class DestinationInputComponent implements OnInit {
           }
         };
         this.searchService.searchDestinationChange(destination);
-        this.searchService.searchDestinationShowX();
+        this.searchService.searchDestinationShowX(); // TODO: is this redundant?
       });
     });
   }

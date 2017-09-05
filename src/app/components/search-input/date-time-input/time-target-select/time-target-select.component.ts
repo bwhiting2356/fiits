@@ -10,15 +10,9 @@ import { SearchService } from '../../../../services/search.service';
 })
 export class TimeTargetSelectComponent {
   @select() searchTimeTarget;
-  targetOptionsShowing = false;
-
-  onTimeTargetOptionsClick() {
-    this.targetOptionsShowing = !this.targetOptionsShowing;
-  }
 
   onTargetOptionClick(value) {
     this.searchService.changeTimeTarget(value);
-    this.targetOptionsShowing = false;
   }
 
   constructor(

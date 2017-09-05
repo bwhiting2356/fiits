@@ -25,7 +25,7 @@ import {
   SEARCH_RESULT_RECEIVED,
   SEARCH_SET_TIME_TO_NOW,
   SEARCH_SUBTRACT_DAY,
-  SEARCH_SUBTRACT_TEN_MINUTES
+  SEARCH_SUBTRACT_TEN_MINUTES, SEARCH_SWITCH_INPUTS
 } from '../redux/actions';
 import { NgRedux } from '@angular-redux/store';
 import { TimeTarget } from '../shared/timetarget.model';
@@ -179,6 +179,11 @@ export class SearchService {
 
   searchDestinationClear() {
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CLEAR });
+    this.searchParametersChanged();
+  }
+
+  searchSwitchInputs() {
+    this.ngRedux.dispatch({ type: SEARCH_SWITCH_INPUTS });
     this.searchParametersChanged();
   }
 

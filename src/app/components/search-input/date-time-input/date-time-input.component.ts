@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../redux/store';
+import { TimeTarget } from '../../../shared/timetarget.model';
+
 
 @Component({
   selector: 'app-date-time-input',
@@ -18,7 +20,7 @@ export class DateTimeInputComponent {
     const searchTimeTarget = this.ngRedux.getState().searchTimeTarget;
     // TODO: should I refactor with the select pattern for consistency?
 
-    if (searchTimeTarget ===  'Leave now') {
+    if (searchTimeTarget ===  TimeTarget.LEAVE_NOW) {
       return false;
     } else {
       return true;

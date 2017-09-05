@@ -31,6 +31,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
 import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
 import { MapOverlayComponent } from './components/map-container/map-overlay/map-overlay.component';
+import { SwitchInputsComponent } from './components/search-input/switch-inputs/switch-inputs.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { MapOverlayComponent } from './components/map-container/map-overlay/map-
     MapExtensionDirective,
     SearchResultContainerComponent,
     SearchLoaderComponent,
-    MapOverlayComponent
+    MapOverlayComponent,
+    SwitchInputsComponent
   ],
   imports: [
     BrowserModule,

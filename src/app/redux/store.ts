@@ -30,7 +30,7 @@ import {
   MAP_REDO_FITBOUNDS,
   SEARCH_FETCH_RESULT,
   SEARCH_CANCEL_FETCH,
-  SEARCH_RESULT_RECEIVED, MAP_RENDERING_START, MAP_RENDERING_STOP
+  SEARCH_RESULT_RECEIVED, MAP_RENDERING_START, MAP_RENDERING_STOP, SEARCH_SWITCH_INPUTS
 } from './actions';
 
 
@@ -150,6 +150,10 @@ const searchDestinationAddressTempClear: Reducer<IAppState> = (state: IAppState,
   return tassign(state, { searchDestination: newSearchDestination })
 };
 
+const searchSwitchInputs: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchOrigin: state.searchDestination, searchDestination: state.searchOrigin });
+};
+
 const mapRedoFitBounds: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   const newBounds = new google.maps.LatLngBounds();
   if (state.searchOrigin) {
@@ -228,6 +232,7 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
     case SEARCH_DESTINATION_ADDRESS_START_FETCH: return searchDestinationAddressStartFetch(state, action);
     case SEARCH_DESTINATION_ADDRESS_STOP_FETCH: return searchDestinationAddressStopFetch(state, action);
 
+    case SEARCH_SWITCH_INPUTS: return searchSwitchInputs(state, action);
     case SEARCH_ADD_DAY: return searchAddDay(state, action);
     case SEARCH_SUBTRACT_DAY: return searchSubtractDay(state, action);
     case SEARCH_ADD_TEN_MINUTES: return searchAddTenMinutes(state, action);

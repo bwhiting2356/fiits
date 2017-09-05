@@ -5,6 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <form class="input-form">
       <app-origin-input></app-origin-input>
+      <app-switch-inputs></app-switch-inputs>
       <app-destination-input></app-destination-input>
       <app-date-time-input></app-date-time-input>
     </form>

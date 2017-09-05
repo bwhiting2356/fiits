@@ -1,0 +1,8 @@
+.switch-inputs {
+  position: absolute;
+  top: 37px;
+  right: 6px;
+  font-size: 1.2em;
+  z-index: 5;
+  cursor: pointer;
+}

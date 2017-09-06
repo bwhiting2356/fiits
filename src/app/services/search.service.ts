@@ -33,13 +33,15 @@ import { TripQueryRequest } from '../shared/tripqueryrequest.model';
 import { TripQueryResponse} from '../shared/tripqueryresponse.model'
 
 import { MapService } from './map.service';
+import {MapRedoFitboundsService} from "./map-redo-fitbounds.service";
 
 @Injectable()
 export class SearchService {
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
-    private mapService: MapService
+    private mapService: MapService,
+    private mapRedoFitBoundsService: MapRedoFitboundsService
   ) { }
 
   searchParametersChanged() {
@@ -140,7 +142,9 @@ export class SearchService {
   searchOriginChange(origin: Place) {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: origin});
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_SHOW_X });
-    this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
+    // this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
+    // this.mapService.redoFitBounds()
+    this.mapRedoFitBoundsService.setMapBounds()
     this.searchParametersChanged();
   }
 
@@ -173,7 +177,7 @@ export class SearchService {
   searchDestinationChange(destination: Place) {
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: destination});
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_SHOW_X });
-    this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
+    // this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
     this.searchParametersChanged();
   }
 

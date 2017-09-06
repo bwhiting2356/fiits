@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import { select } from '@angular-redux/store';
 
 import { ReverseGeocodeService } from '../../services/reverse-geocode.service';
@@ -13,6 +13,7 @@ import {
   findStation2Lat,
   findStation2Lng
 } from '../../redux/selectHelperFunctions';
+import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'app-map-container',
@@ -42,6 +43,6 @@ export class MapContainerComponent {
   }
 
   constructor(
-    private reverseGeocodeService: ReverseGeocodeService
+    private reverseGeocodeService: ReverseGeocodeService,
   ) { }
 }

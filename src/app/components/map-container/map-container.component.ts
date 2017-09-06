@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import { Component } from '@angular/core';
 import { select } from '@angular-redux/store';
 
 import { ReverseGeocodeService } from '../../services/reverse-geocode.service';
@@ -13,7 +13,6 @@ import {
   findStation2Lat,
   findStation2Lng
 } from '../../redux/selectHelperFunctions';
-import { MapService } from '../../services/map.service';
 
 @Component({
   selector: 'app-map-container',
@@ -30,6 +29,20 @@ export class MapContainerComponent {
   @select(findStation2Lat) station2Lat;
   @select(findStation2Lng) station2Lng;
   @select() mapBounds;
+  @select() mapZoomLevel;
+  @select() mapCenterLat;
+  @select() mapCenterLng;
+
+  points = [
+    {
+      lat: 40.694970,
+      lng: -73.946238
+    },
+    {
+      lat: 40.693725,
+      lng: -73.946957
+    }
+  ]
 
   // TODO: fit bounds and zoom to markers according to advice in this blog post:
       // https://reonomy.com/blog/post/offsetting-bounds-and-zoom-on-a-google-map

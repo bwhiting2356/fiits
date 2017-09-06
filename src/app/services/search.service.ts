@@ -33,7 +33,7 @@ import { TripQueryRequest } from '../shared/tripqueryrequest.model';
 import { TripQueryResponse} from '../shared/tripqueryresponse.model'
 
 import { MapService } from './map.service';
-import {MapRedoFitboundsService} from "./map-redo-fitbounds.service";
+import { FitboundsService } from './fitbounds.service';
 
 @Injectable()
 export class SearchService {
@@ -41,7 +41,7 @@ export class SearchService {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private mapService: MapService,
-    private mapRedoFitBoundsService: MapRedoFitboundsService
+    private fitboundsService: FitboundsService
   ) { }
 
   searchParametersChanged() {
@@ -112,6 +112,7 @@ export class SearchService {
 
         this.ngRedux.dispatch({ type: SEARCH_CANCEL_FETCH });
         this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED, body: tripQueryResponse });
+        this.fitboundsService.setMapBounds();
 
         this.mapService.addWalking1Directions(
           tripQueryResponse.startLocation,
@@ -130,9 +131,6 @@ export class SearchService {
         this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
 
       }, 3000)
-
-
-
     } else {
       this.ngRedux.dispatch({ type: SEARCH_CANCEL_FETCH });
       this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
@@ -142,9 +140,7 @@ export class SearchService {
   searchOriginChange(origin: Place) {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: origin});
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_SHOW_X });
-    // this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
-    // this.mapService.redoFitBounds()
-    this.mapRedoFitBoundsService.setMapBounds()
+    this.fitboundsService.setMapBounds();
     this.searchParametersChanged();
   }
 
@@ -177,7 +173,7 @@ export class SearchService {
   searchDestinationChange(destination: Place) {
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: destination});
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_SHOW_X });
-    // this.ngRedux.dispatch({ type: MAP_REDO_FITBOUNDS });
+    this.fitboundsService.setMapBounds();
     this.searchParametersChanged();
   }
 
@@ -234,18 +230,18 @@ export class SearchService {
 
   changeTimeTarget(value: String) {
     switch (value) {
-      case 'Leave now': {
+      case TimeTarget.LEAVE_NOW: {
         this.ngRedux.dispatch({ type: SEARCH_CHANGE_TIMETARGET, body: TimeTarget.LEAVE_NOW });
         this.ngRedux.dispatch({ type: SEARCH_SET_TIME_TO_NOW });
         this.searchParametersChanged();
         break;
       }
-      case 'Depart at': {
+      case TimeTarget.DEPART_AT: {
         this.ngRedux.dispatch({ type: SEARCH_CHANGE_TIMETARGET, body: TimeTarget.DEPART_AT });
         this.searchParametersChanged();
         break;
       }
-      case 'Arrive by': {
+      case TimeTarget.ARRIVE_BY: {
         this.ngRedux.dispatch({ type: SEARCH_CHANGE_TIMETARGET, body: TimeTarget.ARRIVE_BY });
         this.searchParametersChanged();
         break;

@@ -30,8 +30,10 @@ import {
   MAP_REDO_FITBOUNDS,
   SEARCH_FETCH_RESULT,
   SEARCH_CANCEL_FETCH,
-  SEARCH_RESULT_RECEIVED, MAP_RENDERING_START, MAP_RENDERING_STOP, SEARCH_SWITCH_INPUTS
+  SEARCH_RESULT_RECEIVED, MAP_RENDERING_START, MAP_RENDERING_STOP, SEARCH_SWITCH_INPUTS, MAP_SET_ZOOMLEVEL,
+  MAP_SET_BOUNDS, MAP_SET_CENTER
 } from './actions';
+import {Coords} from "../shared/coords.model";
 
 
 export interface IAppState {
@@ -46,6 +48,9 @@ export interface IAppState {
   searchFetching: boolean;
   searchResult: TripQueryResponse;
   mapBounds: google.maps.LatLngBounds;
+  mapZoomLevel: number,
+  mapCenterLat: number,
+  mapCenterLng: number,
   mapRendering: boolean
 }
 
@@ -65,8 +70,11 @@ export const INITIAL_STATE: IAppState = {
   searchDatetime: new Date(),
   searchFetching: false,
   searchResult: undefined,
+  mapZoomLevel: 14,
   mapBounds: undefined,
-  mapRendering: true
+  mapCenterLat: undefined,
+  mapCenterLng: undefined,
+  mapRendering: true,
 };
 
 const searchOriginChange: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -152,6 +160,18 @@ const searchDestinationAddressTempClear: Reducer<IAppState> = (state: IAppState,
 
 const searchSwitchInputs: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   return tassign(state, { searchOrigin: state.searchDestination, searchDestination: state.searchOrigin });
+};
+
+const mapSetZoomLevel: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { mapZoomLevel:  action.body })
+};
+
+const mapSetBounds: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { mapBounds: action.body })
+};
+
+const mapSetCenter: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { mapCenterLat: action.body.lat, mapCenterLng: action.body.lng })
 };
 
 const mapRedoFitBounds: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -247,6 +267,12 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
     case SEARCH_RESULT_RECEIVED: return searchResultReceived(state, action);
 
     case MAP_REDO_FITBOUNDS: return mapRedoFitBounds(state, action);
+
+    case MAP_SET_ZOOMLEVEL: return mapSetZoomLevel(state, action);
+    case MAP_SET_BOUNDS: return mapSetBounds(state, action);
+
+    case MAP_SET_CENTER: return mapSetCenter(state, action);
+
     case MAP_RENDERING_START: return mapRenderingStart(state, action);
     case MAP_RENDERING_STOP: return mapRenderingStop(state, action);
   }

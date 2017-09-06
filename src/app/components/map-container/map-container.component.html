@@ -1,13 +1,13 @@
 <app-map-overlay></app-map-overlay>
 <agm-map
   appMapExtension
-  [latitude]="searchOriginLat | async"
-  [longitude]="searchOriginLng | async"
+  [latitude]="mapCenterLat | async"
+  [longitude]="mapCenterLng | async"
   [disableDefaultUI]="false"
-  [zoom]="14"
+  [zoom]="mapZoomLevel | async"
   [maxZoom]="17"
-  [fitBounds]="mapBounds | async">
-
+>
+  <!--[fitBounds]="mapBounds | async"-->
   <!--start location-->
   <agm-marker
     *ngIf="searchOriginLat | async"
@@ -16,6 +16,15 @@
     [markerDraggable]="true"
     (dragEnd)="originMarkerDragEnd($event)">
   </agm-marker>
+
+  <!--walking directions # 1-->
+  <agm-polyline>
+    <agm-polyline-point
+      *ngFor="let point of points"
+      [latitude]="point.lat"
+      [longitude]="point.lng">
+    </agm-polyline-point>
+  </agm-polyline>
 
   <!--station 1 location-->
   <agm-marker

@@ -20,11 +20,11 @@ import { SearchResultContainerComponent } from './components/search-input/search
 import { SearchResultComponent } from './components/search-input/search-result-container/search-result/search-result.component';
 import { SearchLoaderComponent } from './components/search-input/search-result-container/search-loader/search-loader.component';
 
-
 import { GeolocationService } from './services/geolocation.service';
 import { ReverseGeocodeService } from './services/reverse-geocode.service';
 import { SearchService } from './services/search.service';
 import { MapService } from './services/map.service';
+import { FitboundsService } from './services/fitbounds.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -32,7 +32,7 @@ import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store'
 import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
 import { MapOverlayComponent } from './components/map-container/map-overlay/map-overlay.component';
 import { SwitchInputsComponent } from './components/search-input/switch-inputs/switch-inputs.component';
-import {MapRedoFitboundsService} from "./services/map-redo-fitbounds.service";
+
 
 @NgModule({
   declarations: [
@@ -68,7 +68,7 @@ import {MapRedoFitboundsService} from "./services/map-redo-fitbounds.service";
     ReverseGeocodeService,
     SearchService,
     MapService,
-    MapRedoFitboundsService,
+    FitboundsService,
     GoogleMapsAPIWrapper
   ],
   bootstrap: [AppComponent]

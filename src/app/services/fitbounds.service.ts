@@ -7,7 +7,7 @@ import { MAP_SET_CENTER, MAP_SET_ZOOMLEVEL} from '../redux/actions';
 @Injectable()
 export class FitboundsService {
   TILE_SIZE = { height: 256, width: 256 }; // google World tile size, as of v3.22
-  ZOOM_MAX = 21; // max google maps zoom level, as of v3.22
+  ZOOM_MAX = 14;
   BUFFER = 15; // edge buffer for fitting markers within viewport bounds
 
   mapDimensions = {
@@ -15,7 +15,7 @@ export class FitboundsService {
     width: undefined
   };
 
-  mapOffset = {x: 340, y: 0}; // width of search panel
+  mapOffset = {x: 330, y: 0}; // width of search panel
 
   constructor(
     private mapService: MapService,
@@ -53,7 +53,6 @@ export class FitboundsService {
 
     const latZoom = zoom(dimensions.height, this.TILE_SIZE.height, latFraction);
     const lngZoom = zoom(dimensions.width, this.TILE_SIZE.width, lngFraction);
-
     return Math.min(latZoom, lngZoom, this.ZOOM_MAX);
   };
 
@@ -106,7 +105,8 @@ export class FitboundsService {
       newBounds.extend(state.searchResult.station1Location);
       newBounds.extend(state.searchResult.station2Location);
     }
-    // TODO: figure out why it's not fitting the bounds correctly until after the server response
+
+    // TODO: figure out why it's not fitting the bounds correctly consistently
     return newBounds;
   }
 }

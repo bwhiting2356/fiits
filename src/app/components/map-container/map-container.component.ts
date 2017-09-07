@@ -28,7 +28,7 @@ export class MapContainerComponent {
   @select(findStation1Lng) station1Lng;
   @select(findStation2Lat) station2Lat;
   @select(findStation2Lng) station2Lng;
-  @select() mapBounds;
+  // @select() mapBounds;
   @select() mapZoomLevel;
   @select() mapCenterLat;
   @select() mapCenterLng;

@@ -7,7 +7,7 @@ export interface TripQueryResponse {
 
   walkingTime1: String;
   walkingDistance1: String;
-  walkingDirections1Points: Coords[]
+  // walkingDirections1Points: Coords[]
 
   station1Address: String;
   station1Location: Coords;
@@ -18,7 +18,7 @@ export interface TripQueryResponse {
   bikeRentalPrice: 0.75;
   bikeTime: String;
   bikeDistance: String;
-  bicyclingDirectionsPoints: Coords[]
+  // bicyclingDirectionsPoints: Coords[]
 
   station2Address: String;
   station2Location: Coords;
@@ -28,7 +28,7 @@ export interface TripQueryResponse {
 
   walkingTime2: String;
   walkingDistance2: String;
-  walkingDirections2Points: Coords[]
+  // walkingDirections2Points: Coords[]
 
   endAddress: String;
   endLocation: Coords;

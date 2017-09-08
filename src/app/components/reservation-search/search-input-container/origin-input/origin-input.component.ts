@@ -2,12 +2,11 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { select, NgRedux } from '@angular-redux/store';
 
-import { Place } from '../../../shared/place.model';
+import { Place } from '../../../../shared/place.model';
 
-import { findSearchOriginName } from '../../../redux/selectHelperFunctions';
-import { SearchService } from '../../../services/search.service';
-import { GeolocationService } from '../../../services/geolocation.service';
-import { IAppState } from '../../../redux/store';
+import { findSearchOriginName } from '../../../../redux/selectHelperFunctions';
+import { SearchService } from '../../../../services/search.service';
+import { IAppState } from '../../../../redux/store';
 
 @Component({
   selector: 'app-origin-input',
@@ -52,12 +51,10 @@ export class OriginInputComponent implements OnInit {
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private searchService: SearchService,
-    private geolocationService: GeolocationService,
     private ngRedux: NgRedux<IAppState>
   ) { }
 
   ngOnInit() {
-    this.geolocationService.getCurrentPosition();
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.originInput.nativeElement, {
         types: ['address']

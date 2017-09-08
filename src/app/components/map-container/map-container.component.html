@@ -7,7 +7,7 @@
   [zoom]="mapZoomLevel | async"
   [maxZoom]="17"
 >
-  <!--[fitBounds]="mapBounds | async"-->
+  <!-- TODO: is max zoom the problem with the fit bounds bug? -->
   <!--start location-->
   <agm-marker
     *ngIf="searchOriginLat | async"

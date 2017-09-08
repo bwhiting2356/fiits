@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
 import { NgRedux } from '@angular-redux/store';
-import { IAppState } from '../../../redux/store';
-import { TimeTarget } from '../../../shared/timetarget.model';
+import { IAppState } from '../../../../redux/store';
+import { TimeTarget } from '../../../../shared/timetarget.model';
 
 
 @Component({

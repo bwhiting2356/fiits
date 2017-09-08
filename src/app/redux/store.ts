@@ -28,12 +28,24 @@ import {
   SEARCH_CHANGE_TIMETARGET,
   SEARCH_SET_TIME_TO_NOW,
   MAP_REDO_FITBOUNDS,
-  SEARCH_FETCH_RESULT,
-  SEARCH_CANCEL_FETCH,
-  SEARCH_RESULT_RECEIVED, MAP_RENDERING_START, MAP_RENDERING_STOP, SEARCH_SWITCH_INPUTS, MAP_SET_ZOOMLEVEL,
-  MAP_SET_BOUNDS, MAP_SET_CENTER
+  // SEARCH_FETCH_RESULT,
+  // SEARCH_CANCEL_FETCH,
+  SEARCH_RESULT_RECEIVED,
+  MAP_RENDERING_START,
+  MAP_RENDERING_STOP,
+  SEARCH_SWITCH_INPUTS,
+  MAP_SET_ZOOMLEVEL,
+  MAP_SET_BOUNDS,
+  MAP_SET_CENTER,
+  SEARCH_NAV_NO_SEARCH,
+  SEARCH_NAV_SUBMITTED,
+  SEARCH_NAV_RES_RECEIVED,
+  SEARCH_NAV_BOOK_REQUESTED,
+  SEARCH_NAV_INFO_READ,
+  SEARCH_NAV_BOOK_CONFIRMED
 } from './actions';
-import {Coords} from "../shared/coords.model";
+
+import {ProgressSteps} from '../shared/progressSteps';
 
 
 export interface IAppState {
@@ -43,10 +55,11 @@ export interface IAppState {
   searchDestination: Place;
   searchDestinationXShowing: boolean;
   searchDestinationAddressFetching: boolean;
-  searchTimeTarget: String;
+  searchTimeTarget: string;
   searchDatetime: Date;
-  searchFetching: boolean;
+  // searchFetching: boolean;
   searchResult: TripQueryResponse;
+  searchProgress: string;
   mapBounds: google.maps.LatLngBounds;
   mapZoomLevel: number,
   mapCenterLat: number,
@@ -68,8 +81,9 @@ export const INITIAL_STATE: IAppState = {
   searchDestinationAddressFetching: false,
   searchTimeTarget: TimeTarget.LEAVE_NOW,
   searchDatetime: new Date(),
-  searchFetching: false,
+  // searchFetching: false,
   searchResult: undefined,
+  searchProgress: ProgressSteps.noSearch,
   mapZoomLevel: 14,
   mapBounds: undefined,
   mapCenterLat: undefined,
@@ -216,21 +230,43 @@ const searchSetTimeToNow: Reducer<IAppState> = (state: IAppState, action: Action
   return tassign(state, { searchDatetime: new Date() });
 };
 
-const searchFetchResult: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchFetching: true, searchResult: undefined})
-};
-
-const searchCancelFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchFetching: false, searchResult: undefined })
-};
+// const searchFetchResult: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+//   return tassign(state, { searchFetching: true, searchResult: undefined})
+// };
+//
+// const searchCancelFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+//   return tassign(state, { searchFetching: false, searchResult: undefined })
+// };
 
 // TODO: if someone cancels or redos their search while a request was in progress, it needs to cancal that
 
 const searchResultReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchFetching: false, searchResult: action.body})
+  return tassign(state, { searchResult: action.body})
 };
 
+const searchNavNoSearch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.noSearch })
+};
 
+const searchNavSubmitted: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.searchSubmitted })
+};
+
+const searchNavResReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.resultReceived })
+};
+
+const searchNavBookRequested: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.bookingRequested })
+};
+
+const searchNavInfoRead: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.infoRead })
+};
+
+const searchNavBookConfirmed: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.bookingConfirmed })
+};
 
 export function rootReducer(state: IAppState, action: Action): IAppState {
   switch (action.type) {
@@ -261,10 +297,17 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
     case SEARCH_CHANGE_TIMETARGET: return searchChangeTimeTarget(state, action);
     case SEARCH_SET_TIME_TO_NOW: return searchSetTimeToNow(state, action);
 
-    case SEARCH_FETCH_RESULT: return searchFetchResult(state, action);
-    case SEARCH_CANCEL_FETCH: return searchCancelFetch(state, action);
+    // case SEARCH_FETCH_RESULT: return searchFetchResult(state, action);
+    // case SEARCH_CANCEL_FETCH: return searchCancelFetch(state, action);
 
     case SEARCH_RESULT_RECEIVED: return searchResultReceived(state, action);
+
+    case SEARCH_NAV_NO_SEARCH: return searchNavNoSearch(state, action);
+    case SEARCH_NAV_SUBMITTED: return searchNavSubmitted(state, action);
+    case SEARCH_NAV_RES_RECEIVED: return searchNavResReceived(state, action);
+    case SEARCH_NAV_BOOK_REQUESTED: return searchNavBookRequested(state, action);
+    case SEARCH_NAV_INFO_READ: return searchNavInfoRead(state, action);
+    case SEARCH_NAV_BOOK_CONFIRMED: return searchNavBookConfirmed(state, action);
 
     case MAP_REDO_FITBOUNDS: return mapRedoFitBounds(state, action);
 

@@ -1,3 +1,4 @@
+<app-search-navigate></app-search-navigate>
 <div class="horizontal-line"></div>
 <div
   class="result" *ngIf="true">
@@ -125,9 +126,12 @@
       {{ totalPrice | currency:'USD':true }}
     </span>
   </div>
-  <button type="button" class="btn btn-primary bike-reservation-submit">Book Bike Reservations</button>
-  <!-- TODO: button submit behavior - grey color for disabled, different pointer, spinner... -->
-  <!-- TODO: scrollable y? -->
+  <button
+    type="button"
+    class="btn btn-primary bike-reservation-submit"
+    (click)="readInfo()">
+    Book Bike Reservations
+  </button>
   <!-- TODO: info/tooltips -->
 </div>
 

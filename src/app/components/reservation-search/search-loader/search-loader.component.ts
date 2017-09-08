@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-search-loader',
   template: `
+    <app-search-navigate></app-search-navigate>
     <div class="horizontal-line"></div>
     <div class="loading">
       Finding bike rentals...
@@ -34,6 +35,11 @@ import { Component } from '@angular/core';
     }
   `]
 })
-export class SearchLoaderComponent {
+export class SearchLoaderComponent implements OnInit {
   constructor() { }
+
+  ngOnInit() {
+    console.log('new loading initiating...')
+
+  }
 }

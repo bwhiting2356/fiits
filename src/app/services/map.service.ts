@@ -5,7 +5,7 @@ import { MapsAPILoader } from '@agm/core';
 import { Coords } from '../shared/coords.model';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../redux/store';
-import {MAP_SET_BOUNDS} from "../redux/actions";
+import {MAP_RENDERING_START, MAP_RENDERING_STOP, MAP_SET_BOUNDS} from "../redux/actions";
 
 const TILE_SIZE = { height: 256, width: 256 }; // google World tile size, as of v3.22
 const ZOOM_MAX = 21; // max google maps zoom level, as of v3.22
@@ -31,6 +31,14 @@ export class MapService {
 
   initializeMapFromMapExtension(map) {
     this.map = map;
+  }
+
+  startRendering() {
+    this.ngRedux.dispatch({ type: MAP_RENDERING_START });
+  }
+
+  stopRendering() {
+    this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
   }
 
   addWalking1Directions(origin: Coords, destination: Coords) {

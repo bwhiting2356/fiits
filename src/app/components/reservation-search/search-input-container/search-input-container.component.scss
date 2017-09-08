@@ -1,0 +1,13 @@
+.bike-reservation-search {
+  background: black;
+  border-color: black;
+  width: 100%;
+  margin-top: 10px;
+
+  &[disabled] {
+    opacity: 0.65;
+    background: grey;
+    cursor: not-allowed;
+    border-color: grey;
+  }
+}

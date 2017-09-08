@@ -9,16 +9,15 @@ import { BsDropdownModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
 import { MapContainerComponent } from './components/map-container/map-container.component';
 import { MapExtensionDirective } from './components/map-container/map-extension.directive';
-import { SearchInputComponent } from './components/search-input/search-input.component';
-import { DateTimeInputComponent } from './components/search-input/date-time-input/date-time-input.component';
-import { TimeTargetSelectComponent } from './components/search-input/date-time-input/time-target-select/time-target-select.component';
-import { DateInputComponent } from './components/search-input/date-time-input/date-input/date-input.component';
-import { TimeInputComponent } from './components/search-input/date-time-input/time-input/time-input.component';
-import { OriginInputComponent } from './components/search-input/origin-input/origin-input.component';
-import { DestinationInputComponent } from './components/search-input/destination-input/destination-input.component';
-import { SearchResultContainerComponent } from './components/search-input/search-result-container/search-result-container.component';
-import { SearchResultComponent } from './components/search-input/search-result-container/search-result/search-result.component';
-import { SearchLoaderComponent } from './components/search-input/search-result-container/search-loader/search-loader.component';
+import { ReservationSearchComponent } from './components/reservation-search/reservation-search.component';
+import { DateTimeInputComponent } from './components/reservation-search/search-input-container/date-time-input/date-time-input.component';
+import { TimeTargetSelectComponent } from './components/reservation-search/search-input-container/date-time-input/time-target-select/time-target-select.component';
+import { DateInputComponent } from './components/reservation-search/search-input-container/date-time-input/date-input/date-input.component';
+import { TimeInputComponent } from './components/reservation-search/search-input-container/date-time-input/time-input/time-input.component';
+import { OriginInputComponent } from './components/reservation-search/search-input-container/origin-input/origin-input.component';
+import { DestinationInputComponent } from './components/reservation-search/search-input-container/destination-input/destination-input.component';
+import { SearchResultComponent } from './components/reservation-search/search-result/search-result.component';
+import { SearchLoaderComponent } from './components/reservation-search/search-loader/search-loader.component';
 
 import { GeolocationService } from './services/geolocation.service';
 import { ReverseGeocodeService } from './services/reverse-geocode.service';
@@ -31,13 +30,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
 import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
 import { MapOverlayComponent } from './components/map-container/map-overlay/map-overlay.component';
-import { SwitchInputsComponent } from './components/search-input/switch-inputs/switch-inputs.component';
+import { SwitchInputsComponent } from './components/reservation-search/search-input-container/switch-inputs/switch-inputs.component';
+import { ProgressComponent } from './components/reservation-search/progress/progress.component';
+import { SearchInputContainerComponent } from './components/reservation-search/search-input-container/search-input-container.component';
+import { SearchNavigateComponent } from './components/reservation-search/search-navigate/search-navigate.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    SearchInputComponent,
+    ReservationSearchComponent,
     MapContainerComponent,
     DateTimeInputComponent,
     TimeTargetSelectComponent,
@@ -47,10 +49,12 @@ import { SwitchInputsComponent } from './components/search-input/switch-inputs/s
     DestinationInputComponent,
     SearchResultComponent,
     MapExtensionDirective,
-    SearchResultContainerComponent,
     SearchLoaderComponent,
     MapOverlayComponent,
-    SwitchInputsComponent
+    SwitchInputsComponent,
+    ProgressComponent,
+    SearchInputContainerComponent,
+    SearchNavigateComponent
   ],
   imports: [
     BrowserModule,

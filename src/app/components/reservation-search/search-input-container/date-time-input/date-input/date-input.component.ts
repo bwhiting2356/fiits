@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { select } from '@angular-redux/store';
 
-import { SearchService } from '../../../../services/search.service';
+import { SearchService } from '../../../../../services/search.service';
 
 @Component({
   selector: 'app-date-input',

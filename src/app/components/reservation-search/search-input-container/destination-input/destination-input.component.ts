@@ -3,10 +3,10 @@ import { MapsAPILoader } from '@agm/core';
 import { NgRedux, select} from '@angular-redux/store';
 import {} from 'googlemaps';
 
-import { Place } from '../../../shared/place.model';
-import { findSearchDestinationName } from '../../../redux/selectHelperFunctions';
-import { SearchService } from '../../../services/search.service';
-import { IAppState } from '../../../redux/store';
+import { Place } from '../../../../shared/place.model';
+import { findSearchDestinationName } from '../../../../redux/selectHelperFunctions';
+import { SearchService } from '../../../../services/search.service';
+import { IAppState } from '../../../../redux/store';
 
 @Component({
   selector: 'app-destination-input',

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-root',
   template: `
-    <app-search-input></app-search-input>
+    <app-reservation-search></app-reservation-search>
     <app-map-container></app-map-container>
   `,
   styles: [`

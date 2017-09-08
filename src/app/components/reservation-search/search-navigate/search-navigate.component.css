@@ -1,0 +1,15 @@
+.navigate {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 10px;
+}
+
+.glyphicon-chevron-left {
+  cursor: pointer;
+  float: left;
+}
+
+.glyphicon-remove {
+  cursor: pointer;
+  float: right;
+}

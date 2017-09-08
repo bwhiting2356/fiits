@@ -19,11 +19,11 @@ import { SearchService } from '../../../services/search.service';
 })
 export class SearchNavigateComponent implements OnInit {
   backOneStep() {
-    this.searchService.backOneStep();
+    this.searchService.searchBackOneStep();
   }
 
   cancelSearch() {
-    this.searchService.cancelSearch();
+    this.searchService.searchReset();
   }
 
   constructor(private searchService: SearchService) { }

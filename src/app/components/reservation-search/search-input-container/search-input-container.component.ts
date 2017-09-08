@@ -27,7 +27,7 @@ export class SearchInputContainerComponent implements OnInit {
     return state.searchOrigin && state.searchDestination;
   }
   searchSubmit() {
-    this.searchService.searchNavSubmitted()
+    this.searchService.searchSubmit()
   }
 
   constructor(

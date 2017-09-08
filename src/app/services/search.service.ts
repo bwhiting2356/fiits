@@ -13,27 +13,26 @@ import {
   MAP_RENDERING_STOP,
   SEARCH_ADD_DAY,
   SEARCH_ADD_TEN_MINUTES,
-  SEARCH_CHANGE_TIMETARGET,
+  SEARCH_BACK_ONE_STEP, SEARCH_BOOK_RESERV,
+  SEARCH_CHANGE_TIMETARGET, SEARCH_CONFIRM_BOOK,
   SEARCH_DESTINATION_ADDRESS_START_FETCH,
   SEARCH_DESTINATION_ADDRESS_STOP_FETCH,
   SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR,
   SEARCH_DESTINATION_CHANGE,
   SEARCH_DESTINATION_CLEAR,
   SEARCH_DESTINATION_HIDE_X,
-  SEARCH_DESTINATION_SHOW_X,
-  SEARCH_NAV_BOOK_CONFIRMED,
-  SEARCH_NAV_BOOK_REQUESTED,
-  SEARCH_NAV_NO_SEARCH,
-  SEARCH_NAV_RES_RECEIVED, SEARCH_NAV_SUBMITTED,
+  SEARCH_DESTINATION_SHOW_X, SEARCH_ERROR_RECEIVED,
   SEARCH_ORIGIN_ADDRESS_START_FETCH,
   SEARCH_ORIGIN_ADDRESS_STOP_FETCH,
   SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR,
   SEARCH_ORIGIN_CHANGE,
   SEARCH_ORIGIN_CLEAR,
   SEARCH_ORIGIN_HIDE_X,
-  SEARCH_ORIGIN_SHOW_X,
+  SEARCH_ORIGIN_SHOW_X, SEARCH_RESERV_BOOKED,
+  SEARCH_RESET,
   SEARCH_RESULT_RECEIVED,
   SEARCH_SET_TIME_TO_NOW,
+  SEARCH_SUBMIT,
   SEARCH_SUBTRACT_DAY,
   SEARCH_SUBTRACT_TEN_MINUTES, SEARCH_SWITCH_INPUTS
 } from '../redux/actions';
@@ -52,53 +51,45 @@ export class SearchService {
     private fitboundsService: FitboundsService
   ) { }
 
-  searchNavNoSearch() {
-    this.ngRedux.dispatch({ type: SEARCH_NAV_NO_SEARCH })
+  searchResultReceived() {
+    this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED });
   }
 
-  searchNavResReceived() {
-    this.ngRedux.dispatch({ type: SEARCH_NAV_RES_RECEIVED })
+  searchErrorReceived() {
+    this.ngRedux.dispatch({ type: SEARCH_ERROR_RECEIVED });
   }
 
-  searchNavBookRequested() {
-    this.ngRedux.dispatch({ type: SEARCH_NAV_BOOK_REQUESTED })
+  searchBookReserv() {
+    this.ngRedux.dispatch({ type: SEARCH_BOOK_RESERV });
   }
 
-  searchNavReadInfo() {
-    this.ngRedux.dispatch({ type: SEARCH_NAV_INFO_READ })
+  searchConfirmBook() {
+    this.ngRedux.dispatch({ type: SEARCH_CONFIRM_BOOK });
   }
 
-  searchNavBookConfirmed() {
-    this.ngRedux.dispatch({ type: SEARCH_NAV_BOOK_CONFIRMED })
+  searchReservBooked() {
+    this.ngRedux.dispatch({ type: SEARCH_RESERV_BOOKED });
   }
 
-  backOneStep() {
-    const progressState = this.ngRedux.getState().searchProgress;
-    switch (progressState) {
-      case ProgressSteps.searchSubmitted:
-        this.ngRedux.dispatch({ type: SEARCH_NAV_NO_SEARCH });
-        break;
-      case ProgressSteps.resultReceived:
-        this.ngRedux.dispatch({ type: SEARCH_NAV_NO_SEARCH });
-        break;
-      case ProgressSteps.noSearch:
-      case ProgressSteps.bookingRequested:
-      case ProgressSteps.bookingConfirmed:
-        break;
-    }
+  searchReservError() {
+    this.ngRedux.dispatch({ type: SEARCH_RESERV_BOOKED });
   }
 
-  cancelSearch() {
+  searchBackOneStep() {
+    this.ngRedux.dispatch({ type: SEARCH_BACK_ONE_STEP });
+  }
+
+  searchReset() {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CLEAR });
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CLEAR });
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_HIDE_X });
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_HIDE_X });
     this.ngRedux.dispatch({ type: SEARCH_CHANGE_TIMETARGET, body: TimeTarget.LEAVE_NOW });
-    this.ngRedux.dispatch({ type: SEARCH_NAV_NO_SEARCH })
+    this.ngRedux.dispatch({ type: SEARCH_RESET })
   }
 
-  searchNavSubmitted() {
-    this.ngRedux.dispatch({ type: SEARCH_NAV_SUBMITTED });
+  searchSubmit() {
+    this.ngRedux.dispatch({ type: SEARCH_SUBMIT });
     this.ngRedux.dispatch({ type: MAP_RENDERING_START });
     this.mapService.removePolylines(); // TODO: is there a more redux-like way of taking care of this?
 
@@ -123,7 +114,6 @@ export class SearchService {
       // on response
 
       setTimeout(() => {    // fake right now
-        this.ngRedux.dispatch({ type: SEARCH_NAV_RES_RECEIVED });
         this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED, body: tripQueryResponse });
         this.fitboundsService.setMapBounds();
 

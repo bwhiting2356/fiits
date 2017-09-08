@@ -28,8 +28,6 @@ import {
   SEARCH_CHANGE_TIMETARGET,
   SEARCH_SET_TIME_TO_NOW,
   MAP_REDO_FITBOUNDS,
-  // SEARCH_FETCH_RESULT,
-  // SEARCH_CANCEL_FETCH,
   SEARCH_RESULT_RECEIVED,
   MAP_RENDERING_START,
   MAP_RENDERING_STOP,
@@ -37,12 +35,8 @@ import {
   MAP_SET_ZOOMLEVEL,
   MAP_SET_BOUNDS,
   MAP_SET_CENTER,
-  SEARCH_NAV_NO_SEARCH,
-  SEARCH_NAV_SUBMITTED,
-  SEARCH_NAV_RES_RECEIVED,
-  SEARCH_NAV_BOOK_REQUESTED,
-  SEARCH_NAV_INFO_READ,
-  SEARCH_NAV_BOOK_CONFIRMED
+  SEARCH_SUBMIT, SEARCH_ERROR_RECEIVED, SEARCH_BOOK_RESERV, SEARCH_CONFIRM_BOOK,
+  SEARCH_RESERV_BOOKED, SEARCH_RESERV_ERROR, SEARCH_BACK_ONE_STEP, SEARCH_RESET
 } from './actions';
 
 import {ProgressSteps} from '../shared/progressSteps';
@@ -83,7 +77,7 @@ export const INITIAL_STATE: IAppState = {
   searchDatetime: new Date(),
   // searchFetching: false,
   searchResult: undefined,
-  searchProgress: ProgressSteps.noSearch,
+  searchProgress: ProgressSteps.NO_SEARCH,
   mapZoomLevel: 14,
   mapBounds: undefined,
   mapCenterLat: undefined,
@@ -240,33 +234,60 @@ const searchSetTimeToNow: Reducer<IAppState> = (state: IAppState, action: Action
 
 // TODO: if someone cancels or redos their search while a request was in progress, it needs to cancal that
 
+
+const searchSubmit: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.PENDING_1 });
+};
+
 const searchResultReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchResult: action.body})
+  return tassign(state, { searchProgress: ProgressSteps.VIEWING_RESULT , searchResult: action.body});
 };
 
-const searchNavNoSearch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.noSearch })
+const searchErrorReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.ERROR_1 });
 };
 
-const searchNavSubmitted: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.searchSubmitted })
+const searchBookReserv: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.READING_INFO });
 };
 
-const searchNavResReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.resultReceived })
+const searchConfirmBook: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.PENDING_2 });
 };
 
-const searchNavBookRequested: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.bookingRequested })
+const searchReservBooked: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.VIEWING_RESERV });
 };
 
-const searchNavInfoRead: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.infoRead })
+const searchReservError: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.ERROR_2 });
 };
 
-const searchNavBookConfirmed: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.bookingConfirmed })
+const searchBackOneStep: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  let newProgress;
+
+  switch (state.searchProgress) {
+    case ProgressSteps.PENDING_1:
+    case ProgressSteps.VIEWING_RESULT:
+    case ProgressSteps.ERROR_1:
+      newProgress = ProgressSteps.NO_SEARCH;
+      break;
+    case ProgressSteps.READING_INFO:
+      newProgress = ProgressSteps.VIEWING_RESULT;
+      break;
+    case ProgressSteps.PENDING_2:
+    case ProgressSteps.NO_SEARCH:
+    case ProgressSteps.VIEWING_RESERV:
+    case ProgressSteps.ERROR_2:
+      break;
+  }
+  return tassign(state, {searchProgress: newProgress })
 };
+
+const searchReset: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
+  return tassign(state, { searchProgress: ProgressSteps.NO_SEARCH });
+};
+
 
 export function rootReducer(state: IAppState, action: Action): IAppState {
   switch (action.type) {
@@ -297,17 +318,16 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
     case SEARCH_CHANGE_TIMETARGET: return searchChangeTimeTarget(state, action);
     case SEARCH_SET_TIME_TO_NOW: return searchSetTimeToNow(state, action);
 
-    // case SEARCH_FETCH_RESULT: return searchFetchResult(state, action);
-    // case SEARCH_CANCEL_FETCH: return searchCancelFetch(state, action);
-
+    case SEARCH_SUBMIT: return searchSubmit(state, action);
     case SEARCH_RESULT_RECEIVED: return searchResultReceived(state, action);
+    case SEARCH_ERROR_RECEIVED: return searchErrorReceived(state, action);
+    case SEARCH_BOOK_RESERV: return searchBookReserv(state, action);
+    case SEARCH_CONFIRM_BOOK: return searchConfirmBook(state, action);
+    case SEARCH_RESERV_BOOKED: return searchReservBooked(state, action);
+    case SEARCH_RESERV_ERROR: return searchReservError(state, action);
 
-    case SEARCH_NAV_NO_SEARCH: return searchNavNoSearch(state, action);
-    case SEARCH_NAV_SUBMITTED: return searchNavSubmitted(state, action);
-    case SEARCH_NAV_RES_RECEIVED: return searchNavResReceived(state, action);
-    case SEARCH_NAV_BOOK_REQUESTED: return searchNavBookRequested(state, action);
-    case SEARCH_NAV_INFO_READ: return searchNavInfoRead(state, action);
-    case SEARCH_NAV_BOOK_CONFIRMED: return searchNavBookConfirmed(state, action);
+    case SEARCH_BACK_ONE_STEP: return searchBackOneStep(state, action);
+    case SEARCH_RESET: return searchReset(state, action);
 
     case MAP_REDO_FITBOUNDS: return mapRedoFitBounds(state, action);
 

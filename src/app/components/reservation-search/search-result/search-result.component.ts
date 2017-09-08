@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { TripQueryResponse } from '../../../shared/tripqueryresponse.model';
-import {SearchService} from "../../../services/search.service";
+import { SearchService } from '../../../services/search.service';
 
 @Component({
   selector: 'app-search-result',
@@ -20,8 +20,8 @@ export class SearchResultComponent {
     );
   }
 
-  readInfo() {
-    this.searchService.
+  bookReservation() {
+    this.searchService.searchBookReserv()
   }
 
   constructor(private searchService: SearchService) { }

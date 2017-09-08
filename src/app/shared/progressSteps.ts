@@ -1,8 +1,10 @@
 export const ProgressSteps = {
-  noSearch: 'noSearch',
-  searchSubmitted: 'searchSubmitted',
-  resultReceived: 'resultReceived',
-  bookingRequested: 'bookingRequested',
-  infoRead: 'infoRead',
-  bookingConfirmed: 'bookingConfirmed'
+  NO_SEARCH: 'NO_SEARCH',
+  PENDING_1: 'PENDING_1',
+  VIEWING_RESULT: 'VIEWING_RESULT',
+  ERROR_1: 'ERROR_1',
+  READING_INFO: 'READING_INFO',
+  PENDING_2: 'PENDING_2',
+  VIEWING_RESERV: 'VIEWING_RESERV',
+  ERROR_2: 'ERROR_2',
 };

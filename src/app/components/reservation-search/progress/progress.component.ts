@@ -21,22 +21,22 @@ import { ProgressSteps } from '../../../shared/progressSteps';
   `],
   animations: [
     trigger('animateBar', [
-      state(ProgressSteps.noSearch, style({
+      state(ProgressSteps.NO_SEARCH, style({
         width: '0%',
       })),
-      state(ProgressSteps.searchSubmitted, style({
+      state(ProgressSteps.PENDING_1, style({
         width: '20%'
       })),
-      state(ProgressSteps.resultReceived, style({
+      state(ProgressSteps.VIEWING_RESULT, style({
         width: '40%'
       })),
-      state(ProgressSteps.bookingRequested, style({
+      state(ProgressSteps.READING_INFO, style({
         width: '60%'
       })),
-      state(ProgressSteps.infoRead, style({
+      state(ProgressSteps.PENDING_2, style({
         width: '80%'
       })),
-      state(ProgressSteps.bookingConfirmed, style({
+      state(ProgressSteps.VIEWING_RESERV, style({
         width: '100%'
       })),
     ])

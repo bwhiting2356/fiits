@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { SearchService } from '../../../services/search.service';
 
 @Component({
@@ -6,6 +6,7 @@ import { SearchService } from '../../../services/search.service';
   template: `
     <div class="navigate">
       <span
+        *ngIf="backButton"
         class="glyphicon glyphicon-chevron-left"
         (click)="backOneStep()"
       ></span>
@@ -18,6 +19,7 @@ import { SearchService } from '../../../services/search.service';
   styleUrls: ['./search-navigate.component.css']
 })
 export class SearchNavigateComponent implements OnInit {
+  @Input() backButton = true;
   backOneStep() {
     this.searchService.searchBackOneStep();
   }

@@ -4,15 +4,7 @@ import { GeolocationService } from '../../services/geolocation.service';
 
 @Component({
   selector: 'app-reservation-search',
-  template: `
-    <app-progress></app-progress>
-    <div [ngSwitch]="searchProgress | async">
-      <app-search-input-container *ngSwitchCase="'noSearch'"></app-search-input-container>
-      <app-search-loader *ngSwitchCase="'searchSubmitted'"></app-search-loader>
-      <app-search-result *ngSwitchCase="'resultReceived'" [searchResult]="searchResult | async"></app-search-result>
-    </div>
-    <!--resultReceived: 'resultReceived',-->
-  `,
+  templateUrl: 'reservation-search.component.html',
   styles: [`
     :host {
       position: fixed;

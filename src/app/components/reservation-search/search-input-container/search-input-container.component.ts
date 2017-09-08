@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SearchService } from '../../../services/search.service';
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from 'app/redux/store';
@@ -15,16 +15,15 @@ import { IAppState } from 'app/redux/store';
         type="button"
         class="btn btn-primary bike-reservation-search"
         (click)="searchSubmit()"
-        [disabled]="!enabled"
-      >Find Bike Reservations</button>
+        [disabled]="disabled">Find Bike Reservations</button>
     </form>
   `,
   styleUrls: ['search-input-container.component.scss']
 })
-export class SearchInputContainerComponent implements OnInit {
-  get enabled() {
+export class SearchInputContainerComponent {
+  get disabled() {
     const state = this.ngRedux.getState();
-    return state.searchOrigin && state.searchDestination;
+    return !(state.searchOrigin && state.searchDestination);
   }
   searchSubmit() {
     this.searchService.searchSubmit()
@@ -33,8 +32,5 @@ export class SearchInputContainerComponent implements OnInit {
   constructor(
     private searchService: SearchService,
     private ngRedux: NgRedux<IAppState>) { }
-
-  ngOnInit() {
-  }
 
 }

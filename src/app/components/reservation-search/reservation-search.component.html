@@ -1,0 +1,28 @@
+<app-progress></app-progress>
+<div [ngSwitch]="searchProgress | async">
+  <app-search-input-container
+    *ngSwitchCase="'NO_SEARCH'">
+  </app-search-input-container>
+  <app-search-loader
+    *ngSwitchCase="'PENDING_1'">
+  </app-search-loader>
+  <app-search-result
+    *ngSwitchCase="'VIEWING_RESULT'"
+    [searchResult]="searchResult | async">
+  </app-search-result>
+  <app-search-result-error
+    *ngSwitchCase="'ERROR_1'">
+  </app-search-result-error>
+  <app-search-info
+    *ngSwitchCase="'READING_INFO'">
+  </app-search-info>
+  <app-search-loader
+    *ngSwitchCase="'PENDING_2'">
+  </app-search-loader>
+  <app-booking-success
+    *ngSwitchCase="'VIEWING_RESERV'">
+  </app-booking-success>
+  <app-booking-error
+    *ngSwitchCase="'ERROR_2'">>
+  </app-booking-error>
+</div>

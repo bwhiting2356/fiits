@@ -28,7 +28,7 @@ import {
   SEARCH_ORIGIN_CHANGE,
   SEARCH_ORIGIN_CLEAR,
   SEARCH_ORIGIN_HIDE_X,
-  SEARCH_ORIGIN_SHOW_X, SEARCH_RESERV_BOOKED,
+  SEARCH_ORIGIN_SHOW_X, SEARCH_RESERV_BOOKED, SEARCH_RESERV_ERROR,
   SEARCH_RESET,
   SEARCH_RESULT_RECEIVED,
   SEARCH_SET_TIME_TO_NOW,
@@ -65,15 +65,20 @@ export class SearchService {
 
   searchConfirmBook() {
     this.ngRedux.dispatch({ type: SEARCH_CONFIRM_BOOK });
+
+    // successful reservation booking
+
+    setTimeout(() => {
+      this.ngRedux.dispatch({ type: SEARCH_RESERV_BOOKED });
+
+    }, 1000)
+
+    // error
+    // setTimeout(() => {
+    //   this.ngRedux.dispatch({ type: SEARCH_RESERV_ERROR });
+    // }, 1000)
   }
 
-  searchReservBooked() {
-    this.ngRedux.dispatch({ type: SEARCH_RESERV_BOOKED });
-  }
-
-  searchReservError() {
-    this.ngRedux.dispatch({ type: SEARCH_RESERV_BOOKED });
-  }
 
   searchBackOneStep() {
     this.ngRedux.dispatch({ type: SEARCH_BACK_ONE_STEP });
@@ -109,8 +114,6 @@ export class SearchService {
 
       // make request to server
 
-
-
       // on response
 
       setTimeout(() => {    // fake right now
@@ -134,6 +137,10 @@ export class SearchService {
         this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
 
       }, 1000)
+
+      // setTimeout(() => {
+      //   this.ngRedux.dispatch({ type: SEARCH_ERROR_RECEIVED , body: 'Error message' })
+      // }, 1000)
     } else {
       // this.ngRedux.dispatch({ type: SEARCH_CANCEL_FETCH });
       this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });

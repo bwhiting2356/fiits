@@ -51,9 +51,9 @@ export interface IAppState {
   searchDestinationAddressFetching: boolean;
   searchTimeTarget: string;
   searchDatetime: Date;
-  // searchFetching: boolean;
   searchResult: TripQueryResponse;
   searchProgress: string;
+  searchError: string;
   mapBounds: google.maps.LatLngBounds;
   mapZoomLevel: number,
   mapCenterLat: number,
@@ -75,9 +75,9 @@ export const INITIAL_STATE: IAppState = {
   searchDestinationAddressFetching: false,
   searchTimeTarget: TimeTarget.LEAVE_NOW,
   searchDatetime: new Date(),
-  // searchFetching: false,
   searchResult: undefined,
   searchProgress: ProgressSteps.NO_SEARCH,
+  searchError: '',
   mapZoomLevel: 14,
   mapBounds: undefined,
   mapCenterLat: undefined,
@@ -224,14 +224,6 @@ const searchSetTimeToNow: Reducer<IAppState> = (state: IAppState, action: Action
   return tassign(state, { searchDatetime: new Date() });
 };
 
-// const searchFetchResult: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-//   return tassign(state, { searchFetching: true, searchResult: undefined})
-// };
-//
-// const searchCancelFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-//   return tassign(state, { searchFetching: false, searchResult: undefined })
-// };
-
 // TODO: if someone cancels or redos their search while a request was in progress, it needs to cancal that
 
 
@@ -244,7 +236,7 @@ const searchResultReceived: Reducer<IAppState> = (state: IAppState, action: Acti
 };
 
 const searchErrorReceived: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.ERROR_1 });
+  return tassign(state, { searchProgress: ProgressSteps.ERROR_1, searchError: action.body });
 };
 
 const searchBookReserv: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {

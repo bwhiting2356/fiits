@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { NgModule, isDevMode } from '@angular/core';
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
-import thunk from 'redux-thunk';
 
 import { BsDropdownModule } from 'ngx-bootstrap';
 
@@ -34,6 +33,10 @@ import { SwitchInputsComponent } from './components/reservation-search/search-in
 import { ProgressComponent } from './components/reservation-search/progress/progress.component';
 import { SearchInputContainerComponent } from './components/reservation-search/search-input-container/search-input-container.component';
 import { SearchNavigateComponent } from './components/reservation-search/search-navigate/search-navigate.component';
+import { SearchResultErrorComponent } from './components/reservation-search/search-result-error/search-result-error.component';
+import { SearchInfoComponent } from './components/reservation-search/search-info/search-info.component';
+import { BookingSuccessComponent } from './components/reservation-search/booking-success/booking-success.component';
+import { BookingErrorComponent } from './components/reservation-search/booking-error/booking-error.component';
 
 
 @NgModule({
@@ -54,7 +57,11 @@ import { SearchNavigateComponent } from './components/reservation-search/search-
     SwitchInputsComponent,
     ProgressComponent,
     SearchInputContainerComponent,
-    SearchNavigateComponent
+    SearchNavigateComponent,
+    SearchResultErrorComponent,
+    SearchInfoComponent,
+    BookingSuccessComponent,
+    BookingErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -82,8 +89,7 @@ export class AppModule {
     ngRedux: NgRedux<IAppState>,
     devTools: DevToolsExtension) {
 
-    const middleWare = [thunk];
     const enhancers = isDevMode() ? [devTools.enhancer()] : [];
-    ngRedux.configureStore(rootReducer, INITIAL_STATE, middleWare, enhancers)
+    ngRedux.configureStore(rootReducer, INITIAL_STATE, [], enhancers)
   }
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { NgRedux, select} from '@angular-redux/store';
+import { NgRedux, select } from '@angular-redux/store';
 import {} from 'googlemaps';
 
-import { Place } from '../../../../shared/place.model';
+import { Place } from '../../../../shared/place';
 import { findSearchDestinationName } from '../../../../redux/selectHelperFunctions';
 import { SearchService } from '../../../../services/search.service';
 import { IAppState } from '../../../../redux/store';

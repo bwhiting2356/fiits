@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 
 import { NgRedux } from '@angular-redux/store';
 import { IAppState } from '../../../../redux/store';
-import { TimeTarget } from '../../../../shared/timetarget.model';
-
+import { TimeTarget } from '../../../../shared/timeTarget';
 
 @Component({
   selector: 'app-date-time-input',

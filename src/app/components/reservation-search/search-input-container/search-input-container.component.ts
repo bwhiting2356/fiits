@@ -26,11 +26,12 @@ export class SearchInputContainerComponent {
     return !(state.searchOrigin && state.searchDestination);
   }
   searchSubmit() {
-    this.searchService.searchSubmit()
+    this.searchService.searchSubmit();
   }
 
   constructor(
     private searchService: SearchService,
-    private ngRedux: NgRedux<IAppState>) { }
+    private ngRedux: NgRedux<IAppState>
+  ) { }
 
 }

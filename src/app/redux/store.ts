@@ -1,8 +1,9 @@
 import { tassign } from 'tassign';
 
-import { Place } from '../shared/place.model';
-import { TimeTarget } from '../shared/timetarget.model';
-import { TripQueryResponse } from '../shared/tripqueryresponse.model';
+import { Place } from '../shared/place';
+import { TimeTarget } from '../shared/timeTarget';
+import { TripQueryResponse } from '../shared/tripQueryResponse';
+import { ProgressSteps } from '../shared/progressSteps';
 
 import { Reducer } from 'redux';
 
@@ -27,20 +28,21 @@ import {
   SEARCH_SUBTRACT_TEN_MINUTES,
   SEARCH_CHANGE_TIMETARGET,
   SEARCH_SET_TIME_TO_NOW,
-  MAP_REDO_FITBOUNDS,
   SEARCH_RESULT_RECEIVED,
   MAP_RENDERING_START,
   MAP_RENDERING_STOP,
   SEARCH_SWITCH_INPUTS,
   MAP_SET_ZOOMLEVEL,
-  MAP_SET_BOUNDS,
   MAP_SET_CENTER,
-  SEARCH_SUBMIT, SEARCH_ERROR_RECEIVED, SEARCH_BOOK_RESERV, SEARCH_CONFIRM_BOOK,
-  SEARCH_RESERV_BOOKED, SEARCH_RESERV_ERROR, SEARCH_BACK_ONE_STEP, SEARCH_RESET
+  SEARCH_SUBMIT,
+  SEARCH_ERROR_RECEIVED,
+  SEARCH_BOOK_RESERV,
+  SEARCH_CONFIRM_BOOK,
+  SEARCH_RESERV_BOOKED,
+  SEARCH_RESERV_ERROR,
+  SEARCH_BACK_ONE_STEP,
+  SEARCH_RESET
 } from './actions';
-
-import {ProgressSteps} from '../shared/progressSteps';
-
 
 export interface IAppState {
   searchOrigin: Place;
@@ -54,7 +56,6 @@ export interface IAppState {
   searchResult: TripQueryResponse;
   searchProgress: string;
   searchError: string;
-  mapBounds: google.maps.LatLngBounds;
   mapZoomLevel: number,
   mapCenterLat: number,
   mapCenterLng: number,
@@ -79,7 +80,6 @@ export const INITIAL_STATE: IAppState = {
   searchProgress: ProgressSteps.NO_SEARCH,
   searchError: '',
   mapZoomLevel: 14,
-  mapBounds: undefined,
   mapCenterLat: undefined,
   mapCenterLng: undefined,
   mapRendering: true,
@@ -174,27 +174,8 @@ const mapSetZoomLevel: Reducer<IAppState> = (state: IAppState, action: Action): 
   return tassign(state, { mapZoomLevel:  action.body })
 };
 
-const mapSetBounds: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { mapBounds: action.body })
-};
-
 const mapSetCenter: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   return tassign(state, { mapCenterLat: action.body.lat, mapCenterLng: action.body.lng })
-};
-
-const mapRedoFitBounds: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  const newBounds = new google.maps.LatLngBounds();
-  if (state.searchOrigin) {
-    newBounds.extend(state.searchOrigin.coords);
-  }
-  if (state.searchDestination) {
-    newBounds.extend(state.searchDestination.coords);
-  }
-  if (state.searchResult) {
-    newBounds.extend(state.searchResult.station1Location);
-    newBounds.extend(state.searchResult.station2Location);
-  }
-  return tassign(state, { mapBounds: newBounds});
 };
 
 const DAY = 86400000;
@@ -280,7 +261,6 @@ const searchReset: Reducer<IAppState> = (state: IAppState, action: Action): IApp
   return tassign(state, { searchProgress: ProgressSteps.NO_SEARCH });
 };
 
-
 export function rootReducer(state: IAppState, action: Action): IAppState {
   switch (action.type) {
     case SEARCH_ORIGIN_CHANGE: return searchOriginChange(state, action);
@@ -321,11 +301,7 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
     case SEARCH_BACK_ONE_STEP: return searchBackOneStep(state, action);
     case SEARCH_RESET: return searchReset(state, action);
 
-    case MAP_REDO_FITBOUNDS: return mapRedoFitBounds(state, action);
-
     case MAP_SET_ZOOMLEVEL: return mapSetZoomLevel(state, action);
-    case MAP_SET_BOUNDS: return mapSetBounds(state, action);
-
     case MAP_SET_CENTER: return mapSetCenter(state, action);
 
     case MAP_RENDERING_START: return mapRenderingStart(state, action);

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SearchService } from '../../../services/search.service';
 
 @Component({
@@ -8,8 +8,8 @@ import { SearchService } from '../../../services/search.service';
       <span
         *ngIf="backButton"
         class="glyphicon glyphicon-chevron-left"
-        (click)="backOneStep()"
-      ></span>
+        (click)="backOneStep()">
+      </span>
       <span
         class="glyphicon glyphicon-remove"
         (click)="cancelSearch()">
@@ -18,7 +18,7 @@ import { SearchService } from '../../../services/search.service';
   `,
   styleUrls: ['./search-navigate.component.css']
 })
-export class SearchNavigateComponent implements OnInit {
+export class SearchNavigateComponent {
   @Input() backButton = true;
   backOneStep() {
     this.searchService.searchBackOneStep();
@@ -28,9 +28,8 @@ export class SearchNavigateComponent implements OnInit {
     this.searchService.searchReset();
   }
 
-  constructor(private searchService: SearchService) { }
-
-  ngOnInit() {
-  }
+  constructor(
+    private searchService: SearchService
+  ) { }
 
 }

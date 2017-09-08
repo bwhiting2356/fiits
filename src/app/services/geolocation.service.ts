@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
-import { Place } from '../shared/place.model';
-import { ReverseGeocodeService } from './reverse-geocode.service';
+import { Place } from '../shared/place';
 import { SearchService } from './search.service';
 import { MapService } from './map.service';
 
@@ -9,7 +7,6 @@ import { MapService } from './map.service';
 export class GeolocationService {
 
   constructor(
-    private reverseGeocodeService: ReverseGeocodeService,
     private searchService: SearchService,
     private mapService: MapService
   ) { }

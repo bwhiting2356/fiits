@@ -1,4 +1,4 @@
-import { Coords } from './coords.model';
+import { Coords } from './coords';
 
 export interface TripQueryRequest {
   searchOriginCoords: Coords;

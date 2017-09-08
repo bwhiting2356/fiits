@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { TripQueryResponse } from '../../../shared/tripqueryresponse.model';
+import { TripQueryResponse } from '../../../shared/tripQueryResponse';
 import { SearchService } from '../../../services/search.service';
 
 @Component({
@@ -21,9 +21,11 @@ export class SearchResultComponent {
   }
 
   bookReservation() {
-    this.searchService.searchBookReserv()
+    this.searchService.searchBookReserv();
   }
 
-  constructor(private searchService: SearchService) { }
+  constructor(
+    private searchService: SearchService
+  ) { }
 
 }

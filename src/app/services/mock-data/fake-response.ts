@@ -1,4 +1,4 @@
-import { TripQueryResponse } from '../../shared/tripqueryresponse.model';
+import { TripQueryResponse } from '../../shared/tripQueryResponse';
 
 export const tripQueryResponse: TripQueryResponse = {
   startAddress: '576 Marcy Ave',

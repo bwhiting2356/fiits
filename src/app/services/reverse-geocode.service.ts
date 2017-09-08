@@ -3,8 +3,8 @@ import { Observer } from 'rxjs/Observer';
 import { Observable } from 'rxjs/Observable';
 import { MapsAPILoader } from '@agm/core';
 
-import { Coords } from '../shared/coords.model';
-import { Place } from '../shared/place.model';
+import { Coords } from '../shared/coords';
+import { Place } from '../shared/place';
 import { SearchService } from 'app/services/search.service';
 
 @Injectable()

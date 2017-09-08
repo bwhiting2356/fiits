@@ -22,8 +22,10 @@ import { GeolocationService } from '../../services/geolocation.service';
 export class ReservationSearchComponent implements OnInit {
   @select() searchProgress;
   @select() searchResult;
+
   constructor(
-    private geolocationService: GeolocationService) {}
+    private geolocationService: GeolocationService
+  ) {}
 
   ngOnInit() {
     this.geolocationService.getCurrentPosition();

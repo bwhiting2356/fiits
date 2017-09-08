@@ -106,7 +106,7 @@ export class FitboundsService {
       newBounds.extend(state.searchResult.station2Location);
     }
 
-    // TODO: figure out why it's not fitting the bounds correctly consistently
+    // TODO: why is there sometimes a weird error, and should I put in some error handling?
     return newBounds;
   }
 }

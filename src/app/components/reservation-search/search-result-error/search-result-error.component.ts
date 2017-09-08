@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { select } from '@angular-redux/store';
 
 @Component({
@@ -11,12 +11,9 @@ import { select } from '@angular-redux/store';
   `,
   styleUrls: ['./search-result-error.component.css']
 })
-export class SearchResultErrorComponent implements OnInit {
+export class SearchResultErrorComponent {
   @select() searchError;
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
 }

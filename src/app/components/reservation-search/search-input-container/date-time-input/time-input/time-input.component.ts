@@ -28,6 +28,4 @@ export class TimeInputComponent {
   constructor(
     private searchService: SearchService
   ) { }
-
-
 }

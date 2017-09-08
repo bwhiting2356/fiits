@@ -16,7 +16,7 @@ export const findSearchDestinationLng = (s: IAppState): number => {
   return s.searchDestination ? s.searchDestination.coords.lng : undefined;
 };
 
-export const findSearchOriginName = (s: IAppState): String =>{
+export const findSearchOriginName = (s: IAppState): String => {
   return s.searchOrigin ? s.searchOrigin.name : '';
 };
 

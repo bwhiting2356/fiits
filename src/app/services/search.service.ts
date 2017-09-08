@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { Place } from '../shared/place.model';
-import { TimeTarget } from '../shared/timetarget.model';
-import { TripQueryRequest } from '../shared/tripqueryrequest.model';
-import { TripQueryResponse} from '../shared/tripqueryresponse.model';
+import { Place } from '../shared/place';
+import { TimeTarget } from '../shared/timeTarget';
+import { TripQueryRequest } from '../shared/tripQueryRequest';
+import { TripQueryResponse} from '../shared/tripQueryResponse';
 import { ProgressSteps } from '../shared/progressSteps';
 
 import { NgRedux } from '@angular-redux/store';
@@ -74,6 +74,7 @@ export class SearchService {
     }, 1000)
 
     // error
+
     // setTimeout(() => {
     //   this.ngRedux.dispatch({ type: SEARCH_RESERV_ERROR });
     // }, 1000)

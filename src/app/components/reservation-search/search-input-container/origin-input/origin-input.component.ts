@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { select, NgRedux } from '@angular-redux/store';
+import {} from 'googlemaps';
 
-import { Place } from '../../../../shared/place.model';
+import { Place } from '../../../../shared/place';
 
 import { findSearchOriginName } from '../../../../redux/selectHelperFunctions';
 import { SearchService } from '../../../../services/search.service';
@@ -77,7 +78,7 @@ export class OriginInputComponent implements OnInit {
           }
         };
         this.searchService.searchOriginChange(origin);
-        this.searchService.searchOriginShowX(); // TODO: is this redundant?
+        this.searchService.searchOriginShowX();
       });
     });
   }

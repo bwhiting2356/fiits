@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { trigger, state, style, transition } from '@angular/animations';
+import { Component } from '@angular/core';
+import { trigger, state, style } from '@angular/animations';
 import { select } from '@angular-redux/store';
 import { ProgressSteps } from '../../../shared/progressSteps';
 
@@ -52,5 +52,4 @@ export class ProgressComponent {
   @select() searchProgress;
 
   constructor() { }
-
 }

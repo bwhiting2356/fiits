@@ -1,8 +1,9 @@
 import { Coords } from './coords';
 
+
 export interface TripQueryRequest {
-  searchOriginCoords: Coords;
-  searchDestinationCoords: Coords;
-  searchDatetime: Date;
-  searchTimeTarget: String
+  origin: Coords;
+  destination: Coords;
+  time: Date;
+  timeTarget: String
 }

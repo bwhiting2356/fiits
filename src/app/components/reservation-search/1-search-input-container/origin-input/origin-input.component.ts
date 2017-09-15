@@ -56,6 +56,7 @@ export class OriginInputComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    // TODO: style icon inside autocomplete? https://developers.google.com/maps/documentation/javascript/places-autocomplete
     this.mapsAPILoader.load().then(() => {
       const autocomplete = new google.maps.places.Autocomplete(this.originInput.nativeElement, {
         types: ['address']

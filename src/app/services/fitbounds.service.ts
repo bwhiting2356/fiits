@@ -102,8 +102,8 @@ export class FitboundsService {
       newBounds.extend(state.searchDestination.coords);
     }
     if (state.searchResult) {
-      newBounds.extend(state.searchResult.station1Location);
-      newBounds.extend(state.searchResult.station2Location);
+      newBounds.extend({lat: state.searchResult.station1.lat, lng: state.searchResult.station1.lng });
+      newBounds.extend({lat: state.searchResult.station2.lat, lng: state.searchResult.station2.lng });
     }
 
     // TODO: why is there sometimes a weird error, and should I put in some error handling?

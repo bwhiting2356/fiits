@@ -15,6 +15,7 @@ import { SearchService } from '../../../services/search.service';
         (click)="cancelSearch()">
       </span>
     </div>
+    <app-horizontal-line></app-horizontal-line>
   `,
   styleUrls: ['./search-navigate.component.css']
 })

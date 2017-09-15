@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-search-loader',
   template: `
     <app-search-navigate></app-search-navigate>
-    <div class="horizontal-line"></div>
     <div class="loading">
       Finding bike rentals...
       <div id="loading"></div>

@@ -20,7 +20,7 @@ export class MapExtensionDirective implements AfterViewInit {
         this.mapService.initializeMapFromMapExtension(m);
 
       }, err => {
-        console.log('error', err );
+        console.log('Error', err );
       });
     });
   }

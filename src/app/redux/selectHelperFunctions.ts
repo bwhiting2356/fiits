@@ -25,17 +25,29 @@ export const findSearchDestinationName = (s: IAppState): String => {
 };
 
 export const findStation1Lat = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station1Location.lat : undefined;
+  return s.searchResult ? s.searchResult.station1.station.lat : undefined;
 };
 
 export const findStation1Lng = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station1Location.lng : undefined;
+  return s.searchResult ? s.searchResult.station1.station.lng : undefined;
 };
 
 export const findStation2Lat = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station2Location.lat : undefined;
+  return s.searchResult ? s.searchResult.station2.station.lat : undefined;
 };
 
 export const findStation2Lng = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station2Location.lng : undefined;
+  return s.searchResult ? s.searchResult.station2.station.lng : undefined;
+};
+
+export const findWalkingPoints1 = (s: IAppState): number => {
+  return s.searchResult ? s.searchResult.walkingDirections1 : undefined;
+};
+
+export const findWalkingPoints2 = (s: IAppState): number => {
+  return s.searchResult ? s.searchResult.walkingDirections2 : undefined;
+};
+
+export const findBicyclePoints = (s: IAppState): number => {
+  return s.searchResult ? s.searchResult.bicyclingDirections : undefined;
 };

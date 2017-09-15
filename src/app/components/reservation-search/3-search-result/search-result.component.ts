@@ -12,13 +12,13 @@ export class SearchResultComponent {
 
   @Input() searchResult: TripQueryResponse;
 
-  get totalPrice() {
-    return (
-      this.searchResult.station1ReservationPrice +
-      this.searchResult.station2ReservationPrice +
-      this.searchResult.bikeRentalPrice
-    );
-  }
+  // get totalPrice() {
+  //   // return (
+  //   //   this.searchResult.station1ReservationPrice +
+  //   //   this.searchResult.station2ReservationPrice +
+  //   //   this.searchResult.bikeRentalPrice
+  //   // );
+  // }
 
   bookReservation() {
     this.searchService.searchBookReserv();

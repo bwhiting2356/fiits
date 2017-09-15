@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="72px" viewBox="0 0 8 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 21</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="117" y="149" width="8" height="70" rx="1"></rect>
+    </defs>
+    <g class="outer-line" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-117.000000, -149.000000)">
+            <g class="inner-line">
+                <use fill="#00B3FD" fill-rule="evenodd" xlink:href="#path-1"></use>
+                <rect stroke="#3379C3" stroke-width="1" x="117.5" y="149.5" width="7" height="69" rx="1"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
+<!-- TODO: clean up the dimensions of this -->

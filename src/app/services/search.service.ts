@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 import { Place } from '../shared/place';
 import { TimeTarget } from '../shared/timeTarget';
@@ -40,7 +41,8 @@ import {
 import { MapService } from './map.service';
 import { FitboundsService } from './fitbounds.service';
 
-import { tripQueryResponse } from './mock-data/fake-response';
+// import { tripQueryResponse } from './mock-data/fake-response';
+
 
 @Injectable()
 export class SearchService {
@@ -48,7 +50,8 @@ export class SearchService {
   constructor(
     private ngRedux: NgRedux<IAppState>,
     private mapService: MapService,
-    private fitboundsService: FitboundsService
+    private fitboundsService: FitboundsService,
+    private http: HttpClient
   ) { }
 
   searchResultReceived() {
@@ -97,17 +100,16 @@ export class SearchService {
   searchSubmit() {
     this.ngRedux.dispatch({ type: SEARCH_SUBMIT });
     this.ngRedux.dispatch({ type: MAP_RENDERING_START });
-    this.mapService.removePolylines(); // TODO: is there a more redux-like way of taking care of this?
 
     const state: IAppState = this.ngRedux.getState();
 
     if (state.searchOrigin && state.searchDestination) {
 
       const tripQueryRequest: TripQueryRequest = {
-        searchOriginCoords: state.searchOrigin.coords,
-        searchDestinationCoords: state.searchDestination.coords,
-        searchDatetime: state.searchDatetime,
-        searchTimeTarget: state.searchTimeTarget
+        origin: state.searchOrigin.coords,
+        destination: state.searchDestination.coords,
+        time: state.searchDatetime,
+        timeTarget: state.searchTimeTarget
       };
 
       // TODO: check if new trip query is the same as the old trip query before sending
@@ -117,27 +119,35 @@ export class SearchService {
 
       // on response
 
-      setTimeout(() => {    // fake right now
+      this.http.post('http://localhost:3000/api/trip-query', tripQueryRequest).subscribe(tripQueryResponse => {
+        console.log(tripQueryResponse);
         this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED, body: tripQueryResponse });
-        this.fitboundsService.setMapBounds();
-
-        this.mapService.addWalking1Directions(
-          tripQueryResponse.startLocation,
-          tripQueryResponse.station1Location);
-
-        this.mapService.addBikeDirections(
-          tripQueryResponse.station1Location,
-          tripQueryResponse.station2Location);
-
-        this.mapService.addWalking2Directions(
-          tripQueryResponse.station2Location,
-          tripQueryResponse.endLocation);
-
-        // TODO: get directions on the server side, send list of points back with the response data
-
         this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
+      }, (err) => {
+        console.log(err);
+      });
 
-      }, 1000)
+      // setTimeout(() => {    // fake right now
+      //   this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED, body: tripQueryResponse });
+      //   this.fitboundsService.setMapBounds();
+      //
+      //   this.mapService.addWalking1Directions(
+      //     tripQueryResponse.startLocation,
+      //     tripQueryResponse.station1Location);
+      //
+      //   this.mapService.addBikeDirections(
+      //     tripQueryResponse.station1Location,
+      //     tripQueryResponse.station2Location);
+      //
+      //   this.mapService.addWalking2Directions(
+      //     tripQueryResponse.station2Location,
+      //     tripQueryResponse.endLocation);
+      //
+      //   // TODO: get directions on the server side, send list of points back with the response data
+      //
+      //   this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
+      //
+      // }, 100)
 
       // setTimeout(() => {
       //   this.ngRedux.dispatch({ type: SEARCH_ERROR_RECEIVED , body: 'Error message' })

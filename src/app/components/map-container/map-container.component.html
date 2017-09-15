@@ -16,31 +16,48 @@
     [markerDraggable]="true"
     (dragEnd)="originMarkerDragEnd($event)">
   </agm-marker>
+  <!-- TODO: make markers smaller, get custom marker svgs -->
+  <!-- TODO: add 'bullseye' to marker? -->
+  <!-- TODO: offset polyline so it doesn't overlap marker? -->
 
   <!--walking directions # 1-->
-  <agm-polyline>
-    <agm-polyline-point
-      *ngFor="let point of points"
-      [latitude]="point.lat"
-      [longitude]="point.lng">
-    </agm-polyline-point>
-  </agm-polyline>
+  <app-polyline
+    *ngIf="walkingPoints1 | async"
+    [points]="walkingPoints1 | async"
+    [lineId]="'WALKING_1'">
+  </app-polyline>
 
   <!--station 1 location-->
   <agm-marker
+    [iconUrl]="'assets/icons/station.svg'"
     *ngIf="station1Lat | async"
     [latitude]="station1Lat | async"
     [longitude]="station1Lng | async"
     [markerDraggable]="false">
   </agm-marker>
 
-  <!--station 2 location-->
+  <!--bicycle directions-->
+  <app-polyline
+    *ngIf="bicyclePoints | async"
+    [points]="bicyclePoints | async"
+    [lineId]="'BICYCLING'">
+  </app-polyline>
+
+  <!--station 2 location-->    <!--*ngIf="station2Lat | async"-->
   <agm-marker
+    [iconUrl]="'assets/icons/station.svg'"
     *ngIf="station2Lat | async"
-    [latitude]="station2Lat | async"
+    [latitude]="station2Lat |  async"
     [longitude]="station2Lng | async"
     [markerDraggable]="false">
   </agm-marker>
+
+  <!--walking directions # 2-->
+  <app-polyline
+    *ngIf="walkingPoints2 | async"
+    [points]="walkingPoints2 | async"
+    [lineId]="'WALKING_2'">
+  </app-polyline>
 
   <!--destination-->
   <agm-marker

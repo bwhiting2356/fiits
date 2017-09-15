@@ -11,7 +11,7 @@ import {
   findStation1Lat,
   findStation1Lng,
   findStation2Lat,
-  findStation2Lng
+  findStation2Lng, findWalkingPoints1, findBicyclePoints, findWalkingPoints2
 } from '../../redux/selectHelperFunctions';
 
 @Component({
@@ -31,17 +31,9 @@ export class MapContainerComponent {
   @select() mapZoomLevel;
   @select() mapCenterLat;
   @select() mapCenterLng;
-
-  points = [
-    {
-      lat: 40.694970,
-      lng: -73.946238
-    },
-    {
-      lat: 40.693725,
-      lng: -73.946957
-    }
-  ]
+  @select(findWalkingPoints1) walkingPoints1;
+  @select(findWalkingPoints2) walkingPoints2;
+  @select(findBicyclePoints) bicyclePoints;
 
   // TODO: fit bounds and zoom to markers according to advice in this blog post:
       // https://reonomy.com/blog/post/offsetting-bounds-and-zoom-on-a-google-map

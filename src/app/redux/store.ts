@@ -258,7 +258,7 @@ const searchBackOneStep: Reducer<IAppState> = (state: IAppState, action: Action)
 };
 
 const searchReset: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchProgress: ProgressSteps.NO_SEARCH });
+  return tassign(state, { searchProgress: ProgressSteps.NO_SEARCH, searchResult: undefined });
 };
 
 export function rootReducer(state: IAppState, action: Action): IAppState {

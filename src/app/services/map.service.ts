@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MapsAPILoader } from '@agm/core';
 
 import { Coords } from '../shared/coords';
 import { NgRedux } from '@angular-redux/store';
@@ -9,14 +8,13 @@ import { Polylines } from '../shared/polylines';
 
 @Injectable()
 export class MapService {
-  directionsService;
+  map;
   walking1Polyline: google.maps.Polyline;
   walking1PolylineBorder: google.maps.Polyline;
   walking2Polyline: google.maps.Polyline;
   walking2PolylineBorder: google.maps.Polyline;
   bicyclePolyline: google.maps.Polyline;
   bicyclePolylineBorder: google.maps.Polyline;
-  map;
 
   static createWalkingPolyline(points) {
     const walkingLineSymbol = {
@@ -27,7 +25,6 @@ export class MapService {
 
     return new google.maps.Polyline({
       path: points,
-      // geodesic: true,
       strokeColor: 'white',
       strokeOpacity: 0,
       strokeWeight: 4,
@@ -83,13 +80,8 @@ export class MapService {
   }
 
   constructor(
-    private mapsAPILoader: MapsAPILoader,
     private ngRedux: NgRedux<IAppState>,
-  ) {
-    this.mapsAPILoader.load().then(() => {
-      this.directionsService = new google.maps.DirectionsService();
-    });
-  }
+  ) {}
 
   initializeMapFromMapExtension(map) {
     this.map = map;
@@ -123,7 +115,7 @@ export class MapService {
     } else if (lineId === Polylines.BICYCLING) {
       this.bicyclePolyline = MapService.createBicyclingPolyline(points);
       this.bicyclePolyline.setMap(this.map);
-      this.bicyclePolylineBorder = MapService.createBicyclingPolyline(points);
+      this.bicyclePolylineBorder = MapService.createBicyclingPolylineBorder(points);
       this.bicyclePolylineBorder.setMap(this.map);
     }
   }
@@ -140,63 +132,4 @@ export class MapService {
       this.bicyclePolylineBorder.setMap(null);
     }
   }
-
-  // addWalking1Directions(origin: Coords, destination: Coords) {
-  //   const request = {
-  //     origin: origin,
-  //     destination: destination,
-  //     travelMode: google.maps.TravelMode.WALKING
-  //   };
-  //   this.directionsService.route(request, (result, status) => {
-  //     if (status === google.maps.DirectionsStatus.OK) {
-  //       const points = result.routes[0].overview_path;
-  //       this.walking1Polyline = this.createWalkingPolyline(points);
-  //       this.walking1Polyline.setMap(this.map);
-  //       const border = this.createWalkingPolylineBorder(points);
-  //       border.setMap(this.map);
-  //     }
-  //   });
-  // }
-
-  // addWalking2Directions(origin: Coords, destination: Coords) {
-  //   const request = {
-  //     origin: origin,
-  //     destination: destination,
-  //     travelMode: google.maps.TravelMode.WALKING
-  //   };
-  //   this.directionsService.route(request, (result, status) => {
-  //     if (status === google.maps.DirectionsStatus.OK) {
-  //       const points = result.routes[0].overview_path;
-  //       this.walking2Polyline = this.createWalkingPolyline(points);
-  //       this.walking2Polyline.setMap(this.map);
-  //       const border = this.createWalkingPolylineBorder(points);
-  //       border.setMap(this.map);
-  //     }
-  //   });
-  // }
-
-  // addBikeDirections(origin: Coords, destination: Coords) {
-  //   const request = {
-  //     origin: origin,
-  //     destination: destination,
-  //     travelMode: google.maps.TravelMode.BICYCLING
-  //   };
-  //   this.directionsService.route(request, (result, status) => {
-  //     if (status === google.maps.DirectionsStatus.OK) {
-  //       const points = result.routes[0].overview_path;
-  //       this.bicyclePolyline = this.createBicyclingPolyline(points);
-  //       this.bicyclePolyline.setMap(this.map);
-  //       const border = this.createBicyclingPolylineBorder(points);
-  //       border.setMap(this.map);
-  //     }
-  //   });
-  // }
-
-  // removePolylines() {
-  //   if (this.walking1Polyline && this.walking2Polyline && this.bicyclePolyline) {
-  //     this.walking1Polyline.setMap(null);
-  //     this.walking2Polyline.setMap(null);
-  //     this.bicyclePolyline.setMap(null);
-  //   }
-  // }
 }

@@ -48,12 +48,12 @@ import { ReservationSearchModule } from './reservation-search/reservation-search
     BrowserAnimationsModule,
   ],
   providers: [
-    GeolocationService,
-    ReverseGeocodeService,
-    SearchService,
-    MapService,
-    FitboundsService,
-    GoogleMapsAPIWrapper,
+    // GeolocationService,
+    // ReverseGeocodeService,
+    // SearchService,
+    // MapService,
+    // FitboundsService,
+    // GoogleMapsAPIWrapper,
     ReservationSearchModule
   ],
   bootstrap: [AppComponent]

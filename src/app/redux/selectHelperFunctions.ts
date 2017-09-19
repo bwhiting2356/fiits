@@ -18,27 +18,27 @@ export const findSearchDestinationLng = (s: IAppState): number => {
 };
 
 export const findStation1Lat = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station1.lat : undefined;
+  return s.searchResult ? s.searchResult.station1Coords.lat : undefined;
 };
 
 export const findStation1Lng = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station1.lng : undefined;
+  return s.searchResult ? s.searchResult.station1Coords.lng : undefined;
 };
 
 export const findStation2Lat = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station2.lat : undefined;
+  return s.searchResult ? s.searchResult.station2Coords.lat : undefined;
 };
 
 export const findStation2Lng = (s: IAppState): number => {
-  return s.searchResult ? s.searchResult.station2.lng : undefined;
+  return s.searchResult ? s.searchResult.station2Coords.lng : undefined;
 };
 
 export const findWalkingPoints1 = (s: IAppState): Coords[] => {
-  return s.searchResult ? s.searchResult.walkingDirections1 : undefined;
+  return s.searchResult ? s.searchResult.walking1Points : undefined;
 };
 
 export const findWalkingPoints2 = (s: IAppState): Coords[] => {
-  return s.searchResult ? s.searchResult.walkingDirections2 : undefined;
+  return s.searchResult ? s.searchResult.walking2Points : undefined;
 };
 
 export const findBicyclePoints = (s: IAppState): Coords[] => {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { TripQueryResponse } from '../../../shared/tripQueryResponse';
 import { SearchService } from '../../../services/search.service';
@@ -8,17 +8,17 @@ import { SearchService } from '../../../services/search.service';
   templateUrl: './search-result.component.html',
   styleUrls: ['./search-result.component.scss']
 })
-export class SearchResultComponent {
+export class SearchResultComponent implements OnInit {
 
   @Input() searchResult: TripQueryResponse;
 
-  // get totalPrice() {
-  //   // return (
-  //   //   this.searchResult.station1ReservationPrice +
-  //   //   this.searchResult.station2ReservationPrice +
-  //   //   this.searchResult.bikeRentalPrice
-  //   // );
-  // }
+  get totalPrice() {
+    return (
+      this.searchResult.reservation1Price +
+      this.searchResult.reservation2Price +
+      this.searchResult.bicyclingPrice
+    );
+  }
 
   bookReservation() {
     this.searchService.searchBookReserv();
@@ -27,5 +27,13 @@ export class SearchResultComponent {
   constructor(
     private searchService: SearchService
   ) { }
+
+  ngOnInit() {
+    console.log(this.searchResult.reservation1Time)
+    console.log(this.searchResult.reservation1Time instanceof Date)
+
+    let a = new Date();
+    console.log(a instanceof Date);
+  }
 
 }

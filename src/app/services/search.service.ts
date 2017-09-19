@@ -36,7 +36,9 @@ import {
 
 import { MapService } from './map.service';
 import { FitboundsService } from './fitbounds.service';
-import {IAppState} from '../redux/IAppState';
+import { IAppState } from '../redux/IAppState';
+import {parseTripQueryResponse} from "./parseTripQueryResponse";
+
 
 @Injectable()
 export class SearchService {
@@ -100,11 +102,14 @@ export class SearchService {
     if (state.searchOriginAddress && state.searchDestinationAddress) {
 
       const tripQueryRequest: TripQueryRequest = {
-        origin: state.searchOriginAddress,
-        destination: state.searchDestinationAddress,
+        originAddress: state.searchOriginAddress,
+        originCoords: state.searchOriginCoords,
+        destinationAddress: state.searchDestinationAddress,
+        destinationCoords: state.searchDestinationCoords,
         time: state.searchDatetime,
         timeTarget: state.searchTimeTarget
       };
+      console.log(tripQueryRequest);
 
       // TODO: check if new trip query is the same as the old trip query before sending
       // TODO: throttle events when requests keep changing? Client side or server side?
@@ -113,8 +118,8 @@ export class SearchService {
 
       // on response
 
-      this.http.post('http://localhost:3000/api/trip-query', tripQueryRequest).subscribe(tripQueryResponse => {
-        console.log(tripQueryResponse);
+      this.http.post('http://localhost:3000/api/trip-query', tripQueryRequest).subscribe(response => {
+        const tripQueryResponse = parseTripQueryResponse(response);
         this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED, body: tripQueryResponse });
         this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
       }, (err) => {

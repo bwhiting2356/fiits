@@ -58,14 +58,6 @@ const searchOriginClear: Reducer<IAppState> = (state: IAppState, action: Action)
   });
 };
 
-const searchOriginShowX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchOriginXShowing: true });
-};
-
-const searchOriginHideX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchOriginXShowing: false });
-};
-
 const searchOriginAddressStartFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   return tassign(state, { searchOriginAddressFetching: true });
 };
@@ -118,9 +110,7 @@ const searchSwitchInputs: Reducer<IAppState> = (state: IAppState, action: Action
     searchOriginAddress: state.searchDestinationAddress,
     searchOriginCoords: state.searchDestinationCoords,
     searchDestinationAddress: state.searchOriginAddress,
-    searchDestinationCoords: state.searchDestinationCoords,
-    searchOriginXShowing: state.searchDestinationXShowing,
-    searchDestinationXShowing: state.searchOriginXShowing
+    searchDestinationCoords: state.searchOriginCoords
   });
 };
 

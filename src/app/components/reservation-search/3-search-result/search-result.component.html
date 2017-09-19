@@ -1,136 +1,135 @@
 <app-search-navigate></app-search-navigate>
 <div class="result">
-  {{ searchResult.station1.station.lat }}
-  <!--<h4>Bike trip reservations available</h4>-->
-  <!--&lt;!&ndash; START LOCATION &ndash;&gt;-->
-  <!--<div class="result-row">-->
-    <!--<div class="left-col">{{ searchResult.startTime | date: 'shortTime' }}</div>-->
-    <!--<div class="icon-col">-->
-      <!--<span class="glyphicon glyphicon-record"></span> &lt;!&ndash; TODO: replace with same symbol as marker on map &ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="middle-col">{{ searchResult.startAddress }}</div>-->
-  <!--</div>-->
+  <h4>Bike trip reservations available</h4>
+  <!-- START LOCATION -->
+  <div class="result-row">
+    <div class="left-col">{{ searchResult.departureTime | date: 'shortTime' }}</div>
+    <div class="icon-col">
+      <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
+    </div>
+    <div class="middle-col">{{ searchResult.originAddress }}</div>
+  </div>
 
-  <!--&lt;!&ndash; WALKING DIRECTIONS # 1 &ndash;&gt;-->
-  <!--<div class="result-row">-->
-    <!--<div class="left-col">-->
-      <!--&lt;!&ndash;<span class="glyphicon glyphicon-plane"></span> &lt;!&ndash; TODO: replace with walking icon &ndash;&gt;-->
-      <!--<img src="assets/icons/walk.svg" alt="">-->
-    <!--</div>-->
-    <!--<div class="icon-col">-->
-      <!--<img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">-->
-    <!--</div>-->
-    <!--<div class="middle-col">-->
-      <!--<i>Walk {{ searchResult.walkingTime1 }} ({{ searchResult.walkingDistance1 }})</i> &lt;!&ndash; TODO: change this to a string instead of a nuber, including the measurements &ndash;&gt;-->
-    <!--</div>-->
-  <!--</div>-->
+  <!-- WALKING DIRECTIONS # 1 -->
+  <div class="result-row">
+    <div class="left-col">
+      <!--<span class="glyphicon glyphicon-plane"></span> &lt;!&ndash; TODO: replace with walking icon -->
+      <img src="assets/icons/walk.svg" alt="">
+    </div>
+    <div class="icon-col">
+      <img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">
+    </div>
+    <div class="middle-col">
+      <i>Walk {{ searchResult.walking1Distance.distanceText }} ({{ searchResult.walking1Distance.duration | minutes }} min)</i> <!-- TODO: change this to a string instead of a nuber, including the measurements -->
+    </div>
+  </div>
 
-  <!--&lt;!&ndash; STATION #1 &ndash;&gt;-->
-  <!--<div class="result-row">-->
+  <!-- STATION #1 -->
+  <div class="result-row">
 
-    <!--<div class="inner-row">-->
-      <!--<div class="left-col">{{ searchResult.reservation1.time | date: 'shortTime' }}</div>-->
-      <!--<div class="icon-col">-->
-        <!--<img class="station station-1" src="assets/icons/station.svg" alt="">-->
-      <!--</div>-->
-      <!--<div class="middle-col">-->
-        <!--<b>Bike pickup reservation</b>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="inner-row">
+      <div class="left-col">{{ searchResult.reservation1Time | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <img class="station station-1" src="assets/icons/station.svg" alt="">
+      </div>
+      <div class="middle-col">
+        <b>Bike pickup reservation</b>
+      </div>
+    </div>
 
-    <!--<div class="inner">-->
-      <!--<div class="left-col">{{ searchResult.reservation1.time | date: 'shortTime' }}</div>-->
-      <!--<div class="icon-col">-->
-        <!--<img class="bicycle-line" src="assets/icons/bicycle-line.svg" alt="">-->
-      <!--</div>-->
-      <!--<div class="middle-col">-->
-        <!--{{ searchResult.station1Address }}-->
-      <!--</div>-->
-      <!--<div class="right-col" [ngStyle]="{'color': station1Price >= 0 ? 'green' : 'black'}">-->
-        <!--{{ searchResult.station1ReservationPrice | currency:'USD':true }}-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="inner">
+      <div class="left-col">{{ searchResult.reservation1Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <img class="bicycle-line" src="assets/icons/bicycle-line.svg" alt="">
+      </div>
+      <div class="middle-col">
+        {{ searchResult.station1Address }}
+      </div>
+      <div class="right-col" [ngStyle]="{'color': station1Price >= 0 ? 'green' : 'black'}">
+        {{ searchResult.reservation1Price | currency:'USD':true }}
+      </div>
+    </div>
 
-  <!--</div>-->
+  </div>
 
-  <!--&lt;!&ndash; BICYCLE DIRECTIONS &ndash;&gt;-->
-  <!--<div class="result-row">-->
-    <!--<div class="left-col">-->
-      <!--<img src="assets/icons/bicycle.svg" alt="">-->
-    <!--</div>-->
-    <!--<div class="icon-col">-->
-      <!--&lt;!&ndash;<img src="assets/icons/bicycle-line.svg" alt="">&ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="middle-col">-->
-      <!--<i>Ride {{ searchResult.bikeTime }} ({{ searchResult.bikeDistance }})</i>-->
-    <!--</div>-->
-    <!--<div class="right-col" [ngStyle]="{'color': searchResult.bikeRentalPrice >= 0 ? 'green' : 'black'}">-->
-      <!--{{ searchResult.bikeRentalPrice | currency:'USD':true }}-->
-    <!--</div>-->
-  <!--</div>-->
+  <!-- BICYCLE DIRECTIONS -->
+  <div class="result-row">
+    <div class="left-col">
+      <img src="assets/icons/bicycle.svg" alt="">
+    </div>
+    <div class="icon-col">
+      <!--<img src="assets/icons/bicycle-line.svg" alt="">-->
+    </div>
+    <div class="middle-col">
+      <i>Ride {{ searchResult.bicyclingDistance.distanceText }} ({{ searchResult.bicyclingDistance.duration | minutes }} min)</i>
+    </div>
+    <div class="right-col" [ngStyle]="{'color': searchResult.bikeRentalPrice >= 0 ? 'green' : 'black'}">
+      {{ searchResult.bicyclingPrice | currency:'USD':true }}
+    </div>
+  </div>
 
-  <!--&lt;!&ndash; STATION #2 &ndash;&gt;-->
-  <!--<div class="result-row">-->
+  <!-- STATION #2 -->
+  <div class="result-row">
 
-    <!--<div class="inner-row">-->
-      <!--<div class="left-col">{{ searchResult.station2ReservationStartTime | date: 'shortTime' }}</div>-->
-      <!--<div class="icon-col">-->
-        <!--&lt;!&ndash;<img class="station" src="assets/icons/station.svg" alt="">&ndash;&gt;-->
-      <!--</div>-->
-      <!--<div class="middle-col">-->
-        <!--<b>Bike dropoff reservation</b>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="inner-row">
+      <div class="left-col">{{ searchResult.reservation2Time | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <!--<img class="station" src="assets/icons/station.svg" alt="">-->
+      </div>
+      <div class="middle-col">
+        <b>Bike dropoff reservation</b>
+      </div>
+    </div>
 
-    <!--<div class="inner-row">-->
-      <!--<div class="left-col">{{ searchResult.station2ReservationEndTime | date: 'shortTime' }}</div>-->
-      <!--<div class="icon-col">-->
-        <!--<img class="station station-2" src="assets/icons/station.svg" alt="">-->
-      <!--</div>-->
-      <!--<div class="middle-col">-->
-        <!--{{ searchResult.station2Address }}-->
-      <!--</div>-->
-      <!--<div class="right-col" [ngStyle]="{'color': station2Price >= 0 ? 'green' : 'black'}">-->
-        <!--{{ searchResult.station2ReservationPrice | currency:'USD':true }}-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="inner-row">
+      <div class="left-col">{{ searchResult.reservation2Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="icon-col">
+        <img class="station station-2" src="assets/icons/station.svg" alt="">
+      </div>
+      <div class="middle-col">
+        {{ searchResult.station2Address }}
+      </div>
+      <div class="right-col" [ngStyle]="{'color': station2Price >= 0 ? 'green' : 'black'}">
+        {{ searchResult.reservation2Price | currency:'USD':true }}
+      </div>
+    </div>
 
-  <!--</div>-->
+  </div>
 
-  <!--&lt;!&ndash; WALKING DIRECTIONS # 2 &ndash;&gt;-->
-  <!--<div class="result-row">-->
-    <!--<div class="left-col">-->
-      <!--<img src="assets/icons/walk.svg" alt="">-->
-    <!--</div>-->
-    <!--<div class="icon-col">-->
-      <!--<img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">-->
-    <!--</div>-->
-    <!--<div class="middle-col">-->
-      <!--<i>Walk {{ searchResult.walkingTime2 }} ({{ searchResult.walkingDistance2 }})</i>-->
-    <!--</div>-->
-  <!--</div>-->
+  <!-- WALKING DIRECTIONS # 2 -->
+  <div class="result-row">
+    <div class="left-col">
+      <img src="assets/icons/walk.svg" alt="">
+    </div>
+    <div class="icon-col">
+      <img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">
+    </div>
+    <div class="middle-col">
+      <i>Walk {{ searchResult.walking2Distance.distanceText }} ({{ searchResult.walking2Distance.duration | minutes }} min)</i>
+    </div>
+  </div>
 
-  <!--&lt;!&ndash; END LOCATION &ndash;&gt;-->
-  <!--<div class="result-row">-->
-    <!--<div class="left-col">{{ searchResult.endTime | date: 'shortTime' }}</div>-->
-    <!--<div class="icon-col">-->
-      <!--<span class="glyphicon glyphicon-record"></span> &lt;!&ndash; TODO: replace with same symbol as marker on map &ndash;&gt;-->
-    <!--</div>-->
-    <!--<div class="middle-col">{{ searchResult.endAddress }}</div> &lt;!&ndash; TODO: add a lot more vertical whitespace... &ndash;&gt;-->
-  <!--</div>-->
+  <!-- END LOCATION -->
+  <div class="result-row">
+    <div class="left-col">{{ searchResult.arrivalTime  }}</div><!-- | date: 'shortTime' -->
+    <div class="icon-col">
+      <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
+    </div>
+    <div class="middle-col">{{ searchResult.destinationAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
+  </div>
 
-  <!--<app-horizontal-line></app-horizontal-line>-->
-  <!--<div class="total-price">Total {{ totalPrice > 0 ? 'earnings' : 'cost' }}:-->
-    <!--<span class="price" [ngStyle]="{'color': totalPrice >= 0 ? 'green' : 'black'}">-->
-      <!--{{ totalPrice | currency:'USD':true }}-->
-    <!--</span>-->
-  <!--</div>-->
-  <!--<button-->
-    <!--type="button"-->
-    <!--class="btn btn-primary bike-reservation-submit"-->
-    <!--(click)="bookReservation()">-->
-    <!--Book this trip-->
-  <!--</button>-->
+  <app-horizontal-line></app-horizontal-line>
+  <div class="total-price">Total {{ totalPrice > 0 ? 'earnings' : 'cost' }}:
+    <span class="price" [ngStyle]="{'color': totalPrice >= 0 ? 'green' : 'black'}">
+      {{ totalPrice | currency:'USD':true }}
+    </span>
+  </div>
+  <button
+    type="button"
+    class="btn btn-primary bike-reservation-submit"
+    (click)="bookReservation()">
+    Book this trip
+  </button>
   <!--&lt;!&ndash; TODO: info/tooltips &ndash;&gt;-->
 </div>
 

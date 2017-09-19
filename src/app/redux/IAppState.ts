@@ -5,11 +5,9 @@ import {Coords} from '../shared/coords';
 export interface IAppState {
   searchOriginAddress: string;
   searchOriginCoords: Coords
-  searchOriginXShowing: boolean;
   searchOriginAddressFetching: boolean;
   searchDestinationAddress: string;
   searchDestinationCoords: Coords
-  searchDestinationXShowing: boolean;
   searchDestinationAddressFetching: boolean;
   searchTimeTarget: string;
   searchDatetime: Date;

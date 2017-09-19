@@ -1,27 +1,32 @@
 import { Coords } from './coords';
+import { DistanceData } from './distanceData';
 
 export interface TripQueryResponse {
-  origin: Coords;
-  departureTime: Date;
+  originAddress?: string;
+  originCoords?: Coords
+  departureTime?: Date;
 
-  walkingDirections1: Coords[];
+  walking1Points?: Coords[];
+  walking1Distance?: DistanceData;
 
-  station1: Coords;
-  reservation1StartTime: Date;
-  reservation1EndTime: Date;
-  reservation1Price: number
+  station1Coords?: Coords;
+  station1Address?: string;
+  reservation1Time?: Date;
+  reservation1Price?: number
 
-  bicyclingPoints: Coords[];
-  bicyclingDuration: number;
-  bicyclingDistanceText: string;
-  bicyclingPrice: number;
+  bicyclingPoints?: Coords[];
+  bicyclingDistance?: DistanceData;
+  bicyclingPrice?: number;
 
-  station2: Coords;
-  reservation2StartTime: Date;
-  reservation2EndTime: Date;
-  reservation2Price: Date;
+  station2Coords?: Coords;
+  station2Address?: string;
+  reservation2Time?: Date;
+  reservation2Price?: number;
 
-  walkingDirections2: Coords[];
-  destination: Coords;
-  arrivalTime: Date;
+  walking2Points?: Coords[];
+  walking2Distance?: DistanceData;
+
+  destinationAddress?: string;
+  destinationCoords?: Coords;
+  arrivalTime?: Date;
 }

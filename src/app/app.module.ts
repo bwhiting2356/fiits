@@ -43,6 +43,8 @@ import { BookingSuccessComponent } from './components/reservation-search/6-booki
 import { BookingErrorComponent } from './components/reservation-search/7-booking-error/booking-error.component';
 import { HorizontalLineComponent } from './components/reservation-search/horizontal-line/horizontal-line.component';
 import { PolylineComponent } from './components/map-container/polyline.component';
+import { MinutesPipe } from './pipes/minutes.pipe';
+import { AddMinutesPipe } from './pipes/add-minutes.pipe';
 
 
 
@@ -70,7 +72,9 @@ import { PolylineComponent } from './components/map-container/polyline.component
     BookingSuccessComponent,
     BookingErrorComponent,
     HorizontalLineComponent,
-    PolylineComponent
+    PolylineComponent,
+    MinutesPipe,
+    AddMinutesPipe
   ],
   imports: [
     BrowserModule,

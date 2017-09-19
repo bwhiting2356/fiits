@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-search-loader',
@@ -12,10 +12,6 @@ import { Component, OnInit } from '@angular/core';
   `,
   styleUrls: ['search-loader.component.scss']
 })
-export class SearchLoaderComponent implements OnInit {
+export class SearchLoaderComponent {
   constructor() { }
-
-  ngOnInit() {
-    console.log('new loading initiating...')
-  }
 }

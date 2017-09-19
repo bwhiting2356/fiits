@@ -38,6 +38,7 @@ import { MapService } from './map.service';
 import { FitboundsService } from './fitbounds.service';
 import { IAppState } from '../redux/IAppState';
 import {parseTripQueryResponse} from "./parseTripQueryResponse";
+import {buildTripQueryRequest} from "./buildTripQueryRequest";
 
 
 @Injectable()
@@ -100,28 +101,24 @@ export class SearchService {
     const state: IAppState = this.ngRedux.getState();
 
     if (state.searchOriginAddress && state.searchDestinationAddress) {
-
-      const tripQueryRequest: TripQueryRequest = {
-        originAddress: state.searchOriginAddress,
-        originCoords: state.searchOriginCoords,
-        destinationAddress: state.searchDestinationAddress,
-        destinationCoords: state.searchDestinationCoords,
-        time: state.searchDatetime,
-        timeTarget: state.searchTimeTarget
-      };
-      console.log(tripQueryRequest);
-
       // TODO: check if new trip query is the same as the old trip query before sending
       // TODO: throttle events when requests keep changing? Client side or server side?
 
-      // make request to server
-
-      // on response
-
+      const tripQueryRequest = buildTripQueryRequest(state);
       this.http.post('http://localhost:3000/api/trip-query', tripQueryRequest).subscribe(response => {
         const tripQueryResponse = parseTripQueryResponse(response);
+
         this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED, body: tripQueryResponse });
         this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
+
+        // TODO: refactor into a better function, also account for possibly the destination being current location
+
+        // update address or keep as current location
+
+        this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: {
+          address: tripQueryResponse.destinationAddress,
+          coords: tripQueryResponse.destinationCoords
+        }});
       }, (err) => {
         console.log(err);
       });
@@ -156,6 +153,19 @@ export class SearchService {
       this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
     }
   }
+
+  // searchOriginUpdateFromResponse(tripQueryRequest) {
+  //
+  //   const newDisplayAddress = tripQueryRequest.originAddress === 'Current Location'
+  //     ? tripQueryRequest.originAddress
+  //     : tripQueryResponse.originAddress;
+  //
+  //   this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: {
+  //     address: newDisplayAddress,
+  //     coords: tripQueryResponse.originCoords
+  //   }});
+  //
+  // }
 
   searchOriginAddAddress(address) {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: { address, coords: undefined }});

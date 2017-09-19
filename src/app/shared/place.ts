@@ -1,6 +1,6 @@
 import { Coords } from './coords';
 
 export interface Place {
-  name: String,
+  address: String,
   coords: Coords
 }

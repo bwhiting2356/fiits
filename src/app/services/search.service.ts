@@ -1,14 +1,11 @@
-import { Injectable } from '@angular/core';
+import { ElementRef, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Place } from '../shared/place';
 import { TimeTarget } from '../shared/timeTarget';
 import { TripQueryRequest } from '../shared/tripQueryRequest';
-import { TripQueryResponse} from '../shared/tripQueryResponse';
-import { ProgressSteps } from '../shared/progressSteps';
 
 import { NgRedux } from '@angular-redux/store';
-import { IAppState } from '../redux/store';
 import {
   MAP_RENDERING_START,
   MAP_RENDERING_STOP,
@@ -21,31 +18,30 @@ import {
   SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR,
   SEARCH_DESTINATION_CHANGE,
   SEARCH_DESTINATION_CLEAR,
-  SEARCH_DESTINATION_HIDE_X,
-  SEARCH_DESTINATION_SHOW_X, SEARCH_ERROR_RECEIVED,
+  SEARCH_ERROR_RECEIVED,
   SEARCH_ORIGIN_ADDRESS_START_FETCH,
   SEARCH_ORIGIN_ADDRESS_STOP_FETCH,
   SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR,
   SEARCH_ORIGIN_CHANGE,
   SEARCH_ORIGIN_CLEAR,
-  SEARCH_ORIGIN_HIDE_X,
-  SEARCH_ORIGIN_SHOW_X, SEARCH_RESERV_BOOKED, SEARCH_RESERV_ERROR,
+  SEARCH_RESERV_BOOKED, SEARCH_RESERV_ERROR,
   SEARCH_RESET,
   SEARCH_RESULT_RECEIVED,
   SEARCH_SET_TIME_TO_NOW,
   SEARCH_SUBMIT,
   SEARCH_SUBTRACT_DAY,
-  SEARCH_SUBTRACT_TEN_MINUTES, SEARCH_SWITCH_INPUTS
+  SEARCH_SUBTRACT_TEN_MINUTES,
+  SEARCH_SWITCH_INPUTS
 } from '../redux/actions';
 
 import { MapService } from './map.service';
 import { FitboundsService } from './fitbounds.service';
-
-// import { tripQueryResponse } from './mock-data/fake-response';
-
+import {IAppState} from '../redux/IAppState';
 
 @Injectable()
 export class SearchService {
+  originInputRef: ElementRef;
+  destinationInputRef: ElementRef;
 
   constructor(
     private ngRedux: NgRedux<IAppState>,
@@ -91,8 +87,6 @@ export class SearchService {
   searchReset() {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CLEAR });
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CLEAR });
-    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_HIDE_X });
-    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_HIDE_X });
     this.ngRedux.dispatch({ type: SEARCH_CHANGE_TIMETARGET, body: TimeTarget.LEAVE_NOW });
     this.ngRedux.dispatch({ type: SEARCH_RESET })
   }
@@ -103,11 +97,11 @@ export class SearchService {
 
     const state: IAppState = this.ngRedux.getState();
 
-    if (state.searchOrigin && state.searchDestination) {
+    if (state.searchOriginAddress && state.searchDestinationAddress) {
 
       const tripQueryRequest: TripQueryRequest = {
-        origin: state.searchOrigin.coords,
-        destination: state.searchDestination.coords,
+        origin: state.searchOriginAddress,
+        destination: state.searchDestinationAddress,
         time: state.searchDatetime,
         timeTarget: state.searchTimeTarget
       };
@@ -158,9 +152,12 @@ export class SearchService {
     }
   }
 
-  searchOriginChange(origin: Place) {
-    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: origin});
-    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_SHOW_X });
+  searchOriginAddAddress(address) {
+    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: { address, coords: undefined }});
+  }
+
+  searchOriginChange({ address, coords }) {
+    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: { address, coords }});
     this.fitboundsService.setMapBounds();
   }
 
@@ -169,20 +166,11 @@ export class SearchService {
     // this.searchParametersChanged();
   }
 
-  searchOriginShowX() {
-    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_SHOW_X });
-  }
-
-  searchOriginHideX() {
-    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_HIDE_X });
-  }
-
   searchOriginAddressTempClear() {
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR });
   }
 
   searchOriginAddressStartFetch() {
-    this.ngRedux.dispatch({ type: SEARCH_ORIGIN_HIDE_X });
     this.ngRedux.dispatch({ type: SEARCH_ORIGIN_ADDRESS_START_FETCH });
   }
 
@@ -192,7 +180,6 @@ export class SearchService {
 
   searchDestinationChange(destination: Place) {
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: destination});
-    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_SHOW_X });
     this.fitboundsService.setMapBounds();
   }
 
@@ -206,12 +193,8 @@ export class SearchService {
     // this.searchParametersChanged();
   }
 
-  searchDestinationShowX() {
-    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_SHOW_X });
-  }
-
-  searchDestinationHideX() {
-    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_HIDE_X });
+  searchDestinationAddAddress(address) {
+    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: { address, coords: undefined }});
   }
 
   searchDestinationAddressTempClear() {
@@ -219,7 +202,6 @@ export class SearchService {
   }
 
   searchDestinationAddressStartFetch() {
-    this.ngRedux.dispatch({ type: SEARCH_DESTINATION_HIDE_X });
     this.ngRedux.dispatch({ type: SEARCH_DESTINATION_ADDRESS_START_FETCH });
   }
 
@@ -258,6 +240,22 @@ export class SearchService {
         this.ngRedux.dispatch({ type: SEARCH_CHANGE_TIMETARGET, body: TimeTarget.ARRIVE_BY });
         break;
       }
+    }
+  }
+
+  initializeOriginInputRef(component: ElementRef) {
+    this.originInputRef = component;
+  }
+
+  initializeDestinationInputRef(component: ElementRef) {
+    this.destinationInputRef = component;
+  }
+
+  updateInputFocus() {
+    if (!this.originInputRef.nativeElement.value) {
+      this.originInputRef.nativeElement.focus();
+    } else if (!this.destinationInputRef.nativeElement.value) {
+      this.destinationInputRef.nativeElement.focus();
     }
   }
 }

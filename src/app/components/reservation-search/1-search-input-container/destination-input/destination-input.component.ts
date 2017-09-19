@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { NgRedux, select } from '@angular-redux/store';
 import {} from 'googlemaps';
 
 import { Place } from '../../../../shared/place';
-import { findSearchDestinationName } from '../../../../redux/selectHelperFunctions';
 import { SearchService } from '../../../../services/search.service';
-import { IAppState } from '../../../../redux/store';
+import { IAppState } from '../../../../redux/IAppState';
 
 @Component({
   selector: 'app-destination-input',
@@ -18,9 +17,8 @@ import { IAppState } from '../../../../redux/store';
     }
   `]
 })
-export class DestinationInputComponent implements OnInit {
-  @select(findSearchDestinationName) searchDestinationName;
-  @select() searchDestinationXShowing;
+export class DestinationInputComponent implements OnInit, AfterViewInit {
+  @select() searchDestinationAddress;
   @select() searchDestinationAddressFetching;
 
   @ViewChild('destinationInput')
@@ -30,20 +28,18 @@ export class DestinationInputComponent implements OnInit {
     return this.ngRedux.getState().searchDestinationAddressFetching ? 'Updating location...' : 'Enter destination';
   }
 
-  showOrHideX($event) {
-    const value = $event.srcElement.value;
-    if (value === null || value.trim() === '') {
-      this.searchService.searchDestinationClear();
-      this.searchService.searchDestinationHideX();
-    } else {
-      this.searchService.searchDestinationShowX();
-    }
+  get showX() {
+    return this.destinationInput.nativeElement.value.length > 0;
+  }
+
+  inputChange($event) {
+    this.searchService.searchDestinationAddAddress($event.srcElement.value);
   }
 
   onXClick() {
     this.destinationInput.nativeElement.value = '';
     this.searchService.searchDestinationClear();
-    this.searchService.searchDestinationHideX();
+    this.destinationInput.nativeElement.focus();
   }
 
   constructor(
@@ -68,15 +64,19 @@ export class DestinationInputComponent implements OnInit {
 
         // set name, latitude, longitude
         const destination: Place = {
-          name: this.destinationInput.nativeElement.value,
+          address: this.destinationInput.nativeElement.value,
           coords: {
             lat: place.geometry.location.lat(),
             lng: place.geometry.location.lng()
           }
         };
         this.searchService.searchDestinationChange(destination);
-        this.searchService.searchDestinationShowX(); // TODO: is this redundant?
+        this.searchService.updateInputFocus();
       });
     });
+  }
+
+  ngAfterViewInit() {
+    this.searchService.initializeDestinationInputRef(this.destinationInput);
   }
 }

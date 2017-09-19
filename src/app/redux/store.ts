@@ -1,8 +1,6 @@
 import { tassign } from 'tassign';
 
 import { Place } from '../shared/place';
-import { TimeTarget } from '../shared/timeTarget';
-import { TripQueryResponse } from '../shared/tripQueryResponse';
 import { ProgressSteps } from '../shared/progressSteps';
 
 import { Reducer } from 'redux';
@@ -10,15 +8,11 @@ import { Reducer } from 'redux';
 import {
   SEARCH_ORIGIN_CHANGE,
   SEARCH_ORIGIN_CLEAR,
-  SEARCH_ORIGIN_SHOW_X,
-  SEARCH_ORIGIN_HIDE_X,
   SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR,
   SEARCH_ORIGIN_ADDRESS_START_FETCH,
   SEARCH_ORIGIN_ADDRESS_STOP_FETCH,
   SEARCH_DESTINATION_CHANGE,
   SEARCH_DESTINATION_CLEAR,
-  SEARCH_DESTINATION_SHOW_X,
-  SEARCH_DESTINATION_HIDE_X,
   SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR,
   SEARCH_DESTINATION_ADDRESS_START_FETCH,
   SEARCH_DESTINATION_ADDRESS_STOP_FETCH,
@@ -43,56 +37,25 @@ import {
   SEARCH_BACK_ONE_STEP,
   SEARCH_RESET
 } from './actions';
-
-export interface IAppState {
-  searchOrigin: Place;
-  searchOriginXShowing: boolean;
-  searchOriginAddressFetching: boolean;
-  searchDestination: Place;
-  searchDestinationXShowing: boolean;
-  searchDestinationAddressFetching: boolean;
-  searchTimeTarget: string;
-  searchDatetime: Date;
-  searchResult: TripQueryResponse;
-  searchProgress: string;
-  searchError: string;
-  mapZoomLevel: number,
-  mapCenterLat: number,
-  mapCenterLng: number,
-  mapRendering: boolean
-}
+import { IAppState } from './IAppState';
 
 interface Action {
   type: String,
   body: any
 }
 
-export const INITIAL_STATE: IAppState = {
-  searchOrigin: undefined,
-  searchOriginXShowing: false,
-  searchOriginAddressFetching: false,
-  searchDestination: undefined,
-  searchDestinationXShowing: false,
-  searchDestinationAddressFetching: false,
-  searchTimeTarget: TimeTarget.LEAVE_NOW,
-  searchDatetime: new Date(),
-  searchResult: undefined,
-  searchProgress: ProgressSteps.NO_SEARCH,
-  searchError: '',
-  mapZoomLevel: 14,
-  mapCenterLat: undefined,
-  mapCenterLng: undefined,
-  mapRendering: true,
-};
-
 const searchOriginChange: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  const newOrigin: Place = action.body;
-  return tassign(state, { searchOrigin: newOrigin });
+  return tassign(state, {
+    searchOriginAddress: action.body.address,
+    searchOriginCoords: action.body.coords
+  });
 };
 
 const searchOriginClear: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  const newOrigin: Place = undefined;
-  return tassign(state, { searchOrigin: newOrigin });
+  return tassign(state, {
+    searchOriginAddress: '',
+    searchOriginCoords: undefined
+  });
 };
 
 const searchOriginShowX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -112,31 +75,22 @@ const searchOriginAddressStopFetch: Reducer<IAppState> = (state: IAppState, acti
 };
 
 const searchOriginAddressTempClear: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  const newSearchOrigin: Place = {
-    name: '',
-    coords: {
-      lat: state.searchOrigin.coords.lat,
-      lng: state.searchOrigin.coords.lng
-    }
-  };
-  return tassign(state, { searchOrigin: newSearchOrigin })
+  return tassign(state, { searchOriginAddress: '' })
 };
 
 const searchDestinationChange: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchDestination: action.body });
+  return tassign(state, {
+    searchDestinationAddress: action.body.address,
+    searchDestinationCoords: action.body.coords
+  });
 };
 
 const searchDestinationClear: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
   const newDestination: Place = undefined;
-  return tassign(state, { searchDestination: newDestination });
-};
-
-const searchDestinationShowX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchDestinationXShowing: true });
-};
-
-const searchDestinationHideX: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchDestinationXShowing: false });
+  return tassign(state, {
+    searchDestinationAddress: '',
+    searchDestinationCoords: undefined,
+  });
 };
 
 const searchDestinationAddressStartFetch: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -156,18 +110,18 @@ const mapRenderingStop: Reducer<IAppState> = (state: IAppState, action: Action):
 };
 
 const searchDestinationAddressTempClear: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  const newSearchDestination: Place = {
-    name: '',
-    coords: {
-      lat: state.searchDestination.coords.lat,
-      lng: state.searchDestination.coords.lng
-    }
-  };
-  return tassign(state, { searchDestination: newSearchDestination })
+  return tassign(state, { searchDestinationAddress: '' })
 };
 
 const searchSwitchInputs: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
-  return tassign(state, { searchOrigin: state.searchDestination, searchDestination: state.searchOrigin });
+  return tassign(state, {
+    searchOriginAddress: state.searchDestinationAddress,
+    searchOriginCoords: state.searchDestinationCoords,
+    searchDestinationAddress: state.searchOriginAddress,
+    searchDestinationCoords: state.searchDestinationCoords,
+    searchOriginXShowing: state.searchDestinationXShowing,
+    searchDestinationXShowing: state.searchOriginXShowing
+  });
 };
 
 const mapSetZoomLevel: Reducer<IAppState> = (state: IAppState, action: Action): IAppState => {
@@ -265,8 +219,6 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
   switch (action.type) {
     case SEARCH_ORIGIN_CHANGE: return searchOriginChange(state, action);
     case SEARCH_ORIGIN_CLEAR: return searchOriginClear(state, action);
-    case SEARCH_ORIGIN_SHOW_X: return searchOriginShowX(state, action);
-    case SEARCH_ORIGIN_HIDE_X: return searchOriginHideX(state, action);
 
     case SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR: return searchOriginAddressTempClear(state, action);
     case SEARCH_ORIGIN_ADDRESS_START_FETCH: return searchOriginAddressStartFetch(state, action);
@@ -274,8 +226,6 @@ export function rootReducer(state: IAppState, action: Action): IAppState {
 
     case SEARCH_DESTINATION_CHANGE: return searchDestinationChange(state, action);
     case SEARCH_DESTINATION_CLEAR: return searchDestinationClear(state, action);
-    case SEARCH_DESTINATION_SHOW_X: return searchDestinationShowX(state, action);
-    case SEARCH_DESTINATION_HIDE_X: return searchDestinationHideX(state, action);
 
     case SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR: return searchDestinationAddressTempClear(state, action);
     case SEARCH_DESTINATION_ADDRESS_START_FETCH: return searchDestinationAddressStartFetch(state, action);

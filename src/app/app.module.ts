@@ -28,7 +28,10 @@ import { FitboundsService } from './services/fitbounds.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
-import { IAppState, rootReducer, INITIAL_STATE } from './redux/store';
+import { rootReducer } from './redux/store';
+import { IAppState } from './redux/IAppState';
+import { INITIAL_STATE } from './redux/initialState';
+
 import { MapOverlayComponent } from './components/map-container/map-overlay/map-overlay.component';
 import { SwitchInputsComponent } from './components/reservation-search/1-search-input-container/switch-inputs/switch-inputs.component';
 import { ProgressComponent } from './components/reservation-search/progress/progress.component';
@@ -40,6 +43,7 @@ import { BookingSuccessComponent } from './components/reservation-search/6-booki
 import { BookingErrorComponent } from './components/reservation-search/7-booking-error/booking-error.component';
 import { HorizontalLineComponent } from './components/reservation-search/horizontal-line/horizontal-line.component';
 import { PolylineComponent } from './components/map-container/polyline.component';
+
 
 
 @NgModule({

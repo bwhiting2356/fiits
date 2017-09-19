@@ -42,7 +42,7 @@ import { ProgressSteps } from '../../../shared/progressSteps';
       state(ProgressSteps.ERROR_1, style({
         width: '100%'
       })),
-      state(ProgressSteps.ERROR_2, style({
+      state(<string>ProgressSteps.ERROR_2, style({
         width: '100%'
       })),
     ])

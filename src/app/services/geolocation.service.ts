@@ -13,7 +13,6 @@ export class GeolocationService {
 
   getCurrentPosition() {
     if (navigator.geolocation) {
-      this.searchService.searchOriginHideX();
       this.searchService.searchOriginAddressStartFetch();
       navigator.geolocation.getCurrentPosition((position) => {
         this.dispatchPosition(position);
@@ -24,7 +23,7 @@ export class GeolocationService {
   dispatchPosition(position) {
     const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
     const origin: Place = {
-      name: 'Current Location ',
+      address: 'Current Location',
       coords: {
         lat: position.coords.latitude,
         lng: position.coords.longitude
@@ -33,7 +32,10 @@ export class GeolocationService {
 
     this.searchService.searchOriginAddressStopFetch();
     this.searchService.searchOriginChange(origin);
-    this.searchService.searchOriginShowX();
-    this.mapService.stopRendering()
+
+    this.mapService.stopRendering();
+    setTimeout(() => {
+      this.searchService.updateInputFocus();
+    }, 1) // TODO: this is a hack, why does it work? Look at component lifecycle
   }
 }

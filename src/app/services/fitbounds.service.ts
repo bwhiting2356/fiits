@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MapService} from './map.service';
 import { NgRedux } from '@angular-redux/store';
-import { IAppState} from '../redux/store';
 import { MAP_SET_CENTER, MAP_SET_ZOOMLEVEL} from '../redux/actions';
+import { IAppState } from '../redux/IAppState';
 
 @Injectable()
 export class FitboundsService {
@@ -94,12 +94,12 @@ export class FitboundsService {
 
   getBounds() {
     const newBounds = new google.maps.LatLngBounds();
-    const state = this.ngRedux.getState();
-    if (state.searchOrigin) {
-      newBounds.extend(state.searchOrigin.coords);
+    const state: IAppState = this.ngRedux.getState();
+    if (state.searchOriginCoords) {
+      newBounds.extend(state.searchOriginCoords);
     }
-    if (state.searchDestination) {
-      newBounds.extend(state.searchDestination.coords);
+    if (state.searchDestinationCoords) {
+      newBounds.extend(state.searchDestinationCoords);
     }
     if (state.searchResult) {
       newBounds.extend({lat: state.searchResult.station1.lat, lng: state.searchResult.station1.lng });

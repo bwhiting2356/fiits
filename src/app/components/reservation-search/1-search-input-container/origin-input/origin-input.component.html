@@ -10,11 +10,11 @@
     autocorrect="off"
     autocapitalize="off"
     spellcheck="false"
-    [value]="searchOriginName | async"
-    (input)="showOrHideX($event)"/>
-  <span
-    *ngIf="searchOriginXShowing | async"
-    class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
-    (click)="onXClick()">
-  </span>
+    [value]="searchOriginAddress | async"
+    (input)="inputChange($event)"/>
+<span
+  *ngIf="showX"
+  class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
+  (click)="onXClick()">
+</span>
 </div>

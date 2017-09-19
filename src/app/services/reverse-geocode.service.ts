@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { MapsAPILoader } from '@agm/core';
 
 import { Coords } from '../shared/coords';
-import { Place } from '../shared/place';
 import { SearchService } from 'app/services/search.service';
+import {Place} from "../shared/place";
 
 @Injectable()
 export class ReverseGeocodeService {
@@ -27,7 +27,7 @@ export class ReverseGeocodeService {
 
     this.geocode($event.coords).subscribe(address => {
       const newOrigin: Place = {
-        name: address,
+        address: address,
         coords: $event.coords
       };
       this.searchService.searchOriginChange(newOrigin);
@@ -41,16 +41,22 @@ export class ReverseGeocodeService {
 
     this.geocode($event.coords).subscribe(address => {
       const newDestination: Place = {
-        name: address,
+        address: address,
         coords: $event.coords
       };
       this.searchService.searchDestinationChange(newDestination);
       this.searchService.searchDestinationAddressStopFetch();
     });
   }
-  geocode(latLng: Coords): Observable<String> {
+  geocode(request: Coords | String): Observable<String> {
+    let geocoderRequest;
+    if (typeof(request) === 'string') {
+      geocoderRequest = { 'address': request }
+    } else {
+      geocoderRequest = { 'location': request  }
+    }
     return new Observable((observer: Observer<String>) => {
-      this.geocoder.geocode({'location': latLng }, (
+      this.geocoder.geocode(geocoderRequest, (
         (results: google.maps.GeocoderResult[], status: google.maps.GeocoderStatus) => {
           if (status === google.maps.GeocoderStatus.OK) {
             observer.next(results[0].formatted_address);

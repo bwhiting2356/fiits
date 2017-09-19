@@ -11,10 +11,10 @@
     autocorrect="off"
     autocapitalize="off"
     spellcheck="false"
-    [value]="searchDestinationName | async"
-    (input)="showOrHideX($event)">
+    [value]="searchDestinationAddress | async"
+    (input)="inputChange($event)"/>
   <span
-    *ngIf="searchDestinationXShowing | async"
+    *ngIf="showX"
     class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
     (click)="onXClick()">
   </span>

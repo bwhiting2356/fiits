@@ -1,13 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import { select, NgRedux } from '@angular-redux/store';
+import { IAppState } from '../../../../redux/IAppState';
 import {} from 'googlemaps';
 
 import { Place } from '../../../../shared/place';
 
-import { findSearchOriginName } from '../../../../redux/selectHelperFunctions';
 import { SearchService } from '../../../../services/search.service';
-import { IAppState } from '../../../../redux/store';
 
 @Component({
   selector: 'app-origin-input',
@@ -19,9 +18,8 @@ import { IAppState } from '../../../../redux/store';
     }
   `]
 })
-export class OriginInputComponent implements OnInit {
-  @select(findSearchOriginName) searchOriginName;
-  @select() searchOriginXShowing;
+export class OriginInputComponent implements OnInit, AfterViewInit {
+  @select() searchOriginAddress;
   @select() searchOriginAddressFetching;
 
   @ViewChild('originInput')
@@ -31,23 +29,19 @@ export class OriginInputComponent implements OnInit {
     return this.ngRedux.getState().searchOriginAddressFetching ? 'Updating location...' : 'Enter start location';
   }
 
-  showOrHideX($event) {
-    const value = $event.srcElement.value;
-    if (value === null || value.trim() === '') {
-      this.searchService.searchOriginClear();
-      this.searchService.searchOriginHideX();
-    } else {
-      this.searchService.searchOriginShowX();
-    }
+  get showX() {
+    return this.ngRedux.getState().searchOriginAddress.length > 0;
+  }
+
+  inputChange($event) {
+    this.searchService.searchOriginAddAddress($event.target.value);
   }
 
   onXClick() {
     this.originInput.nativeElement.value = '';
     this.searchService.searchOriginClear();
-    this.searchService.searchOriginHideX();
+    this.originInput.nativeElement.focus();  // TODO: not in redux, is this okay?
   }
-
-  // TODO: disable origin input and display loading message when retrieving new address from reverse geocode
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -72,15 +66,20 @@ export class OriginInputComponent implements OnInit {
 
         // set name, latitude, longitude
         const origin: Place = {
-          name: this.originInput.nativeElement.value,
+          address: this.originInput.nativeElement.value,
           coords: {
             lat: place.geometry.location.lat(),
             lng: place.geometry.location.lng()
           }
         };
         this.searchService.searchOriginChange(origin);
-        this.searchService.searchOriginShowX();
+        this.searchService.updateInputFocus();
       });
     });
+  }
+
+  ngAfterViewInit() {
+    this.searchService.initializeOriginInputRef(this.originInput);
+    this.searchService.updateInputFocus();
   }
 }

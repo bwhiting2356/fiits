@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SearchService } from '../../../services/search.service';
 import { NgRedux } from '@angular-redux/store';
-import { IAppState } from 'app/redux/store';
+import {IAppState} from "../../../redux/IAppState";
 
 @Component({
   selector: 'app-search-input-container',
@@ -23,7 +23,7 @@ import { IAppState } from 'app/redux/store';
 export class SearchInputContainerComponent {
   get disabled() {
     const state = this.ngRedux.getState();
-    return !(state.searchOrigin && state.searchDestination);
+    return !(state.searchOriginAddress && state.searchDestinationAddress);
   }
   searchSubmit() {
     this.searchService.searchSubmit();

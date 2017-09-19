@@ -10,7 +10,7 @@ import { Component } from '@angular/core';
       <!-- TODO: clea up this spinner -->
     </div>
   `,
-  styleUrls: ['search-loader.component.scss']
+  styleUrls: ['./search-loader.component.scss']
 })
 export class SearchLoaderComponent {
   constructor() { }

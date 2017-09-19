@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SearchService } from '../../../services/search.service';
 import { NgRedux } from '@angular-redux/store';
-import {IAppState} from "../../../redux/IAppState";
+import { IAppState } from '../../../redux/IAppState';
 
 @Component({
   selector: 'app-search-input-container',
@@ -18,7 +18,7 @@ import {IAppState} from "../../../redux/IAppState";
         [disabled]="disabled">Find Bike Reservations</button>
     </form>
   `,
-  styleUrls: ['search-input-container.component.scss']
+  styleUrls: ['./search-input-container.component.scss']
 })
 export class SearchInputContainerComponent {
   get disabled() {

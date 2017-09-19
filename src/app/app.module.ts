@@ -45,6 +45,7 @@ import { HorizontalLineComponent } from './components/reservation-search/horizon
 import { PolylineComponent } from './components/map-container/polyline.component';
 import { MinutesPipe } from './pipes/minutes.pipe';
 import { AddMinutesPipe } from './pipes/add-minutes.pipe';
+import { ShortAddressPipe } from './pipes/short-address.pipe';
 
 
 
@@ -74,7 +75,8 @@ import { AddMinutesPipe } from './pipes/add-minutes.pipe';
     HorizontalLineComponent,
     PolylineComponent,
     MinutesPipe,
-    AddMinutesPipe
+    AddMinutesPipe,
+    ShortAddressPipe
   ],
   imports: [
     BrowserModule,

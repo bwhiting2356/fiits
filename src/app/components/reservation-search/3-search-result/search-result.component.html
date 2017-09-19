@@ -7,7 +7,7 @@
     <div class="icon-col">
       <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
     </div>
-    <div class="middle-col">{{ searchResult.originAddress }}</div>
+    <div class="middle-col">{{ searchResult.originAddress | shortAddress }}</div>
   </div>
 
   <!-- WALKING DIRECTIONS # 1 -->
@@ -43,9 +43,9 @@
         <img class="bicycle-line" src="assets/icons/bicycle-line.svg" alt="">
       </div>
       <div class="middle-col">
-        {{ searchResult.station1Address }}
+        {{ searchResult.station1Address | shortAddress }}
       </div>
-      <div class="right-col" [ngStyle]="{'color': station1Price >= 0 ? 'green' : 'black'}">
+      <div class="right-col" [ngStyle]="{'color': searchResult.reservation1Price >= 0 ? 'green' : 'black'}">
         {{ searchResult.reservation1Price | currency:'USD':true }}
       </div>
     </div>
@@ -87,9 +87,9 @@
         <img class="station station-2" src="assets/icons/station.svg" alt="">
       </div>
       <div class="middle-col">
-        {{ searchResult.station2Address }}
+        {{ searchResult.station2Address | shortAddress }}
       </div>
-      <div class="right-col" [ngStyle]="{'color': station2Price >= 0 ? 'green' : 'black'}">
+      <div class="right-col" [ngStyle]="{'color': searchResult.reservation2Price >= 0 ? 'green' : 'black'}">
         {{ searchResult.reservation2Price | currency:'USD':true }}
       </div>
     </div>
@@ -111,11 +111,11 @@
 
   <!-- END LOCATION -->
   <div class="result-row">
-    <div class="left-col">{{ searchResult.arrivalTime  }}</div><!-- | date: 'shortTime' -->
+    <div class="left-col">{{ searchResult.arrivalTime | date: 'shortTime'  }}</div><!-- | date: 'shortTime' -->
     <div class="icon-col">
       <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
     </div>
-    <div class="middle-col">{{ searchResult.destinationAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
+    <div class="middle-col">{{ searchResult.destinationAddress | shortAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
   </div>
 
   <app-horizontal-line></app-horizontal-line>

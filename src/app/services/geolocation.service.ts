@@ -24,11 +24,9 @@ export class GeolocationService {
     const address = 'Current Location';
     const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
 
-    this.searchService.originChange(address, coords);
+    this.searchService.originNewLocation(address, coords);
     this.searchService.originAddressStopFetch();
+    this.searchService.updateInputFocus();
     this.mapService.stopRendering();
-    setTimeout(() => {
-      this.searchService.updateInputFocus();
-    }, 1) // TODO: this is a hack, why does it work? Look at component lifecycle
   }
 }

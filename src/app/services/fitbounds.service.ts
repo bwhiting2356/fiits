@@ -1,42 +1,81 @@
 import { Injectable } from '@angular/core';
 import { MapService} from './map.service';
-// import { NgRedux } from '@angular-redux/store';
-import { MAP_SET_CENTER, MAP_SET_ZOOMLEVEL} from '../redux/actions';
-import { IAppState } from '../redux/IAppState';
+
+import {Store} from '@ngrx/store';
+import {AppState} from '../store/reducer';
+import {MapSetCenter, MapSetZoomlevel} from '../reservation-search/store/search.actions';
+import {Observable} from 'rxjs/Observable';
+import {Coords} from '../shared/coords';
 
 @Injectable()
 export class FitboundsService {
   TILE_SIZE = { height: 256, width: 256 }; // google World tile size, as of v3.22
   ZOOM_MAX = 14;
-  BUFFER = 15; // edge buffer for fitting markers within viewport bounds
-
-  mapDimensions = {
-    height: undefined,
-    width: undefined
-  };
+  BUFFER = 15; // edge buffer for fitting markers within viewport bounds // TODO: does this need to be bigger?
 
   mapOffset = {x: 330, y: 0}; // width of search panel
 
   constructor(
     private mapService: MapService,
-    // private ngRedux: NgRedux<IAppState>
+    private store: Store<AppState>
   ) { }
 
-  get mapEl() {
-    return this.mapService.map.getDiv()
-  }
-  get gmap() {
-    return this.mapService.map
+  update() {
+    this.getBounds()
+      .map(bounds => {
+        const newCenter = this.getNewOffsetCenter(bounds.getCenter());
+        this.store.dispatch(new MapSetCenter(newCenter));
+        return bounds;
+      })
+      .map(bounds => {
+        const newZoomLevel = this.getNewZoomLevel(bounds);
+        this.store.dispatch(new MapSetZoomlevel(newZoomLevel));
+      })
+      .take(1)
+      .subscribe();
   }
 
-  updateMapDimensions() {
-    this.mapDimensions.height = this.mapEl.offsetHeight;
-    this.mapDimensions.width = this.mapEl.offsetWidth;
+  getBounds(): Observable<google.maps.LatLngBounds> {
+    return this.store.take(1).map(state => {
+      const newBounds = new google.maps.LatLngBounds();
+      if (state.search.origin.coords) {
+        newBounds.extend(state.search.origin.coords);
+      }
+      if (state.search.destination.coords) {
+        newBounds.extend(state.search.destination.coords);
+      }
+      if (state.search.result.response) {
+        newBounds.extend({
+          lat: state.search.result.response.station1Coords.lat,
+          lng: state.search.result.response.station1Coords.lng
+        });
+        newBounds.extend({
+          lat: state.search.result.response.station2Coords.lat,
+          lng: state.search.result.response.station2Coords.lng });
+      }
+      return newBounds;
+    });
   }
 
-  // TODO: refactor without updateMapDimensions or mapDimensions - just grab the property off the map object
+  getNewOffsetCenter(latlng: google.maps.LatLng): Coords {
+    const newCenterLatLng = this.offsetLatLng(latlng, this.mapOffset.x / 2, this.mapOffset.y / 2);
+    return {
+      lat: newCenterLatLng.lat(),
+      lng: newCenterLatLng.lng()
+    };
+  };
 
-  getBoundsZoomLevel(bounds, dimensions) {
+  getNewZoomLevel(bounds: google.maps.LatLngBounds): number {
+    const offsetWidth = this.mapService.map.getDiv().offsetWidth;
+    const offsetHeight = this.mapService.map.getDiv().offsetHeight;
+    const dimensions = {
+      width: offsetWidth - this.mapOffset.x - this.BUFFER * 2,
+      height: offsetHeight - this.mapOffset.y - this.BUFFER * 2
+    };
+    return this.getBoundsZoomLevel(bounds, dimensions);
+  };
+
+  getBoundsZoomLevel(bounds, dimensions): number {
     const latRadian = lat => {
       const sin = Math.sin(lat * Math.PI / 180);
       const radX2 = Math.log((1 + sin) / (1 - sin)) / 2;
@@ -56,62 +95,16 @@ export class FitboundsService {
     return Math.min(latZoom, lngZoom, this.ZOOM_MAX);
   };
 
-  setMapBounds() {
-    this.updateMapDimensions();
-    const bounds = this.getBounds();
-    const dimensions = {
-      width: this.mapDimensions.width - this.mapOffset.x - this.BUFFER * 2,
-      height: this.mapDimensions.height - this.mapOffset.y - this.BUFFER * 2
-    };
-    const zoomLevel = this.getBoundsZoomLevel(bounds, dimensions);
-    // this.ngRedux.dispatch({type: MAP_SET_ZOOMLEVEL, body: zoomLevel });
-    // this.setOffsetCenter(bounds.getCenter());
-  };
-
   offsetLatLng(latlng, offsetX, offsetY) {
     offsetX = offsetX || 0;
     offsetY = offsetY || 0;
-    const scale = Math.pow(2, this.gmap.getZoom());
-    const point = this.gmap.getProjection().fromLatLngToPoint(latlng);
+    const scale = Math.pow(2, this.mapService.map.getZoom());
+    const point = this.mapService.map.getProjection().fromLatLngToPoint(latlng);
     const pixelOffset = new google.maps.Point((offsetX / scale), (offsetY / scale));
     const newPoint = new google.maps.Point(
       point.x - pixelOffset.x,
       point.y + pixelOffset.y
     );
-    return this.gmap.getProjection().fromPointToLatLng(newPoint);
+    return this.mapService.map.getProjection().fromPointToLatLng(newPoint);
   };
-
-  setOffsetCenter(latlng) {
-    const newCenterLatLng = this.offsetLatLng(latlng, this.mapOffset.x / 2, this.mapOffset.y / 2);
-    // this.ngRedux.dispatch({
-    //   type: MAP_SET_CENTER,
-    //   body: {
-    //     lat: newCenterLatLng.lat(),
-    //     lng: newCenterLatLng.lng()
-    //   }
-    // });
-  };
-
-  getBounds() {
-    // const newBounds = new google.maps.LatLngBounds();
-    // const state: IAppState = this.ngRedux.getState();
-    // if (state.searchOriginCoords) {
-    //   newBounds.extend(state.searchOriginCoords);
-    // }
-    // if (state.searchDestinationCoords) {
-    //   newBounds.extend(state.searchDestinationCoords);
-    // }
-    // if (state.searchResult) {
-    //   newBounds.extend({
-    //     lat: state.searchResult.station1Coords.lat,
-    //     lng: state.searchResult.station1Coords.lng
-    //   });
-    //   newBounds.extend({
-    //     lat: state.searchResult.station2Coords.lat,
-    //     lng: state.searchResult.station2Coords.lng });
-    // }
-    //
-    // // TODO: why is there sometimes a weird error, and should I put in some error handling?
-    // return newBounds;
-  }
 }

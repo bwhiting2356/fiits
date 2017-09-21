@@ -44,6 +44,12 @@ export function searchReducer(state = searchInitialState, action: search.Actions
     case search.MAP_STOP_RENDERING:
       return {...state, map: { ...state.map, rendering: false }};
 
+    case search.MAP_SET_CENTER:
+      return {...state, map: {...state.map, center: action.payload }};
+
+    case search.MAP_SET_ZOOMLEVEL:
+      return {...state, map: {...state.map, zoomLevel: action.payload }};
+
     default:
       return state;
   }

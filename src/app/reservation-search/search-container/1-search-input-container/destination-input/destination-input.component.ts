@@ -73,7 +73,7 @@ export class DestinationInputComponent implements OnInit, AfterViewInit {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng()
         };
-        this.searchService.destinationChange(address, coords);
+        this.searchService.destinationNewLocation(address, coords);
         this.searchService.updateInputFocus();
       });
     });

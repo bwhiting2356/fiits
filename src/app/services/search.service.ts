@@ -184,6 +184,11 @@ export class SearchService {
     // this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CHANGE, body: { address, coords: undefined }});
   }
 
+  originNewLocation(address: string, coords: Coords) {
+    this.originChange(address, coords);
+    this.fitboundsService.update();
+  }
+
   originChange(address: string, coords: Coords) {
     this.store.dispatch(new OriginAddressChange(address));
     this.store.dispatch(new OriginCoordsChange(coords));
@@ -219,11 +224,16 @@ export class SearchService {
     this.store.dispatch(new NoFocus())
   }
 
+  destinationNewLocation(address, coords) {
+    this.destinationChange(address, coords);
+    this.fitboundsService.update();
+  }
+
   destinationChange(address, coords) {
     this.store.dispatch(new DestinationAddressChange(address));
     this.store.dispatch(new DestinationCoordsChange(coords));
     this.destinationFocus();
-    // this.fitboundsService.setMapBounds();
+
   }
 
   destinationClear() {

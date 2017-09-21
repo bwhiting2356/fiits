@@ -71,7 +71,8 @@ export class OriginInputComponent implements OnInit, AfterViewInit {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng()
         };
-        this.searchService.originChange(address, coords);
+        this.searchService.originNewLocation(address, coords);
+        // this.searchService.originChange(address, coords);
         this.searchService.updateInputFocus();
       });
     });

@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MapService } from '../../../services/map.service';
+import { PolylineService } from '../../../services/polyline.service';
 
 @Component({
   selector: 'app-polyline',
@@ -9,14 +9,14 @@ export class PolylineComponent implements OnInit, OnDestroy {
   @Input() points;
   @Input() lineId;
 
-  constructor(private mapService: MapService) {}
+  constructor(private polylineService: PolylineService) {}
 
   ngOnInit() {
-    this.mapService.addPolyline(this.points, this.lineId);
+    this.polylineService.addPolyline(this.points, this.lineId);
   }
 
   ngOnDestroy() {
-    this.mapService.removePolyline(this.lineId);
+    this.polylineService.removePolyline(this.lineId);
   }
 }
 

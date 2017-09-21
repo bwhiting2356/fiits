@@ -26,7 +26,10 @@ export const searchInitialState: SearchState = {
   },
   map: {
     zoomLevel: 14,
-    center: undefined,
+    center: {
+      lat: 40.758675,  // default to Times Square
+      lng: -73.984773
+    },
     rendering: true,
   }
 };

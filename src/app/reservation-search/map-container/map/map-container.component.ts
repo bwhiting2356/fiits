@@ -1,17 +1,9 @@
 import { Component } from '@angular/core';
 
+import { styles } from './styles';
+
 import { ReverseGeocodeService } from '../../../services/reverse-geocode.service';
 
-import {
-  findSearchOriginLat,
-  findSearchOriginLng,
-  findSearchDestinationLat,
-  findSearchDestinationLng,
-  findStation1Lat,
-  findStation1Lng,
-  findStation2Lat,
-  findStation2Lng, findWalkingPoints1, findBicyclePoints, findWalkingPoints2
-} from '../../../redux/selectHelperFunctions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/reducer';
 import { Observable } from 'rxjs/Observable';
@@ -29,6 +21,7 @@ export class MapContainerComponent {
   origin: Observable<Coords>;
   destination: Observable<Coords>;
   response: Observable<TripQueryResponse>;
+  styles = styles;
 
   originMarkerDragEnd($event) {
     this.reverseGeocodeService.originMarkerDragEnd($event);

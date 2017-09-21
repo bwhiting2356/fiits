@@ -1,7 +1,8 @@
 <div class="time-input-container">
   <span class="time-display">{{ time | async | date:'shortTime' }}</span>
+  <!-- TODO: scrollable dropdown to select time from range (like google maps) -->
   <span class="arrows">
-    <span class="glyphicon glyphicon-triangle-left" (click)="subtractTenMinutes()"></span>
-    <span class="glyphicon glyphicon-triangle-right" (click)="addTenMinutes()"></span>
+    <span class="glyphicon glyphicon-triangle-left" (click)="subtractMinutes(10)"></span>
+    <span class="glyphicon glyphicon-triangle-right" (click)="addMinutes(10)"></span>
   </span>
 </div>

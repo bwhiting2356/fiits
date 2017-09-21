@@ -11,9 +11,6 @@ export function searchReducer(state = searchInitialState, action: search.Actions
     case search.ORIGIN_COORDS_CHANGE:
       return {...state, origin: { ...state.origin, coords: action.payload }};
 
-    case search.ORIGIN_FOCUS:
-      return {...state, origin: {...state.origin, focus: true }, destination: { ...state.destination, focus: false }};
-
     case search.ORIGIN_START_FETCH:
       return {...state, origin: {...state.origin, fetching: true }};
 
@@ -26,17 +23,26 @@ export function searchReducer(state = searchInitialState, action: search.Actions
     case search.DESTINATION_COORDS_CHANGE:
       return {...state, destination: { ...state.destination, coords: action.payload }};
 
+    case search.DESTINATION_START_FETCH:
+      return {...state, destination: {...state.destination, fetching: true }};
+
+    case search.DESTINATION_STOP_FETCH:
+      return {...state, destination: {...state.destination, fetching: false }};
+
+    case search.ORIGIN_FOCUS:
+      return {...state, origin: {...state.origin, focus: true }, destination: { ...state.destination, focus: false }};
+
     case search.DESTINATION_FOCUS:
       return {...state, destination: {...state.destination, focus: true }, origin: { ...state.origin, focus: false }};
 
     case search.NO_FOCUS:
-      return {...state, destination: {...state.destination, focus: false }, origin: {...state.origin, focus: false }}
+      return {...state, destination: {...state.destination, focus: false }, origin: {...state.origin, focus: false }};
 
     case search.CHANGE_TIME_TARGET:
-      return {...state, time: {...state.time, timeTarget: action.payload }}
+      return {...state, time: {...state.time, timeTarget: action.payload }};
 
-    case search.CHANGE_TIME:
-      return {...state, time: {...state.time, time: action.payload }}
+    case search.CHANGE_DATETIME:
+      return {...state, time: {...state.time, time: action.payload }};
 
     case search.MAP_START_RENDERING:
       return {...state, map: { ...state.map, rendering: true }};

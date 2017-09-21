@@ -19,12 +19,12 @@ export class TimeInputComponent {
     this.showTimePicker = !this.showTimePicker;
   }
 
-  addTenMinutes() {
-    this.searchService.addTenMinutes();
+  addMinutes(value) {
+    this.searchService.addMinutes(value);
   }
 
-  subtractTenMinutes() {
-    this.searchService.subractTenMinutes();
+  subtractMinutes(value) {
+    this.searchService.subractMinutes(value);
   }
 
   constructor(

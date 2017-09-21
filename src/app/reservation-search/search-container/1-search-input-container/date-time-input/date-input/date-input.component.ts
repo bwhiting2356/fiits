@@ -18,6 +18,10 @@ export class DateInputComponent {
     this.showDatePicker = !this.showDatePicker;
   }
 
+  changeDate(time) {
+    console.log(time)
+  }
+
   addDay() {
     this.searchService.addDay();
   }

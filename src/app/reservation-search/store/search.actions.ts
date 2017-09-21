@@ -24,7 +24,7 @@ export const NO_FOCUS = 'NO_FOCUS';
 // export const SUBTRACT_MINUTES = 'SUBTRACT_MINUTES';
 
 
-export const CHANGE_TIME = 'CHANGE_TIME';
+export const CHANGE_DATETIME = 'CHANGE_TIME';
 export const CHANGE_TIME_TARGET = 'CHANGE_TIME_TARGET';
 export const CHANGE_PROGRESS = 'CHANGE_PROGRESS';
 
@@ -100,8 +100,8 @@ export class NoFocus implements Action {
 
 // ********** Search Time Actions **********
 
-export class ChangeTime implements Action {
-  readonly type = CHANGE_TIME;
+export class ChangeDatetime implements Action {
+  readonly type = CHANGE_DATETIME;
 
   constructor(public payload: Date) {}
 }
@@ -186,7 +186,7 @@ export type Actions
   | DestinationStopFetch
   | DestinationFocus
   | NoFocus
-  | ChangeTime
+  | ChangeDatetime
   | ChangeTimeTarget
   | ChangeProgress
   | SubmitQuery

@@ -6,52 +6,24 @@ import { Place } from '../shared/place';
 import {TimeTarget, TimeTargets} from '../shared/timeTarget';
 import { TripQueryRequest } from '../shared/tripQueryRequest';
 
-// import { NgRedux } from '@angular-redux/store';
-import {
-  MAP_RENDERING_START,
-  MAP_RENDERING_STOP,
-  SEARCH_ADD_DAY,
-  SEARCH_ADD_TEN_MINUTES,
-  SEARCH_BACK_ONE_STEP, SEARCH_BOOK_RESERV,
-  SEARCH_CHANGE_TIMETARGET, SEARCH_CONFIRM_BOOK,
-  SEARCH_DESTINATION_ADDRESS_START_FETCH,
-  SEARCH_DESTINATION_ADDRESS_STOP_FETCH,
-  SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR,
-  SEARCH_DESTINATION_CHANGE,
-  SEARCH_DESTINATION_CLEAR,
-  SEARCH_ERROR_RECEIVED,
-  SEARCH_ORIGIN_ADDRESS_START_FETCH,
-  SEARCH_ORIGIN_ADDRESS_STOP_FETCH,
-  SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR,
-  SEARCH_ORIGIN_CHANGE,
-  SEARCH_ORIGIN_CLEAR,
-  SEARCH_RESERV_BOOKED, SEARCH_RESERV_ERROR,
-  SEARCH_RESET,
-  SEARCH_RESULT_RECEIVED,
-  SEARCH_SET_TIME_TO_NOW,
-  SEARCH_SUBMIT,
-  SEARCH_SUBTRACT_DAY,
-  SEARCH_SUBTRACT_TEN_MINUTES,
-  SEARCH_SWITCH_INPUTS
-} from '../redux/actions';
-
 import { MapService } from './map.service';
 import { FitboundsService } from './fitbounds.service';
 import { IAppState } from '../redux/IAppState';
 import {parseTripQueryResponse} from "./parseTripQueryResponse";
 import {buildTripQueryRequest} from "./buildTripQueryRequest";
 import {
-  ChangeTime,
-  ChangeTimeTarget,
-  DESTINATION_FOCUS,
-  DestinationAddressChange, DestinationCoordsChange, DestinationFocus, NoFocus, ORIGIN_FOCUS, ORIGIN_START_FETCH,
-  ORIGIN_STOP_FETCH,
-  OriginAddressChange,
-  OriginCoordsChange, OriginFocus, OriginStartFetch, OriginStopFetch
+  ChangeDatetime, ChangeTimeTarget,
+  OriginFocus, DestinationFocus, NoFocus,
+  OriginAddressChange, OriginCoordsChange, DestinationAddressChange, DestinationCoordsChange,
+  OriginStartFetch, OriginStopFetch, DestinationStartFetch, DestinationStopFetch
 } from "../reservation-search/store/search.actions";
 import {Store} from "@ngrx/store";
 import {AppState} from "../store/reducer";
 import {Coords} from "../shared/coords";
+import { addMinutes } from "../shared/timeHelperFunctions/addMinutes";
+import { subtractMinutes } from "../shared/timeHelperFunctions/subtractMinutes";
+import { addDay } from "../shared/timeHelperFunctions/addDay";
+import {subtractDay} from "../shared/timeHelperFunctions/subtractDay";
 
 
 @Injectable()
@@ -201,7 +173,7 @@ export class SearchService {
   }
 
   searchOriginAddressTempClear() {
-    // this.ngRedux.dispatch({ type: SEARCH_ORIGIN_ADDRESS_TEMP_CLEAR });
+    this.store.dispatch(new OriginAddressChange(''));
   }
 
   originAddressStartFetch() {
@@ -212,17 +184,6 @@ export class SearchService {
     this.store.dispatch(new OriginStopFetch());
   }
 
-  originFocus() {
-    this.store.dispatch(new OriginFocus())
-  }
-
-  destinationFocus() {
-    this.store.dispatch(new DestinationFocus())
-  }
-
-  noFocus() {
-    this.store.dispatch(new NoFocus())
-  }
 
   destinationNewLocation(address, coords) {
     this.destinationChange(address, coords);
@@ -233,7 +194,6 @@ export class SearchService {
     this.store.dispatch(new DestinationAddressChange(address));
     this.store.dispatch(new DestinationCoordsChange(coords));
     this.destinationFocus();
-
   }
 
   destinationClear() {
@@ -241,58 +201,62 @@ export class SearchService {
     this.destinationFocus();
   }
 
-  switchInputs() {
-    this.store.take(1).subscribe(state => {
-      const originAddress = state.search.origin.address;
-      const originCoords = state.search.origin.coords;
-      const destinationAddress = state.search.destination.address;
-      const destinationCoords = state.search.destination.coords;
-
-      this.destinationChange(originAddress, originCoords);
-      this.originChange(destinationAddress, destinationCoords);
-      this.updateInputFocus();
-    });
-  }
 
   searchDestinationAddAddress(address) {
     // this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: { address, coords: undefined }});
   }
 
   searchDestinationAddressTempClear() {
-    // this.ngRedux.dispatch({ type: SEARCH_DESTINATION_ADDRESS_TEMP_CLEAR });
+    this.store.dispatch(new DestinationAddressChange(''));
   }
 
   searchDestinationAddressStartFetch() {
-    // this.ngRedux.dispatch({ type: SEARCH_DESTINATION_ADDRESS_START_FETCH });
+    this.store.dispatch(new DestinationStartFetch());
   }
 
   searchDestinationAddressStopFetch() {
-    // this.ngRedux.dispatch({ type: SEARCH_DESTINATION_ADDRESS_STOP_FETCH });
+    this.store.dispatch(new DestinationStopFetch());
   }
 
-
+  // ***** CHANGE TIME, TIME TARGET *****
 
   addDay() {
-    // this.ngRedux.dispatch({ type: SEARCH_ADD_DAY });
+    this.store.take(1).subscribe(state => {
+      const date = state.search.time.time;
+      const dateDate = addDay(date);
+      this.store.dispatch(new ChangeDatetime(dateDate))
+    });
   }
 
   subtractDay() {
-    // this.ngRedux.dispatch({ type: SEARCH_SUBTRACT_DAY });
+    this.store.take(1).subscribe(state => {
+      const date = state.search.time.time;
+      const dateDate = subtractDay(date);
+      this.store.dispatch(new ChangeDatetime(dateDate))
+    });
   }
 
-  addTenMinutes() {
-    // this.ngRedux.dispatch({ type: SEARCH_ADD_TEN_MINUTES });
+  addMinutes(value) {
+    this.store.take(1).subscribe(state => {
+      const time = state.search.time.time;
+      const newTime = addMinutes(time, value);
+      this.store.dispatch(new ChangeDatetime(newTime))
+    });
   }
 
-  subractTenMinutes() {
-    // this.ngRedux.dispatch({ type: SEARCH_SUBTRACT_TEN_MINUTES });
+  subractMinutes(value) {
+    this.store.take(1).subscribe(state => {
+      const time = state.search.time.time;
+      const newTime = subtractMinutes(time, value);
+      this.store.dispatch(new ChangeDatetime(newTime))
+    });
   }
 
   changeTimeTarget(value: String) {
     switch (value) {
       case TimeTargets.LEAVE_NOW: {
         this.store.dispatch(new ChangeTimeTarget(TimeTargets.LEAVE_NOW));
-        this.store.dispatch(new ChangeTime(new Date()));
+        this.store.dispatch(new ChangeDatetime(new Date()));
         break;
       }
       case TimeTargets.DEPART_AT: {
@@ -306,12 +270,18 @@ export class SearchService {
     }
   }
 
-  initializeOriginInputRef(component: ElementRef) {
-    this.originInputRef = component;
+  // ***** FOCUS INPUTS *****
+
+  originFocus() {
+    this.store.dispatch(new OriginFocus());
   }
 
-  initializeDestinationInputRef(component: ElementRef) {
-    this.destinationInputRef = component;
+  destinationFocus() {
+    this.store.dispatch(new DestinationFocus());
+  }
+
+  noFocus() {
+    this.store.dispatch(new NoFocus());
   }
 
   updateInputFocus() {
@@ -323,6 +293,21 @@ export class SearchService {
       } else {
         this.noFocus();
       }
+    });
+  }
+
+  // ***** SWITCH INPUTS *****
+
+  switchInputs() {
+    this.store.take(1).subscribe(state => {
+      const originAddress = state.search.origin.address;
+      const originCoords = state.search.origin.coords;
+      const destinationAddress = state.search.destination.address;
+      const destinationCoords = state.search.destination.coords;
+
+      this.destinationChange(originAddress, originCoords);
+      this.originChange(destinationAddress, destinationCoords);
+      this.updateInputFocus();
     });
   }
 }

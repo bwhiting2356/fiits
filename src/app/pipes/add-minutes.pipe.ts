@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { addMinutes } from './addMinutes';
+import { addMinutes } from '../shared/timeHelperFunctions/addMinutes';
 
 @Pipe({
   name: 'addMinutes'

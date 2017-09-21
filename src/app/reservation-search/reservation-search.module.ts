@@ -36,6 +36,7 @@ import { MinutesPipe } from '../pipes/minutes.pipe';
 import { AddMinutesPipe } from '../pipes/add-minutes.pipe';
 import { ShortAddressPipe } from '../pipes/short-address.pipe';
 import { HorizontalLineComponent } from './search-container/horizontal-line/horizontal-line.component';
+import {FormsModule} from "@angular/forms";
 
 
 export const COMPONENTS = [
@@ -67,6 +68,7 @@ export const COMPONENTS = [
 @NgModule({
   imports: [
     NgbModule,
+    FormsModule,
     CommonModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAwPYOksRcTuVdLW4qRxj86I9_w0uJ7OqU',

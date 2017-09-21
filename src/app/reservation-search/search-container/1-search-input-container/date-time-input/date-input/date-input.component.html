@@ -1,5 +1,5 @@
 <div class="date-input-container">
-  <span class="date-display">{{ searchDatetime | async | date:'EEE, MMM d' }}</span>
+  <span class="date-display">{{ time | async | date:'EEE, MMM d' }}</span>
   <span class="arrows">
     <span class="glyphicon glyphicon-triangle-left" (click)="subtractDay()"></span>
     <span class="glyphicon glyphicon-triangle-right" (click)="addDay()"></span>

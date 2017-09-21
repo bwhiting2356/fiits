@@ -2,19 +2,19 @@
   <label for="destination">Destination</label>
   <input
     #destinationInput
-    [disabled]="searchDestinationAddressFetching | async"
+    [disabled]="destinationFetching | async"
     type="text"
     class="form-control"
     id="destination"
     aria-describedby="destinationHelp"
-    [placeholder]="placeholderText"
+    [placeholder]="placeholderText | async"
     autocorrect="off"
     autocapitalize="off"
     spellcheck="false"
-    [value]="searchDestinationAddress | async"
+    [value]="destinationAddress | async"
     (input)="inputChange($event)"/>
   <span
-    *ngIf="showX"
+    *ngIf="showX | async"
     class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
     (click)="onXClick()">
   </span>

@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
 import { trigger, state, style } from '@angular/animations';
-import { select } from '@angular-redux/store';
+
 import { ProgressSteps } from '../../../shared/progressSteps';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/reducer';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-progress',
   template: `
-    <div class="progress-bar" [@animateBar]="searchProgress | async"></div>
+    <div class="progress-bar" [@animateBar]="progress | async"></div>
   `,
   styles: [`
     :host {
@@ -42,14 +45,18 @@ import { ProgressSteps } from '../../../shared/progressSteps';
       state(ProgressSteps.ERROR_1, style({
         width: '100%'
       })),
-      state(<string>ProgressSteps.ERROR_2, style({
+      state(ProgressSteps.ERROR_2, style({
         width: '100%'
       })),
     ])
   ]
 })
 export class ProgressComponent {
-  @select() searchProgress;
+  progress: Observable<string>;
 
-  constructor() { }
+  constructor(
+    private store: Store<AppState>
+  ) {
+    this.progress = this.store.select('search').map(search => search.progress)
+  }
 }

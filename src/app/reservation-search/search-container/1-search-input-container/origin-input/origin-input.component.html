@@ -2,18 +2,18 @@
   <label for="origin">Origin</label>
   <input
     #originInput
-    [disabled]="searchOriginAddressFetching | async"
+    [disabled]="originFetching | async"
     class="form-control"
     id="origin"
     aria-describedby="originHelp"
-    [placeholder]="placeholderText"
+    [placeholder]="placeholderText | async"
     autocorrect="off"
     autocapitalize="off"
     spellcheck="false"
-    [value]="searchOriginAddress | async"
+    [value]="originAddress | async"
     (input)="inputChange($event)"/>
 <span
-  *ngIf="showX"
+  *ngIf="showX | async"
   class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
   (click)="onXClick()">
 </span>

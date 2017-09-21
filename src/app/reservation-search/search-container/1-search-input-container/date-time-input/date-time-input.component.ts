@@ -1,27 +1,26 @@
 import { Component } from '@angular/core';
 
-import { NgRedux } from '@angular-redux/store';
-import { TimeTarget } from '../../../../shared/timeTarget';
-import { IAppState } from '../../../../redux/IAppState';
+import { TimeTargets } from '../../../../shared/timeTarget';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../store/reducer';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-date-time-input',
   template: `
     <app-time-target-select></app-time-target-select>
-    <app-time-input *ngIf="showDateTimeOptions"></app-time-input>
-    <app-date-input *ngIf="showDateTimeOptions"></app-date-input>
+    <app-time-input *ngIf="showDateTimeOptions | async"></app-time-input>
+    <app-date-input *ngIf="showDateTimeOptions | async"></app-date-input>
   `,
   styleUrls: ['./date-time-input.component.scss']
 })
 export class DateTimeInputComponent {
-
-  get showDateTimeOptions() {
-    const searchTimeTarget = this.ngRedux.getState().searchTimeTarget;
-
-    return searchTimeTarget !== TimeTarget.LEAVE_NOW;
-  }
+  showDateTimeOptions: Observable<boolean>;
 
   constructor(
-    private ngRedux: NgRedux<IAppState>
-  ) {}
+    private store: Store<AppState>
+  ) {
+    this.showDateTimeOptions = this.store.select('search').map(search => search.time.timeTarget)
+      .map(timeTarget => timeTarget !== TimeTargets.LEAVE_NOW);
+  }
 }

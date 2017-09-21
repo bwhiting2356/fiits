@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MapService} from './map.service';
-import { NgRedux } from '@angular-redux/store';
+// import { NgRedux } from '@angular-redux/store';
 import { MAP_SET_CENTER, MAP_SET_ZOOMLEVEL} from '../redux/actions';
 import { IAppState } from '../redux/IAppState';
 
@@ -19,7 +19,7 @@ export class FitboundsService {
 
   constructor(
     private mapService: MapService,
-    private ngRedux: NgRedux<IAppState>
+    // private ngRedux: NgRedux<IAppState>
   ) { }
 
   get mapEl() {
@@ -64,8 +64,8 @@ export class FitboundsService {
       height: this.mapDimensions.height - this.mapOffset.y - this.BUFFER * 2
     };
     const zoomLevel = this.getBoundsZoomLevel(bounds, dimensions);
-    this.ngRedux.dispatch({type: MAP_SET_ZOOMLEVEL, body: zoomLevel });
-    this.setOffsetCenter(bounds.getCenter());
+    // this.ngRedux.dispatch({type: MAP_SET_ZOOMLEVEL, body: zoomLevel });
+    // this.setOffsetCenter(bounds.getCenter());
   };
 
   offsetLatLng(latlng, offsetX, offsetY) {
@@ -83,35 +83,35 @@ export class FitboundsService {
 
   setOffsetCenter(latlng) {
     const newCenterLatLng = this.offsetLatLng(latlng, this.mapOffset.x / 2, this.mapOffset.y / 2);
-    this.ngRedux.dispatch({
-      type: MAP_SET_CENTER,
-      body: {
-        lat: newCenterLatLng.lat(),
-        lng: newCenterLatLng.lng()
-      }
-    });
+    // this.ngRedux.dispatch({
+    //   type: MAP_SET_CENTER,
+    //   body: {
+    //     lat: newCenterLatLng.lat(),
+    //     lng: newCenterLatLng.lng()
+    //   }
+    // });
   };
 
   getBounds() {
-    const newBounds = new google.maps.LatLngBounds();
-    const state: IAppState = this.ngRedux.getState();
-    if (state.searchOriginCoords) {
-      newBounds.extend(state.searchOriginCoords);
-    }
-    if (state.searchDestinationCoords) {
-      newBounds.extend(state.searchDestinationCoords);
-    }
-    if (state.searchResult) {
-      newBounds.extend({
-        lat: state.searchResult.station1Coords.lat,
-        lng: state.searchResult.station1Coords.lng
-      });
-      newBounds.extend({
-        lat: state.searchResult.station2Coords.lat,
-        lng: state.searchResult.station2Coords.lng });
-    }
-
-    // TODO: why is there sometimes a weird error, and should I put in some error handling?
-    return newBounds;
+    // const newBounds = new google.maps.LatLngBounds();
+    // const state: IAppState = this.ngRedux.getState();
+    // if (state.searchOriginCoords) {
+    //   newBounds.extend(state.searchOriginCoords);
+    // }
+    // if (state.searchDestinationCoords) {
+    //   newBounds.extend(state.searchDestinationCoords);
+    // }
+    // if (state.searchResult) {
+    //   newBounds.extend({
+    //     lat: state.searchResult.station1Coords.lat,
+    //     lng: state.searchResult.station1Coords.lng
+    //   });
+    //   newBounds.extend({
+    //     lat: state.searchResult.station2Coords.lat,
+    //     lng: state.searchResult.station2Coords.lng });
+    // }
+    //
+    // // TODO: why is there sometimes a weird error, and should I put in some error handling?
+    // return newBounds;
   }
 }

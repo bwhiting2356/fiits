@@ -5,7 +5,7 @@ import { MapsAPILoader } from '@agm/core';
 
 import { Coords } from '../shared/coords';
 import { SearchService } from 'app/services/search.service';
-import {Place} from "../shared/place";
+import { Place } from '../shared/place';
 
 @Injectable()
 export class ReverseGeocodeService {
@@ -22,16 +22,13 @@ export class ReverseGeocodeService {
   }
 
   originMarkerDragEnd($event) {
-    this.searchService.searchOriginAddressStartFetch();
+    this.searchService.originAddressStartFetch();
     this.searchService.searchOriginAddressTempClear();
 
-    this.geocode($event.coords).subscribe(address => {
-      const newOrigin: Place = {
-        address: address,
-        coords: $event.coords
-      };
-      this.searchService.searchOriginChange(newOrigin);
-      this.searchService.searchOriginAddressStopFetch();
+    this.geocode($event.coords).subscribe((address: string) => {
+
+      this.searchService.originChange(address, $event.coords);
+      this.searchService.originAddressStopFetch();
     });
   }
 
@@ -39,12 +36,8 @@ export class ReverseGeocodeService {
     this.searchService.searchDestinationAddressStartFetch();
     this.searchService.searchDestinationAddressTempClear();
 
-    this.geocode($event.coords).subscribe(address => {
-      const newDestination: Place = {
-        address: address,
-        coords: $event.coords
-      };
-      this.searchService.searchDestinationChange(newDestination);
+    this.geocode($event.coords).subscribe((address: string) => {
+      this.searchService.destinationChange(address, $event.coords);
       this.searchService.searchDestinationAddressStopFetch();
     });
   }

@@ -15,11 +15,7 @@ import { SearchService } from 'app/services/search.service';
 })
 export class SwitchInputsComponent {
   switchInputs() {
-    this.searchService.searchSwitchInputs();
-    setTimeout(() => {
-      this.searchService.updateInputFocus();
-    }, 1) // TODO: this is a hack, why does it work?
-
+    this.searchService.switchInputs();
   }
 
   constructor(

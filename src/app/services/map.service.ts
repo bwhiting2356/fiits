@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 
 import { Coords } from '../shared/coords';
-import { NgRedux } from '@angular-redux/store';
+// import { NgRedux } from '@angular-redux/store';
 import { MAP_RENDERING_START, MAP_RENDERING_STOP } from '../redux/actions';
 import { Polyline, PolylineID } from '../shared/polylines';
 import { IAppState } from '../redux/IAppState';
+import {Store} from "@ngrx/store";
+import {AppState} from "../store/reducer";
+import {MapStartRendering, MapStopRendering} from "../reservation-search/store/search.actions";
 
 @Injectable()
 export class MapService {
@@ -79,8 +82,17 @@ export class MapService {
     });
   }
 
+  startRendering() {
+    this.store.dispatch(new MapStartRendering());
+
+  }
+
+  stopRendering() {
+    this.store.dispatch(new MapStopRendering());
+  }
+
   constructor(
-    private ngRedux: NgRedux<IAppState>,
+    private store: Store<AppState>,
   ) {}
 
   initializeMapFromMapExtension(map) {
@@ -91,14 +103,6 @@ export class MapService {
 
     // TODO: is there a better place to put this?
     // TODO: should I style this better, soften the bike paths a little?
-  }
-
-  startRendering() {
-    this.ngRedux.dispatch({ type: MAP_RENDERING_START });
-  }
-
-  stopRendering() {
-    this.ngRedux.dispatch({ type: MAP_RENDERING_STOP });
   }
 
   addPolyline(points: Coords[], lineId: PolylineID) {

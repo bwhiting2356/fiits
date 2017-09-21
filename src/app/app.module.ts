@@ -14,56 +14,43 @@ import { FitboundsService } from './services/fitbounds.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
+// import { NgReduxModule, NgRedux, DevToolsExtension } from '@angular-redux/store';
 import { rootReducer } from './redux/store';
 import { IAppState } from './redux/IAppState';
-import { INITIAL_STATE } from './redux/initialState';
+// import { INITIAL_STATE } from './redux/initialState';
 
 import { HorizontalLineComponent } from './reservation-search/search-container/horizontal-line/horizontal-line.component';
 import { MinutesPipe } from './pipes/minutes.pipe';
 import { AddMinutesPipe } from './pipes/add-minutes.pipe';
 import { ShortAddressPipe } from './pipes/short-address.pipe';
 import { ReservationSearchModule } from './reservation-search/reservation-search.module';
+import { reducer } from './store/reducer';
+import { initialState } from './store/reducer';
+import { searchReducer } from './reservation-search/store/search.reducers';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ReservationSearchComponent,
-    HorizontalLineComponent,
-    MinutesPipe,
-    AddMinutesPipe,
-    ShortAddressPipe
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
-    NgReduxModule,
+    StoreModule.forRoot({ search: searchReducer }),
+    StoreDevtoolsModule.instrument(),
+    // EffectsModule.forRoot(),
     HttpClientModule,
     BsDropdownModule.forRoot(),
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAwPYOksRcTuVdLW4qRxj86I9_w0uJ7OqU',
-      libraries: ['places']
-    }),
     BrowserAnimationsModule,
-  ],
-  providers: [
-    // GeolocationService,
-    // ReverseGeocodeService,
-    // SearchService,
-    // MapService,
-    // FitboundsService,
-    // GoogleMapsAPIWrapper,
     ReservationSearchModule
   ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor(
-    ngRedux: NgRedux<IAppState>,
-    devTools: DevToolsExtension) {
-
-    const enhancers = isDevMode() ? [devTools.enhancer()] : [];
-    ngRedux.configureStore(rootReducer, INITIAL_STATE, [], enhancers)
-  }
-}
+export class AppModule {}

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { select } from '@angular-redux/store';
-
 import { SearchService } from '../../../../../services/search.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../../store/reducer';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-date-input',
@@ -9,7 +10,7 @@ import { SearchService } from '../../../../../services/search.service';
   styleUrls: ['./date-input.component.scss']
 })
 export class DateInputComponent {
-  @select() searchDatetime: Date;
+  time: Observable<Date>;
 
   showDatePicker = false;
 
@@ -27,7 +28,10 @@ export class DateInputComponent {
   }
 
   constructor(
-    private searchService: SearchService
-  ) { }
+    private searchService: SearchService,
+    private store: Store<AppState>
+  ) {
+    this.time = this.store.select('search').map(search => search.time.time);
+  }
 
 }

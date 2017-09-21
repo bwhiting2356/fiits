@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { select } from '@angular-redux/store';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/reducer';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-map-overlay',
@@ -34,7 +36,11 @@ import { select } from '@angular-redux/store';
   ]
 })
 export class MapOverlayComponent {
-  @select() mapRendering;
+  mapRendering: Observable<boolean>;
   state = 'active';
-  constructor() { }
+  constructor(
+    private store: Store<AppState>
+  ) {
+    this.mapRendering = this.store.select('search').map(search => search.map.rendering);
+  }
 }

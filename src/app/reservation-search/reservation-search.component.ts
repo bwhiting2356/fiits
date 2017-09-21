@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { GeolocationService } from '../services/geolocation.service';
 
 @Component({
   selector: 'app-reservation-search',
@@ -8,7 +9,13 @@ import { Component } from '@angular/core';
   `,
   styles: [``]
 })
-export class ReservationSearchComponent {
+export class ReservationSearchComponent implements OnInit {
+  constructor(
+    private geolocationService: GeolocationService,
+  ) { }
+  ngOnInit() {
+    this.geolocationService.getCurrentPosition();
+  }
 
 }
 

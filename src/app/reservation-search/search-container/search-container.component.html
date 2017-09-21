@@ -1,15 +1,16 @@
 <app-progress></app-progress>
-<div [ngSwitch]="searchProgress | async">
+<div [ngSwitch]="progress | async">
+
   <app-search-input-container
     *ngSwitchCase="'NO_SEARCH'">
   </app-search-input-container>
   <app-search-loader
     *ngSwitchCase="'PENDING_1'">
   </app-search-loader>
-  <app-search-result
-    *ngSwitchCase="'VIEWING_RESULT'"
-    [searchResult]="searchResult | async">
-  </app-search-result>
+  <!--<app-search-result-->
+    <!--*ngSwitchCase="'VIEWING_RESULT'"-->
+    <!--[searchResult]="searchResult | async">-->
+  <!--</app-search-result>-->
   <app-search-result-error
     *ngSwitchCase="'ERROR_1'">
   </app-search-result-error>

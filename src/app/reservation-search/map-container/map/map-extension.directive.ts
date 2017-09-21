@@ -1,6 +1,6 @@
 import { AfterViewInit, Directive } from '@angular/core';
 import { GoogleMapsAPIWrapper, MapsAPILoader } from '@agm/core';
-import { MapService } from '../../services/map.service';
+import { MapService } from '../../../services/map.service';
 
 @Directive({
   selector: '[appMapExtension]'

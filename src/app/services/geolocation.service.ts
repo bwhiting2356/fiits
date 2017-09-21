@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Place } from '../shared/place';
 import { SearchService } from './search.service';
 import { MapService } from './map.service';
 
@@ -13,7 +12,8 @@ export class GeolocationService {
 
   getCurrentPosition() {
     if (navigator.geolocation) {
-      this.searchService.searchOriginAddressStartFetch();
+      this.mapService.startRendering();
+      this.searchService.originAddressStartFetch();
       navigator.geolocation.getCurrentPosition((position) => {
         this.dispatchPosition(position);
       });
@@ -21,18 +21,11 @@ export class GeolocationService {
   }
 
   dispatchPosition(position) {
+    const address = 'Current Location';
     const coords = { lat: position.coords.latitude, lng: position.coords.longitude };
-    const origin: Place = {
-      address: 'Current Location',
-      coords: {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      }
-    };
 
-    this.searchService.searchOriginAddressStopFetch();
-    this.searchService.searchOriginChange(origin);
-
+    this.searchService.originChange(address, coords);
+    this.searchService.originAddressStopFetch();
     this.mapService.stopRendering();
     setTimeout(() => {
       this.searchService.updateInputFocus();

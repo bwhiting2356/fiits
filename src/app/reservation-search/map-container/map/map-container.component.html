@@ -1,8 +1,8 @@
 <app-map-overlay></app-map-overlay>
 <agm-map
   appMapExtension
-  [latitude]="mapCenterLat | async"
-  [longitude]="mapCenterLng | async"
+  [latitude]="(mapCenter | async).lat"
+  [longitude]="(mapCenter | async).lng"
   [disableDefaultUI]="false"
   [zoom]="mapZoomLevel | async"
   [maxZoom]="17"
@@ -10,9 +10,9 @@
   <!-- TODO: is max zoom the problem with the fit bounds bug? -->
   <!--start location-->
   <agm-marker
-    *ngIf="searchOriginLat | async"
-    [latitude]="searchOriginLat | async"
-    [longitude]="searchOriginLng | async"
+    *ngIf="origin | async"
+    [latitude]="(origin | async).lat"
+    [longitude]="(origin | async).lng"
     [markerDraggable]="true"
     (dragEnd)="originMarkerDragEnd($event)">
   </agm-marker>
@@ -22,48 +22,48 @@
 
   <!--walking directions # 1-->
   <app-polyline
-    *ngIf="walkingPoints1 | async"
-    [points]="walkingPoints1 | async"
+    *ngIf="response | async"
+    [points]="(response | async).walking1Points"
     [lineId]="'WALKING_1'">
   </app-polyline>
 
   <!--station 1 location-->
   <agm-marker
     [iconUrl]="'assets/icons/station.svg'"
-    *ngIf="station1Lat | async"
-    [latitude]="station1Lat | async"
-    [longitude]="station1Lng | async"
+    *ngIf="response | async"
+    [latitude]="(response | async).station1Coords.lat"
+    [longitude]="(response | async).station1Coords.lng"
     [markerDraggable]="false">
   </agm-marker>
 
   <!--bicycle directions-->
   <app-polyline
-    *ngIf="bicyclePoints | async"
-    [points]="bicyclePoints | async"
+    *ngIf="response | async"
+    [points]="(response | async).bicyclingPoints"
     [lineId]="'BICYCLING'">
   </app-polyline>
 
   <!--station 2 location-->    <!--*ngIf="station2Lat | async"-->
   <agm-marker
     [iconUrl]="'assets/icons/station.svg'"
-    *ngIf="station2Lat | async"
-    [latitude]="station2Lat |  async"
-    [longitude]="station2Lng | async"
+    *ngIf="response | async"
+    [latitude]="(response | async).station2Coords.lat"
+    [longitude]="(response | async).station2Coords.lat"
     [markerDraggable]="false">
   </agm-marker>
 
   <!--walking directions # 2-->
   <app-polyline
-    *ngIf="walkingPoints2 | async"
-    [points]="walkingPoints2 | async"
+    *ngIf="response | async"
+    [points]="(response | async).walking2Points"
     [lineId]="'WALKING_2'">
   </app-polyline>
 
   <!--destination-->
   <agm-marker
-    *ngIf="searchDestinationLat | async"
-    [latitude]="searchDestinationLat | async"
-    [longitude]="searchDestinationLng | async"
+    *ngIf="destination | async"
+    [latitude]="(destination | async).lat"
+    [longitude]="(destination | async).lng"
     [markerDraggable]="true"
     (dragEnd)="destinationMarkerDragEnd($event)">
   </agm-marker>

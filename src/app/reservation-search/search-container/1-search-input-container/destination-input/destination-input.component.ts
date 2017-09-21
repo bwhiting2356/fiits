@@ -1,11 +1,12 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, AfterViewChecked, AfterViewInit} from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { MapsAPILoader } from '@agm/core';
-import { NgRedux, select } from '@angular-redux/store';
 import {} from 'googlemaps';
 
-import { Place } from '../../../../shared/place';
 import { SearchService } from '../../../../services/search.service';
-import { IAppState } from '../../../../redux/IAppState';
+
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../store/reducer';
 
 @Component({
   selector: 'app-destination-input',
@@ -18,35 +19,39 @@ import { IAppState } from '../../../../redux/IAppState';
   `]
 })
 export class DestinationInputComponent implements OnInit, AfterViewInit {
-  @select() searchDestinationAddress;
-  @select() searchDestinationAddressFetching;
+  destinationAddress: Observable<string>;
+  destinationFetching: Observable<boolean>;
+  placeholderText: Observable<string>;
+  showX: Observable<boolean>;
+  focus: Observable<boolean>;
 
   @ViewChild('destinationInput')
   public destinationInput: ElementRef;
 
-  get placeholderText() {
-    return this.ngRedux.getState().searchDestinationAddressFetching ? 'Updating location...' : 'Enter destination';
-  }
-
-  get showX() {
-    return this.destinationInput.nativeElement.value.length > 0;
-  }
 
   inputChange($event) {
-    this.searchService.searchDestinationAddAddress($event.srcElement.value);
+    this.searchService.destinationChange($event.srcElement.value, undefined);
   }
 
   onXClick() {
-    this.destinationInput.nativeElement.value = '';
-    this.searchService.searchDestinationClear();
-    this.destinationInput.nativeElement.focus();
+    this.searchService.destinationClear();
   }
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private searchService: SearchService,
-    private ngRedux: NgRedux<IAppState>
-  ) { }
+    private store: Store<AppState>
+  ) {
+    this.destinationAddress = this.store.select('search', ).map(search => search.destination.address);
+    this.destinationFetching = this.store.select('search').map(search => search.destination.fetching);
+    this.placeholderText = this.destinationFetching.map(fetching => {
+      return fetching ? 'Updating location...' : 'Enter destination';
+    });
+    this.showX = this.destinationAddress.map(address => {
+      return address.length > 0;
+    });
+
+  }
 
   ngOnInit() {
     this.mapsAPILoader.load().then(() => {
@@ -63,20 +68,22 @@ export class DestinationInputComponent implements OnInit, AfterViewInit {
         }
 
         // set name, latitude, longitude
-        const destination: Place = {
-          address: this.destinationInput.nativeElement.value,
-          coords: {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng()
-          }
+        const address = this.destinationInput.nativeElement.value;
+        const coords = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
         };
-        this.searchService.searchDestinationChange(destination);
+        this.searchService.destinationChange(address, coords);
         this.searchService.updateInputFocus();
       });
     });
   }
 
   ngAfterViewInit() {
-    this.searchService.initializeDestinationInputRef(this.destinationInput);
+    this.store.select('search').map(search => search.destination.focus).subscribe(focus => {
+      if (focus) {
+        this.destinationInput.nativeElement.focus();
+      }
+    })
   }
 }

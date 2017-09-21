@@ -1,11 +1,11 @@
 <div class="time-target-container">
-  <div class="btn-group" dropdown>
-    <div class="label-icon-container dropdown-toggle" dropdownToggle>
-      <label class="">{{ searchTimeTarget | async }}</label>
+  <div class="btn-group" ngbDropdown>
+    <div class="label-icon-container" ngbDropdownToggle>
+      <label class="">{{ timeTarget | async }}</label>
       <span class="glyphicon glyphicon-triangle-bottom"></span>
     </div>
 
-    <ul *dropdownMenu class="dropdown-menu" role="menu">
+    <ul ngbDropdownMenu role="menu">
       <li role="menuitem">
         <a class="dropdown-item" href="#" (click)="onTargetOptionClick('Leave now')">
           Leave now

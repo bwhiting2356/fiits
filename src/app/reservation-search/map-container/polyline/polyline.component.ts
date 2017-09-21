@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MapService } from '../../services/map.service';
+import { MapService } from '../../../services/map.service';
 
 @Component({
   selector: 'app-polyline',

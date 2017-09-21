@@ -1,12 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, AfterViewChecked, AfterViewInit} from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
-import { select, NgRedux } from '@angular-redux/store';
-import { IAppState } from '../../../../redux/IAppState';
 import {} from 'googlemaps';
 
-import { Place } from '../../../../shared/place';
-
 import { SearchService } from '../../../../services/search.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../../store/reducer';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-origin-input',
@@ -19,35 +18,37 @@ import { SearchService } from '../../../../services/search.service';
   `]
 })
 export class OriginInputComponent implements OnInit, AfterViewInit {
-  @select() searchOriginAddress;
-  @select() searchOriginAddressFetching;
+  originAddress: Observable<string>;
+  originFetching: Observable<boolean>;
+  placeholderText: Observable<string>;
+  showX: Observable<boolean>;
+  focus: Observable<boolean>;
 
   @ViewChild('originInput')
   public originInput: ElementRef;
 
-  get placeholderText() {
-    return this.ngRedux.getState().searchOriginAddressFetching ? 'Updating location...' : 'Enter start location';
-  }
-
-  get showX() {
-    return this.ngRedux.getState().searchOriginAddress.length > 0;
-  }
-
   inputChange($event) {
-    this.searchService.searchOriginAddAddress($event.target.value);
+    this.searchService.originChange($event.target.value, undefined);
   }
 
   onXClick() {
-    this.originInput.nativeElement.value = '';
-    this.searchService.searchOriginClear();
-    this.originInput.nativeElement.focus();  // TODO: not in redux, is this okay?
+    this.searchService.originClear();
   }
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private searchService: SearchService,
-    private ngRedux: NgRedux<IAppState>
-  ) { }
+    private store: Store<AppState>
+  ) {
+    this.originAddress = this.store.select('search', ).map(search => search.origin.address);
+    this.originFetching = this.store.select('search').map(search => search.origin.fetching);
+    this.placeholderText = this.originFetching.map(fetching => {
+      return fetching ? 'Updating location...' : 'Enter start location';
+    });
+    this.showX = this.originAddress.map(address => {
+      return address.length > 0;
+    });
+  }
 
   ngOnInit() {
     // TODO: style icon inside autocomplete? https://developers.google.com/maps/documentation/javascript/places-autocomplete
@@ -65,21 +66,22 @@ export class OriginInputComponent implements OnInit, AfterViewInit {
         }
 
         // set name, latitude, longitude
-        const origin: Place = {
-          address: this.originInput.nativeElement.value,
-          coords: {
-            lat: place.geometry.location.lat(),
-            lng: place.geometry.location.lng()
-          }
+        const address = this.originInput.nativeElement.value;
+        const coords = {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
         };
-        this.searchService.searchOriginChange(origin);
+        this.searchService.originChange(address, coords);
         this.searchService.updateInputFocus();
       });
     });
   }
 
   ngAfterViewInit() {
-    this.searchService.initializeOriginInputRef(this.originInput);
-    this.searchService.updateInputFocus();
+    this.store.select('search').map(search => search.origin.focus).subscribe(focus => {
+      if (focus) {
+        this.originInput.nativeElement.focus();
+      }
+    });
   }
 }

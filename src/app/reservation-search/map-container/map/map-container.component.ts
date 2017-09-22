@@ -9,6 +9,7 @@ import { AppState } from '../../../store/reducer';
 import { Observable } from 'rxjs/Observable';
 import { Coords } from '../../../shared/coords';
 import { TripQueryResponse } from '../../../shared/tripQueryResponse';
+import {SearchService} from "../../../services/search.service";
 
 @Component({
   selector: 'app-map-container',
@@ -25,14 +26,17 @@ export class MapContainerComponent {
 
   originMarkerDragEnd($event) {
     this.reverseGeocodeService.originMarkerDragEnd($event);
+    // TODO: don't let markers be draggable if directions are displaying
   }
 
   destinationMarkerDragEnd($event) {
     this.reverseGeocodeService.destinationMarkerDragEnd($event);
+    // TODO: don't let markers be draggable if directions are displaying
   }
 
   constructor(
     private reverseGeocodeService: ReverseGeocodeService,
+    private searchService: SearchService,
     private store: Store<AppState>
   ) {
     this.mapZoomLevel = this.store.select('search').map(search => search.map.zoomLevel);

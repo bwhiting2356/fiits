@@ -1,6 +1,5 @@
-import {Place} from '../shared/place';
-import {TripQueryResponse} from '../shared/tripQueryResponse';
-import {Coords} from '../shared/coords';
+import { TripQueryResponse } from '../shared/tripQueryResponse';
+import { Coords } from '../shared/coords';
 
 export interface IAppState {
   searchOriginAddress: string;

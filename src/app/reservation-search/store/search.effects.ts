@@ -5,12 +5,12 @@ import { Observable } from 'rxjs/Observable';
 import { SearchService } from '../../services/search.service';
 import { Action } from '@ngrx/store';
 import {
-  QUERY_ERROR_RECEIVED, QUERY_RESULT_RECEIVED, QueryErrorReceived, QueryResultReceived, SUBMIT_QUERY,
-  SubmitQuery
+  SUBMIT_QUERY,
 } from './search.actions';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import {parseTripQueryResponse} from '../../services/parseTripQueryResponse';
+import { BASE_URL } from '../../../environments/constants';
 
 @Injectable()
 export class SearchEffects {
@@ -23,7 +23,7 @@ export class SearchEffects {
   @Effect({ dispatch: false }) login$ = this.actions$
     .ofType(SUBMIT_QUERY)
     // .map((action: SubmitQuery) => JSON.stringify(action.payload))
-    .switchMap(payload => this.http.post('http://localhost:3000/api/trip-query', payload)
+    .switchMap(payload => this.http.post(BASE_URL + 'trip-query', payload)
         .map((res: HttpResponse<any>) => {
           if (res['error']) {
             this.searchService.queryErrorReceived(res);
@@ -32,7 +32,8 @@ export class SearchEffects {
           }
         })
         .catch(err => {
-          return Observable.of(new QueryErrorReceived(err))
+          console.log(err);
+          return err;
         })
     );
 }

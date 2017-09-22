@@ -7,12 +7,13 @@
   <app-search-loader
     *ngSwitchCase="'PENDING_1'">
   </app-search-loader>
-  <!--<app-search-result-->
-    <!--*ngSwitchCase="'VIEWING_RESULT'"-->
-    <!--[searchResult]="searchResult | async">-->
-  <!--</app-search-result>-->
+  <app-search-result
+    *ngSwitchCase="'VIEWING_RESULT'"
+    [response]="response | async">
+  </app-search-result>
   <app-search-result-error
-    *ngSwitchCase="'ERROR_1'">
+    *ngSwitchCase="'ERROR_1'"
+    [error]="error | async">
   </app-search-result-error>
   <app-search-info
     *ngSwitchCase="'READING_INFO'">

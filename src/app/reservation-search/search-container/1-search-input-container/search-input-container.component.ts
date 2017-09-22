@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { SearchService } from '../../../services/search.service';
-// import { NgRedux } from '@angular-redux/store';
-import { IAppState } from '../../../redux/IAppState';
 import {Store} from "@ngrx/store";
 import {AppState} from "../../../store/reducer";
 import {Observable} from "rxjs/Observable";

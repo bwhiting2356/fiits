@@ -1,49 +1,45 @@
-import { ElementRef, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/take';
 
-import { Place } from '../shared/place';
-import {TimeTarget, TimeTargets} from '../shared/timeTarget';
+import { TimeTargets } from '../shared/timeTarget';
 import { TripQueryRequest } from '../shared/tripQueryRequest';
 
 import { MapService } from './map.service';
 import { FitboundsService } from './fitbounds.service';
-import { IAppState } from '../redux/IAppState';
-import {parseTripQueryResponse} from "./parseTripQueryResponse";
-import {buildTripQueryRequest} from "./buildTripQueryRequest";
+import { parseTripQueryResponse } from './parseTripQueryResponse';
+import { buildTripQueryRequest } from './buildTripQueryRequest';
 import {
   ChangeDatetime, ChangeTimeTarget,
   OriginFocus, DestinationFocus, NoFocus,
   OriginAddressChange, OriginCoordsChange, DestinationAddressChange, DestinationCoordsChange,
-  OriginStartFetch, OriginStopFetch, DestinationStartFetch, DestinationStopFetch
-} from "../reservation-search/store/search.actions";
-import {Store} from "@ngrx/store";
-import {AppState} from "../store/reducer";
-import {Coords} from "../shared/coords";
-import { addMinutes } from "../shared/timeHelperFunctions/addMinutes";
-import { subtractMinutes } from "../shared/timeHelperFunctions/subtractMinutes";
-import { addDay } from "../shared/timeHelperFunctions/addDay";
-import {subtractDay} from "../shared/timeHelperFunctions/subtractDay";
-
+  OriginStartFetch, OriginStopFetch, DestinationStartFetch, DestinationStopFetch,
+  SubmitQuery, QueryResultReceived,
+  NavigateToStep, Reset, QueryErrorReceived
+} from '../reservation-search/store/search.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/reducer';
+import { Coords } from '../shared/coords';
+import { addMinutes } from '../shared/timeHelperFunctions/addMinutes';
+import { subtractMinutes } from '../shared/timeHelperFunctions/subtractMinutes';
+import { addDay } from '../shared/timeHelperFunctions/addDay';
+import { subtractDay } from '../shared/timeHelperFunctions/subtractDay';
+import { ProgressSteps } from '../shared/progressSteps';
 
 @Injectable()
 export class SearchService {
-  originInputRef: ElementRef;
-  destinationInputRef: ElementRef;
-
   constructor(
     private store: Store<AppState>,
     private mapService: MapService,
     private fitboundsService: FitboundsService,
-    private http: HttpClient
   ) { }
 
-  searchResultReceived() {
-    // this.ngRedux.dispatch({ type: SEARCH_RESULT_RECEIVED });
+  queryResultReceived(res) {
+    this.store.dispatch(new QueryResultReceived(parseTripQueryResponse(res))
+    )
   }
 
-  searchErrorReceived() {
-    // this.ngRedux.dispatch({ type: SEARCH_ERROR_RECEIVED });
+  queryErrorReceived(res) {
+    this.store.dispatch(new QueryErrorReceived(res.error));
   }
 
   searchBookReserv() {
@@ -67,19 +63,50 @@ export class SearchService {
     // }, 1000)
   }
 
+  // ***** SEARCH INPUT NATIVAGION *****
 
-  searchBackOneStep() {
-    // this.ngRedux.dispatch({ type: SEARCH_BACK_ONE_STEP });
+  backOneStep() {
+    this.store.take(1).subscribe(state => {
+      let newProgress: string;
+      switch (state.search.progress) {
+        case ProgressSteps.PENDING_1:
+        case ProgressSteps.VIEWING_RESULT:
+        case ProgressSteps.ERROR_1:
+          newProgress = ProgressSteps.NO_SEARCH;
+          break;
+        case ProgressSteps.READING_INFO:
+          newProgress = ProgressSteps.VIEWING_RESULT;
+          break;
+        case ProgressSteps.PENDING_2:
+        case ProgressSteps.NO_SEARCH:
+        case ProgressSteps.VIEWING_RESERV:
+        case ProgressSteps.ERROR_2:
+          break;
+      }
+      this.store.dispatch(new NavigateToStep(newProgress))
+    });
   }
 
-  searchReset() {
-    // this.ngRedux.dispatch({ type: SEARCH_ORIGIN_CLEAR });
-    // this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CLEAR });
-    // this.ngRedux.dispatch({ type: SEARCH_CHANGE_TIMETARGET, body: TimeTarget.LEAVE_NOW });
-    // this.ngRedux.dispatch({ type: SEARCH_RESET })
+  reset() {
+    this.store.dispatch(new Reset());
   }
+
+  // ***** SERVER REQUEST/RESPONSE/ERROR *****
 
   searchSubmit() {
+    this.store.take(1).subscribe(state => {
+      const request: TripQueryRequest = {
+        originAddress: state.search.origin.address,
+        originCoords: state.search.origin.coords,
+        destinationAddress: state.search.destination.address,
+        destinationCoords: state.search.destination.coords,
+        time: state.search.time.time,
+        timeTarget: state.search.time.timeTarget
+      };
+      console.log(request);
+      this.store.dispatch(new SubmitQuery(request));
+    });
+
     // this.ngRedux.dispatch({ type: SEARCH_SUBMIT });
     // this.ngRedux.dispatch({ type: MAP_RENDERING_START });
 
@@ -168,7 +195,7 @@ export class SearchService {
   }
 
   originClear() {
-    this.originChange('', undefined)
+    this.originChange('', undefined);
     this.originFocus();
   }
 
@@ -200,7 +227,6 @@ export class SearchService {
     this.destinationChange('', undefined);
     this.destinationFocus();
   }
-
 
   searchDestinationAddAddress(address) {
     // this.ngRedux.dispatch({ type: SEARCH_DESTINATION_CHANGE, body: { address, coords: undefined }});

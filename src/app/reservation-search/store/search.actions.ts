@@ -1,8 +1,8 @@
 import { Action } from '@ngrx/store';
 import { Coords } from '../../shared/coords';
-import {TripQueryRequest} from "../../shared/tripQueryRequest";
-import {TripQueryResponse} from "../../shared/tripQueryResponse";
-import {TimeTarget} from "../../shared/timeTarget";
+import { TripQueryRequest } from '../../shared/tripQueryRequest';
+import { TripQueryResponse } from '../../shared/tripQueryResponse';
+import { TimeTarget } from '../../shared/timeTarget';
 
 export const ORIGIN_ADDRESS_CHANGE = 'ORIGIN_ADDRESS_CHANGE';
 export const ORIGIN_COORDS_CHANGE = 'ORIGIN_COORDS_CHANGE';
@@ -31,7 +31,6 @@ export const CHANGE_PROGRESS = 'CHANGE_PROGRESS';
 export const SUBMIT_QUERY = 'SUBMIT_QUERY';
 export const QUERY_RESULT_RECEIVED = 'RESULT_RECEIVED';
 export const QUERY_ERROR_RECEIVED = 'ERROR_RECEIVED';
-// export const BOOK_RESERV = 'BOOK_RESERV';
 export const CONFIRM_BOOK = 'CONFIRM_BOOK';
 export const BOOKING_SUCCESS = 'BOOKING_SUCCESS';
 export const BOOKING_ERROR = 'BOOKING_ERROR';
@@ -41,6 +40,9 @@ export const MAP_SET_CENTER = 'MAP_SET_CENTER';
 
 export const MAP_START_RENDERING = 'MAP_START_RENDERING';
 export const MAP_STOP_RENDERING = 'MAP_STOP_RENDERING';
+
+export const NAVIGATE_TO_STEP = 'NAVIGATE_TO_STEP';
+export const RESET = 'RESET';
 
 // ********** Search Origin Actions **********
 
@@ -174,6 +176,17 @@ export class MapStopRendering implements Action {
   readonly type = MAP_STOP_RENDERING;
 }
 
+export class NavigateToStep implements Action {
+  readonly type = NAVIGATE_TO_STEP;
+
+  constructor(public payload: string) {}
+}
+
+export class Reset implements Action {
+  readonly type = RESET;
+}
+
+
 export type Actions
   = OriginAddressChange
   | OriginCoordsChange
@@ -195,6 +208,8 @@ export type Actions
   | ConfirmBook
   | BookingSuccess
   | BookingError
+  | NavigateToStep
+  | Reset
   | MapSetZoomlevel
   | MapSetCenter
   | MapStartRendering

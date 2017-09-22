@@ -32,6 +32,7 @@ import { reducer } from './store/reducer';
 import { initialState } from './store/reducer';
 import { searchReducer } from './reservation-search/store/search.reducers';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {SearchEffects} from "./reservation-search/store/search.effects";
 
 
 @NgModule({
@@ -44,7 +45,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     StoreModule.forRoot({ search: searchReducer }),
     StoreDevtoolsModule.instrument(),
-    // EffectsModule.forRoot(),
+    EffectsModule.forRoot([SearchEffects]),
     HttpClientModule,
     BsDropdownModule.forRoot(),
     BrowserAnimationsModule,

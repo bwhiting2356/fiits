@@ -37,6 +37,8 @@ import { AddMinutesPipe } from '../pipes/add-minutes.pipe';
 import { ShortAddressPipe } from '../pipes/short-address.pipe';
 import { HorizontalLineComponent } from './search-container/horizontal-line/horizontal-line.component';
 import {FormsModule} from "@angular/forms";
+import {HttpClientModule} from "@angular/common/http";
+import {PolylineService} from "../services/polyline.service";
 
 
 export const COMPONENTS = [
@@ -69,6 +71,7 @@ export const COMPONENTS = [
   imports: [
     NgbModule,
     FormsModule,
+    HttpClientModule,
     CommonModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAwPYOksRcTuVdLW4qRxj86I9_w0uJ7OqU',
@@ -86,6 +89,7 @@ export const COMPONENTS = [
     ReverseGeocodeService,
     SearchService,
     MapService,
+    PolylineService,
     FitboundsService,
     GoogleMapsAPIWrapper,
   ],

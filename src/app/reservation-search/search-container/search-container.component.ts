@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
-// import { select } from '@angular-redux/store';
 import { GeolocationService } from '../../services/geolocation.service';
 import { Store } from '@ngrx/store';
-import { SearchState } from '../store/search.state';
+
 import { Observable } from 'rxjs/Observable';
-import {AppState} from '../../store/reducer';
 import 'rxjs/add/observable/of';
+
+import { AppState} from '../../store/reducer';
+import { TripQueryResponse } from '../../shared/tripQueryResponse';
 
 @Component({
   selector: 'app-search-container',
@@ -15,12 +16,16 @@ import 'rxjs/add/observable/of';
 })
 export class SearchContainerComponent implements OnInit {
   progress: Observable<string>;
+  response: Observable<TripQueryResponse>;
+  error: Observable<string>;
 
   constructor(
     private geolocationService: GeolocationService,
     private store: Store<AppState>
   ) {
     this.progress = this.store.select('search').map(search => search.progress);
+    this.response = this.store.select('search').map(search => search.result.response);
+    this.error = this.store.select('search').map(search => search.result.error);
   }
 
   ngOnInit() {

@@ -1,13 +1,13 @@
 <app-search-navigate></app-search-navigate>
 <div class="result">
-  <h4>Bike trip reservations available</h4>
+  <h4>Bike trip available</h4>
   <!-- START LOCATION -->
   <div class="result-row">
-    <div class="left-col">{{ searchResult.departureTime | date: 'shortTime' }}</div>
+    <div class="left-col">{{ response.departureTime | date: 'shortTime' }}</div>
     <div class="icon-col">
       <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
     </div>
-    <div class="middle-col">{{ searchResult.originAddress | shortAddress }}</div>
+    <div class="middle-col">{{ response.originAddress | shortAddress }}</div>
   </div>
 
   <!-- WALKING DIRECTIONS # 1 -->
@@ -20,7 +20,7 @@
       <img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">
     </div>
     <div class="middle-col">
-      <i>Walk {{ searchResult.walking1Distance.distanceText }} ({{ searchResult.walking1Distance.duration | minutes }} min)</i> <!-- TODO: change this to a string instead of a nuber, including the measurements -->
+      <i>Walk {{ response.walking1Distance.distanceText }} ({{ response.walking1Distance.duration | minutes }} min)</i> <!-- TODO: change this to a string instead of a nuber, including the measurements -->
     </div>
   </div>
 
@@ -28,7 +28,7 @@
   <div class="result-row">
 
     <div class="inner-row">
-      <div class="left-col">{{ searchResult.reservation1Time | date: 'shortTime' }}</div>
+      <div class="left-col">{{ response.reservation1Time | date: 'shortTime' }}</div>
       <div class="icon-col">
         <img class="station station-1" src="assets/icons/station.svg" alt="">
       </div>
@@ -38,15 +38,15 @@
     </div>
 
     <div class="inner">
-      <div class="left-col">{{ searchResult.reservation1Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="left-col">{{ response.reservation1Time | addMinutes: 10 | date: 'shortTime' }}</div>
       <div class="icon-col">
         <img class="bicycle-line" src="assets/icons/bicycle-line.svg" alt="">
       </div>
       <div class="middle-col">
-        {{ searchResult.station1Address | shortAddress }}
+        {{ response.station1Address | shortAddress }}
       </div>
-      <div class="right-col" [ngStyle]="{'color': searchResult.reservation1Price >= 0 ? 'green' : 'black'}">
-        {{ searchResult.reservation1Price | currency:'USD':true }}
+      <div class="right-col" [ngStyle]="{'color': response.reservation1Price >= 0 ? 'green' : 'black'}">
+        {{ response.reservation1Price | currency:'USD':true }}
       </div>
     </div>
 
@@ -61,10 +61,10 @@
       <!--<img src="assets/icons/bicycle-line.svg" alt="">-->
     </div>
     <div class="middle-col">
-      <i>Ride {{ searchResult.bicyclingDistance.distanceText }} ({{ searchResult.bicyclingDistance.duration | minutes }} min)</i>
+      <i>Ride {{ response.bicyclingDistance.distanceText }} ({{ response.bicyclingDistance.duration | minutes }} min)</i>
     </div>
-    <div class="right-col" [ngStyle]="{'color': searchResult.bikeRentalPrice >= 0 ? 'green' : 'black'}">
-      {{ searchResult.bicyclingPrice | currency:'USD':true }}
+    <div class="right-col" [ngStyle]="{'color': response.bikeRentalPrice >= 0 ? 'green' : 'black'}">
+      {{ response.bicyclingPrice | currency:'USD':true }}
     </div>
   </div>
 
@@ -72,7 +72,7 @@
   <div class="result-row">
 
     <div class="inner-row">
-      <div class="left-col">{{ searchResult.reservation2Time | date: 'shortTime' }}</div>
+      <div class="left-col">{{ response.reservation2Time | date: 'shortTime' }}</div>
       <div class="icon-col">
         <!--<img class="station" src="assets/icons/station.svg" alt="">-->
       </div>
@@ -82,15 +82,15 @@
     </div>
 
     <div class="inner-row">
-      <div class="left-col">{{ searchResult.reservation2Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="left-col">{{ response.reservation2Time | addMinutes: 10 | date: 'shortTime' }}</div>
       <div class="icon-col">
         <img class="station station-2" src="assets/icons/station.svg" alt="">
       </div>
       <div class="middle-col">
-        {{ searchResult.station2Address | shortAddress }}
+        {{ response.station2Address | shortAddress }}
       </div>
-      <div class="right-col" [ngStyle]="{'color': searchResult.reservation2Price >= 0 ? 'green' : 'black'}">
-        {{ searchResult.reservation2Price | currency:'USD':true }}
+      <div class="right-col" [ngStyle]="{'color': response.reservation2Price >= 0 ? 'green' : 'black'}">
+        {{ response.reservation2Price | currency:'USD':true }}
       </div>
     </div>
 
@@ -105,17 +105,17 @@
       <img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">
     </div>
     <div class="middle-col">
-      <i>Walk {{ searchResult.walking2Distance.distanceText }} ({{ searchResult.walking2Distance.duration | minutes }} min)</i>
+      <i>Walk {{ response.walking2Distance.distanceText }} ({{ response.walking2Distance.duration | minutes }} min)</i>
     </div>
   </div>
 
   <!-- END LOCATION -->
   <div class="result-row">
-    <div class="left-col">{{ searchResult.arrivalTime | date: 'shortTime'  }}</div><!-- | date: 'shortTime' -->
+    <div class="left-col">{{ response.arrivalTime | date: 'shortTime'  }}</div><!-- | date: 'shortTime' -->
     <div class="icon-col">
       <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
     </div>
-    <div class="middle-col">{{ searchResult.destinationAddress | shortAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
+    <div class="middle-col">{{ response.destinationAddress | shortAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
   </div>
 
   <app-horizontal-line></app-horizontal-line>

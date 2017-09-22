@@ -10,13 +10,13 @@ import { SearchService } from '../../../services/search.service';
 })
 export class SearchResultComponent {
 
-  @Input() searchResult: TripQueryResponse;
+  @Input() response: TripQueryResponse;
 
   get totalPrice() {
     return (
-      this.searchResult.reservation1Price +
-      this.searchResult.reservation2Price +
-      this.searchResult.bicyclingPrice
+      this.response.reservation1Price +
+      this.response.reservation2Price +
+      this.response.bicyclingPrice
     );
   }
 
@@ -25,7 +25,7 @@ export class SearchResultComponent {
   }
 
   constructor(
-    private searchService: SearchService
+    private searchService: SearchService,
   ) { }
 
 }

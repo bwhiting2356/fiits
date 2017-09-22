@@ -2,6 +2,8 @@ import { SearchState } from './search.state';
 import { searchInitialState } from './search.initialState';
 
 import * as search from './search.actions';
+import {ProgressSteps} from "../../shared/progressSteps";
+import {TimeTargets} from "../../shared/timeTarget";
 
 export function searchReducer(state = searchInitialState, action: search.Actions): SearchState {
   switch (action.type) {
@@ -55,6 +57,47 @@ export function searchReducer(state = searchInitialState, action: search.Actions
 
     case search.MAP_SET_ZOOMLEVEL:
       return {...state, map: {...state.map, zoomLevel: action.payload }};
+
+    case search.SUBMIT_QUERY:
+      return {...state, progress: ProgressSteps.PENDING_1 };
+
+    case search.QUERY_RESULT_RECEIVED:
+      return {...state, progress: ProgressSteps.VIEWING_RESULT, result: { response: action.payload, error: ''}};
+
+    case search.QUERY_ERROR_RECEIVED:
+      return {...state, progress: ProgressSteps.ERROR_1, result: { response: undefined, error: action.payload }};
+
+    case search.NAVIGATE_TO_STEP:
+      return {...state, progress: action.payload };
+
+    case search.RESET:
+      return {
+        origin: {
+          address: '',
+          coords: undefined,
+          fetching: false,
+          focus: true
+        },
+        destination: {
+          address: '',
+          coords: undefined,
+          fetching: false,
+          focus: false
+        },
+        time: {
+          time: new Date(),
+          timeTarget: TimeTargets.LEAVE_NOW
+        },
+        progress: ProgressSteps.NO_SEARCH,
+        result: {
+          response: undefined,
+          error: ''
+        },
+        map: {
+          ...state.map,
+          rendering: false,
+        }
+      };
 
     default:
       return state;

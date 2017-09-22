@@ -22,11 +22,11 @@ import { SearchService } from '../../../services/search.service';
 export class SearchNavigateComponent {
   @Input() backButton = true;
   backOneStep() {
-    this.searchService.searchBackOneStep();
+    this.searchService.backOneStep();
   }
 
   cancelSearch() {
-    this.searchService.searchReset();
+    this.searchService.reset();
   }
 
   constructor(

@@ -89,6 +89,9 @@ export class SearchService {
 
   reset() {
     this.store.dispatch(new Reset());
+    // TODO: tell the server to delete the temporary reservations if the user doesn't go through with it
+    // TODO: display some sort of timer showing the time remaining holding the reservation
+    // TODO: better progress bar (with greyed out section, rounded corners like screen shot)
   }
 
   // ***** SERVER REQUEST/RESPONSE/ERROR *****

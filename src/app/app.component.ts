@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   template: `
     <app-side-nav></app-side-nav>
     <app-reservation-search></app-reservation-search>
-    <app-login></app-login>
+    <!--<app-login></app-login>-->
   `,
   styles: [`
     app-map-container {

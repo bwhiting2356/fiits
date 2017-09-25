@@ -1,0 +1,23 @@
+.menu {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  padding: 10px;
+  border: 1px solid grey;
+  border-radius: 3px;
+  cursor: pointer;
+  background: white;
+  z-index: 3;
+
+  span.glyphicon-menu-hamburger {
+    z-index: 4;
+    color: black;
+    position: absolute;
+    top: 9px;
+    left: 9.5px;
+  }
+// TODO: finesse this x position, maybe do it in sketch
+}

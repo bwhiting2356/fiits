@@ -39,7 +39,7 @@ import { HorizontalLineComponent } from './search-container/horizontal-line/hori
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {PolylineService} from "../services/polyline.service";
-
+import {MenuComponent} from "../menu/menu.component";
 
 export const COMPONENTS = [
   MapContainerComponent,
@@ -64,7 +64,8 @@ export const COMPONENTS = [
   SearchInfoComponent,
   BookingSuccessComponent,
   BookingErrorComponent,
-  HorizontalLineComponent
+  HorizontalLineComponent,
+  MenuComponent
 ];
 
 @NgModule({

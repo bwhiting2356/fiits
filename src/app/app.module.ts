@@ -21,6 +21,7 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { authReducer } from './auth/store/auth.reducers';
 import { SideNavComponent } from './navigation/side-nav/side-nav.component';
 import { navReducer } from './navigation/store/nav.reducers';
+import { MenuComponent } from './menu/menu.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { navReducer } from './navigation/store/nav.reducers';
     AppComponent,
     LoginComponent,
     SideNavComponent,
+    // MenuComponent,
   ],
   imports: [
     NgbModule.forRoot(),

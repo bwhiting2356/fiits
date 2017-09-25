@@ -1,3 +1,3 @@
 export const navInitialState = {
-  showNav: true
+  showNav: false
 };

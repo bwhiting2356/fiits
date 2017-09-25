@@ -4,7 +4,7 @@ import { Coords } from '../shared/coords';
 import { Polyline, PolylineID } from '../shared/polylines';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
-import { MapStartRendering, MapStopRendering} from '../reservation-search/store/search.actions';
+import { MapStartRendering, MapStopRendering} from '../home/store/search.actions';
 
 @Injectable()
 export class MapService {

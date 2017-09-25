@@ -3,11 +3,27 @@
 .btn {
   width: 100%;
   margin-top: 10px;
+  background: black;
+  border-color: black;
+  color: white;
+
+  &:hover {
+    background: black;
+    border-color: black;
+    opacity: 0.8;
+    color: white;
+
+  }
 
   &[disabled] {
     opacity: 0.65;
     background: grey;
     cursor: not-allowed;
     border-color: grey;
+
+    &:hover {
+      background: grey;
+      border-color: grey;
+    }
   }
 }

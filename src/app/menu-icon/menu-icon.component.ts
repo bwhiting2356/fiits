@@ -4,11 +4,11 @@ import { AppState } from '../store/reducer';
 import { ShowNav } from '../navigation/store/nav.actions';
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  selector: 'app-menu-icon',
+  templateUrl: './menu-icon.component.html',
+  styleUrls: ['./menu-icon.component.scss']
 })
-export class MenuComponent {
+export class MenuIconComponent {
   showNav() {
     this.store.dispatch(new ShowNav());
   }

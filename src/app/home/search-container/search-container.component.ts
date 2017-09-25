@@ -18,6 +18,8 @@ export class SearchContainerComponent implements OnInit {
   progress: Observable<string>;
   response: Observable<TripQueryResponse>;
   error: Observable<string>;
+  flashMessage: Observable<string>;
+  messageClass: Observable<string>;
 
   constructor(
     private geolocationService: GeolocationService,
@@ -26,6 +28,8 @@ export class SearchContainerComponent implements OnInit {
     this.progress = this.store.select('search').map(search => search.progress);
     this.response = this.store.select('search').map(search => search.result.response);
     this.error = this.store.select('search').map(search => search.result.error);
+    this.flashMessage = this.store.select('search').map(search => search.flash.message);
+    this.messageClass = this.store.select('search').map(search => search.flash.class);
   }
 
   ngOnInit() {

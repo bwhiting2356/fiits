@@ -31,10 +31,14 @@ export class SideNavComponent {
   constructor(
     private store: Store<AppState>
   ) {
-    this.showNav = this.store.select('nav')
-      .map(nav => nav.showNav ? 'show' : 'hide');
     this.authenticated = this.store.select('auth')
-      .map(auth => !!auth.token);
+      .map(auth => {
+        return !!auth.token
+      });
+    this.showNav = this.store.select('nav')
+      .map(nav => {
+        return nav.showNav ? 'show' : 'hide'
+      });
   }
 
   closeNav() {

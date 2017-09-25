@@ -20,6 +20,10 @@ export interface SearchState {
     time: Date;
   },
   progress: string;
+  flash: {
+    message: string;
+    class: string;
+  }
   result: {
     response: TripQueryResponse;
     error: string;

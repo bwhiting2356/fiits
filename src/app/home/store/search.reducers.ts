@@ -89,6 +89,10 @@ export function searchReducer(state = searchInitialState, action: search.Actions
           timeTarget: TimeTargets.LEAVE_NOW
         },
         progress: ProgressSteps.NO_SEARCH,
+        flash: {
+          message: '',
+          class: ''
+        },
         result: {
           response: undefined,
           error: ''

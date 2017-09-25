@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { BASE_URL } from '../../environments/constants';
 import { UserCredentials } from './store/userCredentials';
-import {LogInError, LogInSuccess, LogInTry, LogOut, SignUpError, SignUpSuccess, SignUpTry} from './store/auth.actions';
+import { LogInError, LogInSuccess, LogInTry, LogOut, SignUpError, SignUpSuccess, SignUpTry } from './store/auth.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
 
-interface TokenResponse {
-  token: string
-}
 @Injectable()
 export class AuthService {
 
@@ -25,6 +20,7 @@ export class AuthService {
   }
 
   logInTry(userCredentials: UserCredentials) {
+
     this.store.dispatch(new LogInTry(userCredentials));
   }
 

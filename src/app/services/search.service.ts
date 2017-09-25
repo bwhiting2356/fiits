@@ -15,7 +15,7 @@ import {
   OriginStartFetch, OriginStopFetch, DestinationStartFetch, DestinationStopFetch,
   SubmitQuery, QueryResultReceived,
   NavigateToStep, Reset, QueryErrorReceived
-} from '../reservation-search/store/search.actions';
+} from '../home/store/search.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
 import { Coords } from '../shared/coords';

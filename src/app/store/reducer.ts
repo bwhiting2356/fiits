@@ -1,15 +1,19 @@
-import { SearchState } from '../reservation-search/store/search.state';
-import { searchReducer } from '../reservation-search/store/search.reducers';
+
 import { combineReducers} from '@ngrx/store';
 import { storeFreeze } from 'ngrx-store-freeze';
 import { compose } from '@ngrx/core';
-import { searchInitialState } from '../reservation-search/store/search.initialState';
+
+import { searchInitialState } from '../home/store/search.initialState';
+import { SearchState } from '../home/store/search.state';
+import { searchReducer } from '../home/store/search.reducers';
+
 import { AuthState } from '../auth/store/auth.state';
 import { authInitialState } from '../auth/store/auth.initialState';
 import { authReducer } from '../auth/store/auth.reducers';
-import {NavState} from "../navigation/store/nav.state";
-import {navInitialState} from "../navigation/store/nav.initialState";
-import {navReducer} from "../navigation/store/nav.reducers";
+
+import { NavState } from '../navigation/store/nav.state';
+import { navInitialState } from '../navigation/store/nav.initialState';
+import { navReducer } from '../navigation/store/nav.reducers';
 
 export interface AppState {
   search: SearchState,
@@ -22,6 +26,8 @@ export const initialState = {
   auth: authInitialState,
   nav: navInitialState
 };
+
+// TODO: I'm not doing these imports properly but somehow it's working
 
 const reducers = {
   search: searchReducer,

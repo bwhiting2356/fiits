@@ -3,7 +3,7 @@ import { MapService} from './map.service';
 
 import {Store} from '@ngrx/store';
 import {AppState} from '../store/reducer';
-import {MapSetCenter, MapSetZoomlevel} from '../reservation-search/store/search.actions';
+import {MapSetCenter, MapSetZoomlevel} from '../home/store/search.actions';
 import {Observable} from 'rxjs/Observable';
 import {Coords} from '../shared/coords';
 

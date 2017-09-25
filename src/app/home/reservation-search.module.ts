@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { GMAP_KEY } from '../../environments/constants';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -36,10 +37,13 @@ import { MinutesPipe } from '../pipes/minutes.pipe';
 import { AddMinutesPipe } from '../pipes/add-minutes.pipe';
 import { ShortAddressPipe } from '../pipes/short-address.pipe';
 import { HorizontalLineComponent } from './search-container/horizontal-line/horizontal-line.component';
-import {FormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
-import {PolylineService} from "../services/polyline.service";
-import {MenuComponent} from "../menu/menu.component";
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { PolylineService } from '../services/polyline.service';
+import { LoginComponent} from './search-container/login/login.component';
+import { MenuIconComponent} from 'app/menu-icon/menu-icon.component';
+import { FlashMessageComponent } from './search-container/flash-message/flash-message.component';
+
 
 export const COMPONENTS = [
   MapContainerComponent,
@@ -65,7 +69,9 @@ export const COMPONENTS = [
   BookingSuccessComponent,
   BookingErrorComponent,
   HorizontalLineComponent,
-  MenuComponent
+  MenuIconComponent,
+  FlashMessageComponent,
+  LoginComponent
 ];
 
 @NgModule({
@@ -75,7 +81,7 @@ export const COMPONENTS = [
     HttpClientModule,
     CommonModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAwPYOksRcTuVdLW4qRxj86I9_w0uJ7OqU',
+      apiKey: GMAP_KEY,
       libraries: ['places']
     }),
   ],

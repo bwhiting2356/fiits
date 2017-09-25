@@ -6,9 +6,9 @@
 
     <div class="nav-links">
       <div class="nav-link">
-        <p>Search</p>
+        <p>Home</p>
       </div>
-      <div *ngIf="authenticated">
+      <div *ngIf="authenticated | async">
         <div class="nav-link">
           <p>Current Trip</p>
         </div>
@@ -28,9 +28,12 @@
           <p>Log Out</p>
         </div>
       </div>
-      <div *ngIf="!authenticated">
+      <div *ngIf="!(authenticated | async)">
         <div class="nav-link">
-          <p>Sign Up/ Log In</p>
+          <p>Sign Up</p>
+        </div>
+        <div class="nav-link">
+          <p>Log In</p>
         </div>
       </div>
     </div>

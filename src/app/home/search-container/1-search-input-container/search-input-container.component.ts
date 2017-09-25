@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { SearchService } from '../../../services/search.service';
-import {Store} from "@ngrx/store";
-import {AppState} from "../../../store/reducer";
-import {Observable} from "rxjs/Observable";
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../store/reducer';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-search-input-container',

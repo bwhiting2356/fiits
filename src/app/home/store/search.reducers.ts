@@ -72,37 +72,43 @@ export function searchReducer(state = searchInitialState, action: search.Actions
 
     case search.RESET:
       return {
-        origin: {
-          address: '',
-          coords: undefined,
-          fetching: false,
-          focus: true
-        },
-        destination: {
-          address: '',
-          coords: undefined,
-          fetching: false,
-          focus: false
-        },
-        time: {
-          time: new Date(),
-          timeTarget: TimeTargets.LEAVE_NOW
-        },
-        progress: ProgressSteps.NO_SEARCH,
-        flash: {
-          message: '',
-          class: ''
-        },
-        result: {
-          response: undefined,
-          error: ''
-        },
+        ...searchInitialState,
+        // origin: {
+        //   address: '',
+        //   coords: undefined,
+        //   fetching: false,
+        //   focus: true
+        // },
+        // destination: {
+        //   address: '',
+        //   coords: undefined,
+        //   fetching: false,
+        //   focus: false
+        // },
+        // time: {
+        //   time: new Date(),
+        //   timeTarget: TimeTargets.LEAVE_NOW
+        // },
+        // progress: ProgressSteps.NO_SEARCH,
+        // flash: {
+        //   message: '',
+        //   class: ''
+        // },
+        // result: {
+        //   response: undefined,
+        //   error: ''
+        // },
         map: {
           ...state.map,
           rendering: false,
         }
       };
 
+    case search.SHOW_FLASH_MESSAGE:
+      return {...state, flash: action.payload };
+
+    case search.CLEAR_FLASH_MESSAGE:
+      return {...state, flash: { message: '', clazz: '' }};
     default:
       return state;
   }

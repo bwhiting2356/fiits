@@ -1,17 +1,15 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-flash-message',
-  templateUrl: './flash-message.component.html',
+  template: `
+    <div class="alert" [ngClass]="clazz">
+      {{ message }}
+    </div>
+  `,
   styleUrls: ['./flash-message.component.css']
 })
-export class FlashMessageComponent implements OnInit {
+export class FlashMessageComponent  {
   @Input() message: string;
-  @Input() class: string;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  @Input() clazz: string;
 }

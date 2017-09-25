@@ -40,9 +40,12 @@ import { HorizontalLineComponent } from './search-container/horizontal-line/hori
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { PolylineService } from '../services/polyline.service';
-import { LoginComponent} from './search-container/login/login.component';
+import { LoginComponent} from './search-container/auth/login/login.component';
 import { MenuIconComponent} from 'app/menu-icon/menu-icon.component';
 import { FlashMessageComponent } from './search-container/flash-message/flash-message.component';
+import { SignupComponent } from './search-container/auth/signup/signup.component';
+import { AuthHeaderComponent } from './search-container/auth/auth-header/auth-header.component';
+import { AuthContainerComponent } from './search-container/auth/auth-container/auth-container.component';
 
 
 export const COMPONENTS = [
@@ -71,7 +74,10 @@ export const COMPONENTS = [
   HorizontalLineComponent,
   MenuIconComponent,
   FlashMessageComponent,
-  LoginComponent
+  LoginComponent,
+  SignupComponent,
+  AuthHeaderComponent,
+  AuthContainerComponent
 ];
 
 @NgModule({

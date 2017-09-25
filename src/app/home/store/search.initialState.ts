@@ -22,7 +22,7 @@ export const searchInitialState: SearchState = {
   progress: ProgressSteps.NO_SEARCH,
   flash: {
     message: '',
-    class: ''
+    clazz: ''
   },
   result: {
     response: undefined,

@@ -22,7 +22,7 @@ export interface SearchState {
   progress: string;
   flash: {
     message: string;
-    class: string;
+    clazz: string;
   }
   result: {
     response: TripQueryResponse;

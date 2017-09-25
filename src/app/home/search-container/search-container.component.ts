@@ -20,6 +20,9 @@ export class SearchContainerComponent implements OnInit {
   error: Observable<string>;
   flashMessage: Observable<string>;
   messageClass: Observable<string>;
+  // showLogin: Observable<boolean>;
+  // showSignup: Observable<boolean>;
+  showAuth: Observable<boolean>;
 
   constructor(
     private geolocationService: GeolocationService,
@@ -29,7 +32,16 @@ export class SearchContainerComponent implements OnInit {
     this.response = this.store.select('search').map(search => search.result.response);
     this.error = this.store.select('search').map(search => search.result.error);
     this.flashMessage = this.store.select('search').map(search => search.flash.message);
-    this.messageClass = this.store.select('search').map(search => search.flash.class);
+    this.messageClass = this.store.select('search').map(search => search.flash.clazz);
+
+    this.showAuth = this.store.select('auth').map(auth => {
+      return (auth.showLogin || auth.showSignup);
+    })
+
+
+    // this.showSearch = this.store.select('auth').map(auth => {
+    //   return !(auth.showLogin || auth.showSignup);
+    // })
   }
 
   ngOnInit() {

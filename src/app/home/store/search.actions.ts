@@ -3,6 +3,7 @@ import { Coords } from '../../shared/coords';
 import { TripQueryRequest } from '../../shared/tripQueryRequest';
 import { TripQueryResponse } from '../../shared/tripQueryResponse';
 import { TimeTarget } from '../../shared/timeTarget';
+import {FlashMessage} from "../../shared/flashMessage";
 
 export const ORIGIN_ADDRESS_CHANGE = 'ORIGIN_ADDRESS_CHANGE';
 export const ORIGIN_COORDS_CHANGE = 'ORIGIN_COORDS_CHANGE';
@@ -37,6 +38,9 @@ export const MAP_STOP_RENDERING = 'MAP_STOP_RENDERING';
 
 export const NAVIGATE_TO_STEP = 'NAVIGATE_TO_STEP';
 export const RESET = 'RESET';
+
+export const SHOW_FLASH_MESSAGE = 'FLASH_MESSAGE';
+export const CLEAR_FLASH_MESSAGE = 'CLEAR_FLASH_MESSAGE';
 
 // ********** Search Origin Actions **********
 
@@ -180,6 +184,16 @@ export class Reset implements Action {
   readonly type = RESET;
 }
 
+export class ShowFlashMessage implements Action {
+  readonly type = SHOW_FLASH_MESSAGE;
+
+  constructor(public payload: FlashMessage) {}
+}
+
+export class ClearFlashMessage implements Action {
+  readonly type = CLEAR_FLASH_MESSAGE;
+}
+
 
 export type Actions
   = OriginAddressChange
@@ -207,4 +221,6 @@ export type Actions
   | MapSetZoomlevel
   | MapSetCenter
   | MapStartRendering
-  | MapStopRendering;
+  | MapStopRendering
+  | ShowFlashMessage
+  | ClearFlashMessage;

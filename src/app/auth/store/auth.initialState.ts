@@ -3,5 +3,8 @@ import { AuthState } from './auth.state';
 export const authInitialState: AuthState = {
   token: '',
   fetching: false,
-  error: ''
-}
+  error: '',
+  showAuth: false,
+  showLogin: false,
+  showSignup: false
+};

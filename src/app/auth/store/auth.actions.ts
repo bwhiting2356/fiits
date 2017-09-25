@@ -9,6 +9,13 @@ export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_ERROR = 'LOG_IN_ERROR';
 export const LOG_OUT = 'LOG_OUT';
 
+export const SHOW_LOG_IN = 'SHOW_LOG_IN';
+export const HIDE_LOG_IN = 'HIDE_LOG_IN';
+export const SHOW_SIGN_UP = 'SHOW_SIGN_UP';
+export const HIDE_SIGN_UP = 'HIDE_SIGN_UP';
+export const SHOW_AUTH = 'SHOW_AUTH';
+export const HIDE_AUTH = 'HIDE_AUTH';
+
 export class SignUpTry implements Action {
   readonly type = SIGN_UP_TRY;
 
@@ -49,6 +56,30 @@ export class LogOut implements Action {
   readonly type = LOG_OUT;
 }
 
+export class ShowLogIn implements Action {
+  readonly type = SHOW_LOG_IN;
+}
+
+export class HideLogIn implements Action {
+  readonly type = HIDE_LOG_IN;
+}
+
+export class ShowSignUp implements Action {
+  readonly type = SHOW_SIGN_UP;
+}
+
+export class HideSignUp implements Action {
+  readonly type = HIDE_SIGN_UP;
+}
+
+export class ShowAuth implements Action {
+  readonly type = SHOW_AUTH;
+}
+
+export class HideAuth implements Action {
+  readonly type = HIDE_AUTH;
+}
+
 export type Actions
   = SignUpTry
   | SignUpSuccess
@@ -56,4 +87,10 @@ export type Actions
   | LogInTry
   | LogInSuccess
   | LogInError
-  | LogOut;
+  | LogOut
+  | ShowLogIn
+  | HideLogIn
+  | ShowSignUp
+  | HideSignUp
+  | ShowAuth
+  | HideAuth;

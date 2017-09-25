@@ -2,35 +2,38 @@
 <app-flash-message
   *ngIf="flashMessage | async"
   [message]="flashMessage | async"
-  [class]="messageClass | async">
+  [clazz]="messageClass | async">
 </app-flash-message>
-<app-login></app-login>
-<!--<div [ngSwitch]="progress | async">-->
+<app-auth-container *ngIf="showAuth | async"></app-auth-container>
+<div *ngIf="!(showAuth | async)">
+  <div [ngSwitch]="progress | async">
+    <app-search-input-container
+      *ngSwitchCase="'NO_SEARCH'">
+    </app-search-input-container>
+    <app-search-loader
+      [message]="'Finding bike rentals...'"
+      *ngSwitchCase="'PENDING_1'">
+    </app-search-loader>
+    <app-search-result
+      *ngSwitchCase="'VIEWING_RESULT'"
+      [response]="response | async">
+    </app-search-result>
+    <app-search-result-error
+      *ngSwitchCase="'ERROR_1'"
+      [error]="error | async">
+    </app-search-result-error>
+    <app-search-info
+      *ngSwitchCase="'READING_INFO'">
+    </app-search-info>
+    <app-search-loader
+      *ngSwitchCase="'PENDING_2'">
+    </app-search-loader>
+    <app-booking-success
+      *ngSwitchCase="'VIEWING_RESERV'">
+    </app-booking-success>
+    <app-booking-error
+      *ngSwitchCase="'ERROR_2'">>
+    </app-booking-error>
+  </div>
+</div>
 
-  <!--<app-search-input-container-->
-    <!--*ngSwitchCase="'NO_SEARCH'">-->
-  <!--</app-search-input-container>-->
-  <!--<app-search-loader-->
-    <!--*ngSwitchCase="'PENDING_1'">-->
-  <!--</app-search-loader>-->
-  <!--<app-search-result-->
-    <!--*ngSwitchCase="'VIEWING_RESULT'"-->
-    <!--[response]="response | async">-->
-  <!--</app-search-result>-->
-  <!--<app-search-result-error-->
-    <!--*ngSwitchCase="'ERROR_1'"-->
-    <!--[error]="error | async">-->
-  <!--</app-search-result-error>-->
-  <!--<app-search-info-->
-    <!--*ngSwitchCase="'READING_INFO'">-->
-  <!--</app-search-info>-->
-  <!--<app-search-loader-->
-    <!--*ngSwitchCase="'PENDING_2'">-->
-  <!--</app-search-loader>-->
-  <!--<app-booking-success-->
-    <!--*ngSwitchCase="'VIEWING_RESERV'">-->
-  <!--</app-booking-success>-->
-  <!--<app-booking-error-->
-    <!--*ngSwitchCase="'ERROR_2'">>-->
-  <!--</app-booking-error>-->
-<!--</div>-->

@@ -1,0 +1,17 @@
+<form #f="ngForm" class="form-signup">
+  <h4 class="form-signin-heading">Sign Up for an Account</h4>
+  <div class="form-group has-feedback has-clear">
+    <label for="inputEmail">Email:</label>
+    <input name="email" ngModel type="email" id="inputEmail" class="form-control" placeholder="Enter your email address" required autofocus>
+  </div>
+  <div class="form-group has-feedback has-clear">
+    <label for="inputPassword">Password:</label>
+    <input name="password" ngModel type="password" id="inputPassword" class="form-control" placeholder="Enter your password" required>
+  </div>
+  <button
+    class="btn log-in"
+    type="submit"
+    (click)="signUp(f)">
+    Sign Up
+  </button>
+</form>

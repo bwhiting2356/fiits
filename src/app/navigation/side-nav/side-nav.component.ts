@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-
 import { trigger, state, style, transition, animate } from '@angular/animations';
+
 import { Observable } from 'rxjs/Observable';
+
 import { Store } from '@ngrx/store';
 import { AppState } from '../../store/reducer';
 import { CloseNav } from '../store/nav.actions';
+import { AuthService } from 'app/auth/auth.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -29,7 +31,8 @@ export class SideNavComponent {
   showNav: Observable<string>;
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private authService: AuthService
   ) {
     this.authenticated = this.store.select('auth')
       .map(auth => {
@@ -45,4 +48,13 @@ export class SideNavComponent {
     this.store.dispatch(new CloseNav());
   }
 
+  signUp() {
+    this.authService.showSignUp();
+    this.closeNav();
+  }
+
+  logIn() {
+    this.authService.showLogIn();
+    this.closeNav();
+  }
 }

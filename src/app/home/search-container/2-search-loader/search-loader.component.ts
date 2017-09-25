@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-search-loader',
   template: `
     <app-search-navigate></app-search-navigate>
     <div class="loading">
-      Finding bike rentals...
+      {{ message }}
       <div id="loading"></div>
       <!-- TODO: clea up this spinner -->
     </div>
@@ -13,5 +13,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./search-loader.component.scss']
 })
 export class SearchLoaderComponent {
+  @Input() message: string;
   constructor() { }
 }

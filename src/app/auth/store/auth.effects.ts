@@ -16,11 +16,6 @@ import { AuthService } from '../auth.service';
 
 @Injectable()
 export class AuthEffects {
-  constructor(
-    private http: HttpClient,
-    private actions$: Actions,
-    private authService: AuthService
-  ) { }
 
   @Effect({dispatch: false}) login$ = this.actions$
     .ofType(auth.LOG_IN_TRY)
@@ -44,4 +39,10 @@ export class AuthEffects {
       this.authService.signUpSuccess(res['token']);
     })
     .catch(err => of(new auth.SignUpError(err['error'])));
+
+  constructor(
+    private http: HttpClient,
+    private actions$: Actions,
+    private authService: AuthService
+  ) { }
 }

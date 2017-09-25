@@ -29,10 +29,10 @@
         </div>
       </div>
       <div *ngIf="!(authenticated | async)">
-        <div class="nav-link">
+        <div class="nav-link" (click)="signUp()">
           <p>Sign Up</p>
         </div>
-        <div class="nav-link">
+        <div class="nav-link" (click)="logIn()">
           <p>Log In</p>
         </div>
       </div>

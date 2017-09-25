@@ -1,0 +1,10 @@
+.header {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  height: 10px;
+}
+
+.glyphicon-remove {
+  cursor: pointer;
+  float: right;
+}

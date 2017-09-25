@@ -2,8 +2,8 @@ import { SearchState } from './search.state';
 import { searchInitialState } from './search.initialState';
 
 import * as search from './search.actions';
-import {ProgressSteps} from "../../shared/progressSteps";
-import {TimeTargets} from "../../shared/timeTarget";
+import { ProgressSteps } from '../../shared/progressSteps';
+import { TimeTargets } from '../../shared/timeTarget';
 
 export function searchReducer(state = searchInitialState, action: search.Actions): SearchState {
   switch (action.type) {

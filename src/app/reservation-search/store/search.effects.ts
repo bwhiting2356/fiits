@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Actions, Effect } from '@ngrx/effects';
-import { Observable } from 'rxjs/Observable';
 import { SearchService } from '../../services/search.service';
-import { Action } from '@ngrx/store';
 import {
-  SUBMIT_QUERY,
+  SUBMIT_QUERY, SubmitQuery,
 } from './search.actions';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
-import {parseTripQueryResponse} from '../../services/parseTripQueryResponse';
+
 import { BASE_URL } from '../../../environments/constants';
 
 @Injectable()
@@ -20,10 +18,9 @@ export class SearchEffects {
     private searchService: SearchService,
   ) { }
 
-  @Effect({ dispatch: false }) login$ = this.actions$
+  @Effect({ dispatch: false }) submitQuery$ = this.actions$
     .ofType(SUBMIT_QUERY)
-    // .map((action: SubmitQuery) => JSON.stringify(action.payload))
-    .switchMap(payload => this.http.post(BASE_URL + 'trip-query', payload)
+    .switchMap((action: SubmitQuery) => this.http.post(BASE_URL + 'api/trip-query', action.payload)
         .map((res: HttpResponse<any>) => {
           if (res['error']) {
             this.searchService.queryErrorReceived(res);

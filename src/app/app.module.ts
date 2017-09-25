@@ -15,25 +15,33 @@ import { ReservationSearchModule } from './reservation-search/reservation-search
 import { searchReducer } from './reservation-search/store/search.reducers';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchEffects } from './reservation-search/store/search.effects';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthService } from './auth/auth.service';
+import { AuthEffects } from './auth/store/auth.effects';
+import { authReducer } from './auth/store/auth.reducers';
+import { SideNavComponent } from './navigation/side-nav/side-nav.component';
+import { navReducer } from './navigation/store/nav.reducers';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    LoginComponent,
+    SideNavComponent,
   ],
   imports: [
     NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
-    StoreModule.forRoot({ search: searchReducer }),
+    StoreModule.forRoot({ search: searchReducer, auth: authReducer , nav: navReducer}),
     StoreDevtoolsModule.instrument(),
-    EffectsModule.forRoot([SearchEffects]),
+    EffectsModule.forRoot([SearchEffects, AuthEffects]),
     HttpClientModule,
     BsDropdownModule.forRoot(),
     BrowserAnimationsModule,
-    ReservationSearchModule
+    ReservationSearchModule,
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

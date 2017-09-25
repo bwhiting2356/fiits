@@ -1,0 +1,38 @@
+<div class="side-nav-container" [@slide]="showNav | async">
+  <div class="side-nav">
+    <div class="close-x" (click)="closeNav()">
+      <span class="glyphicon glyphicon-remove"></span>
+    </div>
+
+    <div class="nav-links">
+      <div class="nav-link">
+        <p>Search</p>
+      </div>
+      <div *ngIf="authenticated">
+        <div class="nav-link">
+          <p>Current Trip</p>
+        </div>
+        <div class="nav-link">
+          <p>Reservations</p>
+        </div>
+        <div class="nav-link">
+          <p>Payments</p>
+        </div>
+        <div class="nav-link">
+          <p>Help</p>
+        </div>
+        <div class="nav-link">
+          <p>Settings</p>
+        </div>
+        <div class="nav-link">
+          <p>Log Out</p>
+        </div>
+      </div>
+      <div *ngIf="!authenticated">
+        <div class="nav-link">
+          <p>Sign Up/ Log In</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

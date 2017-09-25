@@ -1,0 +1,56 @@
+.side-nav-container {
+  position: absolute;
+  top: 0px;
+  width: 250px;
+  height: 100vh;
+  background-color: black;
+  z-index: 5;
+}
+
+.close-x {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  padding: 10px;
+  border: 1px solid white;
+  border-radius: 100%;
+  cursor: pointer;
+
+  span.glyphicon-remove {
+    position: absolute;
+    top: 9px;
+    left: 9.5px;
+    color: white;
+  }
+  // TODO: finesse this x position, maybe do it in sketch
+}
+
+.nav-links {
+  margin-top: 100px;
+  margin-right: 5%;
+  margin-left: 5%;
+  width: 90%;
+
+  .nav-link {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      p {
+        color: black;
+      }
+    }
+
+     p {
+       margin-left: 10px;
+       color: white;
+       margin-bottom: 0;
+     }
+  }
+}

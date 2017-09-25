@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { Coords } from '../shared/coords';
-// import { NgRedux } from '@angular-redux/store';
-import { MAP_RENDERING_START, MAP_RENDERING_STOP } from '../redux/actions';
 import { Polyline, PolylineID } from '../shared/polylines';
-import { IAppState } from '../redux/IAppState';
-import {Store} from "@ngrx/store";
-import {AppState} from "../store/reducer";
-import {MapStartRendering, MapStopRendering} from "../reservation-search/store/search.actions";
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/reducer';
+import { MapStartRendering, MapStopRendering} from '../reservation-search/store/search.actions';
 
 @Injectable()
 export class MapService {

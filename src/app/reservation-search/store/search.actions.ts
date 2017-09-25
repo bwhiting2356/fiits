@@ -18,12 +18,6 @@ export const DESTINATION_FOCUS = 'DESTINATION_FOCUS';
 
 export const NO_FOCUS = 'NO_FOCUS';
 
-// export const ADD_DAY = 'ADD_DAY';
-// export const SUBTRACT_DAY = 'SUBTRACT_DAY';
-// export const ADD_MINUTES = 'ADD_MINUTES';
-// export const SUBTRACT_MINUTES = 'SUBTRACT_MINUTES';
-
-
 export const CHANGE_DATETIME = 'CHANGE_TIME';
 export const CHANGE_TIME_TARGET = 'CHANGE_TIME_TARGET';
 export const CHANGE_PROGRESS = 'CHANGE_PROGRESS';

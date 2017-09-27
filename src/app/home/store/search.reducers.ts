@@ -70,45 +70,25 @@ export function searchReducer(state = searchInitialState, action: search.Actions
     case search.NAVIGATE_TO_STEP:
       return {...state, progress: action.payload };
 
+    case search.CONFIRM_BOOK:
+      return {...state, progress: ProgressSteps.PENDING_2 };
+
+
+    case search.BOOKING_SUCCESS:
+      return {...state, progress: ProgressSteps.BOOKING_SUCCESS };
+
+    case search.BOOKING_ERROR:
+      return {...state, progress: ProgressSteps.ERROR_2 };  // TODO: rename this something better? BOOKING_ERROR?
+
     case search.RESET:
-      return {
-        ...searchInitialState,
-        // origin: {
-        //   address: '',
-        //   coords: undefined,
-        //   fetching: false,
-        //   focus: true
-        // },
-        // destination: {
-        //   address: '',
-        //   coords: undefined,
-        //   fetching: false,
-        //   focus: false
-        // },
-        // time: {
-        //   time: new Date(),
-        //   timeTarget: TimeTargets.LEAVE_NOW
-        // },
-        // progress: ProgressSteps.NO_SEARCH,
-        // flash: {
-        //   message: '',
-        //   class: ''
-        // },
-        // result: {
-        //   response: undefined,
-        //   error: ''
-        // },
-        map: {
-          ...state.map,
-          rendering: false,
-        }
-      };
+      return { ...searchInitialState, map: { ...state.map, rendering: false }};
 
     case search.SHOW_FLASH_MESSAGE:
       return {...state, flash: action.payload };
 
     case search.CLEAR_FLASH_MESSAGE:
       return {...state, flash: { message: '', clazz: '' }};
+
     default:
       return state;
   }

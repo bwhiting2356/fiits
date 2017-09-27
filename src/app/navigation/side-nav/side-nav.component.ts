@@ -57,4 +57,9 @@ export class SideNavComponent {
     this.authService.showLogIn();
     this.closeNav();
   }
+
+  logOut() {
+    this.authService.logOut();
+    this.closeNav();
+  }
 }

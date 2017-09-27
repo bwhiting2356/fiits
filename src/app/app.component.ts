@@ -8,6 +8,9 @@ import { Component } from '@angular/core';
     <!--<app-login></app-login>-->
   `,
   styles: [`
+    .test {
+      color: red
+    }
     app-map-container {
       position: relative;
     }

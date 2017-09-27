@@ -39,7 +39,7 @@ import { Observable } from 'rxjs/Observable';
       state(ProgressSteps.PENDING_2, style({
         width: '80%'
       })),
-      state(ProgressSteps.VIEWING_RESERV, style({
+      state(ProgressSteps.BOOKING_SUCCESS, style({
         width: '100%'
       })),
       state(ProgressSteps.ERROR_1, style({

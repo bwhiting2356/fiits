@@ -3,7 +3,7 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'app-search-loader',
   template: `
-    <app-search-navigate></app-search-navigate>
+    <!--<app-search-navigate></app-search-navigate>-->
     <div class="loading">
       {{ message }}
       <div id="loading"></div>

@@ -1,9 +1,4 @@
 <app-progress></app-progress>
-<app-flash-message
-  *ngIf="flashMessage | async"
-  [message]="flashMessage | async"
-  [clazz]="messageClass | async">
-</app-flash-message>
 <app-auth-container *ngIf="showAuth | async"></app-auth-container>
 <div *ngIf="!(showAuth | async)">
   <div [ngSwitch]="progress | async">
@@ -16,7 +11,7 @@
     </app-search-loader>
     <app-search-result
       *ngSwitchCase="'VIEWING_RESULT'"
-      [response]="response | async">
+      [tripData]="response | async">
     </app-search-result>
     <app-search-result-error
       *ngSwitchCase="'ERROR_1'"
@@ -29,7 +24,7 @@
       *ngSwitchCase="'PENDING_2'">
     </app-search-loader>
     <app-booking-success
-      *ngSwitchCase="'VIEWING_RESERV'">
+      *ngSwitchCase="'BOOKING_SUCCESS'">
     </app-booking-success>
     <app-booking-error
       *ngSwitchCase="'ERROR_2'">>

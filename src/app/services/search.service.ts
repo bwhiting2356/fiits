@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import 'rxjs/add/operator/take';
+// import 'rxjs/add/operator/take';
 
 import { TimeTargets } from '../shared/timeTarget';
 import { TripQueryRequest } from '../shared/tripQueryRequest';
@@ -14,7 +14,7 @@ import {
   OriginAddressChange, OriginCoordsChange, DestinationAddressChange, DestinationCoordsChange,
   OriginStartFetch, OriginStopFetch, DestinationStartFetch, DestinationStopFetch,
   SubmitQuery, QueryResultReceived,
-  NavigateToStep, Reset, QueryErrorReceived
+  NavigateToStep, Reset, QueryErrorReceived, ConfirmBook, BookingSuccess, BookingError
 } from '../home/store/search.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
@@ -24,6 +24,8 @@ import { subtractMinutes } from '../shared/timeHelperFunctions/subtractMinutes';
 import { addDay } from '../shared/timeHelperFunctions/addDay';
 import { subtractDay } from '../shared/timeHelperFunctions/subtractDay';
 import { ProgressSteps } from '../shared/progressSteps';
+import 'rxjs/add/operator/first';
+import { ShowSignUp } from '../auth/store/auth.actions';
 
 @Injectable()
 export class SearchService {
@@ -42,31 +44,31 @@ export class SearchService {
     this.store.dispatch(new QueryErrorReceived(res.error));
   }
 
-  searchBookReserv() {
-    // this.ngRedux.dispatch({ type: SEARCH_BOOK_RESERV });
+  readInfo() {
+    this.store.dispatch(new NavigateToStep(ProgressSteps.READING_INFO));
   }
 
-  searchConfirmBook() {
-    // this.ngRedux.dispatch({ type: SEARCH_CONFIRM_BOOK });
+  confirmBook() {
+    this.store
+      .first()
+      .map(state => state.search.result.response.tripId)
+      .subscribe(tripId => {
+        this.store.dispatch(new ConfirmBook({ tripId }))
+      })
+  }
 
-    // successful reservation booking
+  bookingSuccess() {
+    this.store.dispatch(new BookingSuccess())
+  }
 
-    setTimeout(() => {
-      // this.ngRedux.dispatch({ type: SEARCH_RESERV_BOOKED });
-
-    }, 1000)
-
-    // error
-
-    // setTimeout(() => {
-    //   this.ngRedux.dispatch({ type: SEARCH_RESERV_ERROR });
-    // }, 1000)
+  bookingError(err) {
+    this.store.dispatch(new BookingError(err));
   }
 
   // ***** SEARCH INPUT NATIVAGION *****
 
   backOneStep() {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       let newProgress: string;
       switch (state.search.progress) {
         case ProgressSteps.PENDING_1:
@@ -79,7 +81,7 @@ export class SearchService {
           break;
         case ProgressSteps.PENDING_2:
         case ProgressSteps.NO_SEARCH:
-        case ProgressSteps.VIEWING_RESERV:
+        case ProgressSteps.BOOKING_SUCCESS:
         case ProgressSteps.ERROR_2:
           break;
       }
@@ -97,7 +99,7 @@ export class SearchService {
   // ***** SERVER REQUEST/RESPONSE/ERROR *****
 
   searchSubmit() {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       const request: TripQueryRequest = {
         originAddress: state.search.origin.address,
         originCoords: state.search.origin.coords,
@@ -106,7 +108,6 @@ export class SearchService {
         time: state.search.time.time,
         timeTarget: state.search.time.timeTarget
       };
-      console.log(request);
       this.store.dispatch(new SubmitQuery(request));
     });
 
@@ -250,7 +251,7 @@ export class SearchService {
   // ***** CHANGE TIME, TIME TARGET *****
 
   addDay() {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       const date = state.search.time.time;
       const dateDate = addDay(date);
       this.store.dispatch(new ChangeDatetime(dateDate))
@@ -258,7 +259,7 @@ export class SearchService {
   }
 
   subtractDay() {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       const date = state.search.time.time;
       const dateDate = subtractDay(date);
       this.store.dispatch(new ChangeDatetime(dateDate))
@@ -266,7 +267,7 @@ export class SearchService {
   }
 
   addMinutes(value) {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       const time = state.search.time.time;
       const newTime = addMinutes(time, value);
       this.store.dispatch(new ChangeDatetime(newTime))
@@ -274,7 +275,7 @@ export class SearchService {
   }
 
   subractMinutes(value) {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       const time = state.search.time.time;
       const newTime = subtractMinutes(time, value);
       this.store.dispatch(new ChangeDatetime(newTime))
@@ -314,7 +315,7 @@ export class SearchService {
   }
 
   updateInputFocus() {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       if (state.search.origin.address.length === 0) {
         this.originFocus();
       } else if (state.search.destination.address.length === 0) {
@@ -328,7 +329,7 @@ export class SearchService {
   // ***** SWITCH INPUTS *****
 
   switchInputs() {
-    this.store.take(1).subscribe(state => {
+    this.store.first().subscribe(state => {
       const originAddress = state.search.origin.address;
       const originCoords = state.search.origin.coords;
       const destinationAddress = state.search.destination.address;

@@ -142,6 +142,8 @@ export class QueryErrorReceived implements Action {
 
 export class ConfirmBook implements Action {
   readonly type = CONFIRM_BOOK;
+
+  constructor(public payload: {tripId: number}) {}
 }
 
 export class BookingSuccess implements Action {
@@ -150,6 +152,8 @@ export class BookingSuccess implements Action {
 
 export class BookingError implements Action {
   readonly type = BOOKING_ERROR;
+
+  constructor(public payload: string) {}
 }
 
 // ********** Search Map Actions **********
@@ -193,7 +197,6 @@ export class ShowFlashMessage implements Action {
 export class ClearFlashMessage implements Action {
   readonly type = CLEAR_FLASH_MESSAGE;
 }
-
 
 export type Actions
   = OriginAddressChange

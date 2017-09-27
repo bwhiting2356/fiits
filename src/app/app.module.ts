@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { JWTInterceptor } from './jwt.interceptor';
 import { NgModule } from '@angular/core';
 import { BsDropdownModule } from 'ngx-bootstrap';
 import { AppComponent } from './app.component';
@@ -21,10 +22,11 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { authReducer } from './auth/store/auth.reducers';
 import { SideNavComponent } from './navigation/side-nav/side-nav.component';
 import { navReducer } from './navigation/store/nav.reducers';
-import { FlashMessageComponent } from './home/search-container/flash-message/flash-message.component';
+import { FlashMessageComponent } from './home/flash-message/flash-message.component';
 import { SignupComponent } from './home/search-container/auth/signup/signup.component';
 import { AuthHeaderComponent } from './home/search-container/auth/auth-header/auth-header.component';
 import { AuthContainerComponent } from './home/search-container/auth/auth-container/auth-container.component';
+
 
 
 @NgModule({
@@ -50,7 +52,10 @@ import { AuthContainerComponent } from './home/search-container/auth/auth-contai
     BrowserAnimationsModule,
     ReservationSearchModule,
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

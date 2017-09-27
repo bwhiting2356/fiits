@@ -3,11 +3,11 @@
   <h4>Bike trip available</h4>
   <!-- START LOCATION -->
   <div class="result-row">
-    <div class="left-col">{{ response.departureTime | date: 'shortTime' }}</div>
+    <div class="left-col">{{ tripData.departureTime | date: 'shortTime' }}</div>
     <div class="icon-col">
       <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
     </div>
-    <div class="middle-col">{{ response.originAddress | shortAddress }}</div>
+    <div class="middle-col">{{ tripData.originAddress | shortAddress }}</div>
   </div>
 
   <!-- WALKING DIRECTIONS # 1 -->
@@ -20,7 +20,7 @@
       <img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">
     </div>
     <div class="middle-col">
-      <i>Walk {{ response.walking1Distance.distanceText }} ({{ response.walking1Distance.duration | minutes }} min)</i> <!-- TODO: change this to a string instead of a nuber, including the measurements -->
+      <i>Walk {{ tripData.walking1Distance.distanceText }} ({{ tripData.walking1Distance.duration | minutes }} min)</i> <!-- TODO: change this to a string instead of a nuber, including the measurements -->
     </div>
   </div>
 
@@ -28,7 +28,7 @@
   <div class="result-row">
 
     <div class="inner-row">
-      <div class="left-col">{{ response.reservation1Time | date: 'shortTime' }}</div>
+      <div class="left-col">{{ tripData.reservation1Time | date: 'shortTime' }}</div>
       <div class="icon-col">
         <img class="station station-1" src="assets/icons/station.svg" alt="">
       </div>
@@ -38,15 +38,15 @@
     </div>
 
     <div class="inner">
-      <div class="left-col">{{ response.reservation1Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="left-col">{{ tripData.reservation1Time | addMinutes: 10 | date: 'shortTime' }}</div>
       <div class="icon-col">
         <img class="bicycle-line" src="assets/icons/bicycle-line.svg" alt="">
       </div>
       <div class="middle-col">
-        {{ response.station1Address | shortAddress }}
+        {{ tripData.station1Address | shortAddress }}
       </div>
-      <div class="right-col" [ngStyle]="{'color': response.reservation1Price >= 0 ? 'green' : 'black'}">
-        {{ response.reservation1Price | currency:'USD':true }}
+      <div class="right-col" [ngStyle]="{'color': tripData.reservation1Price >= 0 ? 'green' : 'black'}">
+        {{ tripData.reservation1Price | currency:'USD':true }}
       </div>
     </div>
 
@@ -61,10 +61,10 @@
       <!--<img src="assets/icons/bicycle-line.svg" alt="">-->
     </div>
     <div class="middle-col">
-      <i>Ride {{ response.bicyclingDistance.distanceText }} ({{ response.bicyclingDistance.duration | minutes }} min)</i>
+      <i>Ride {{ tripData.bicyclingDistance.distanceText }} ({{ tripData.bicyclingDistance.duration | minutes }} min)</i>
     </div>
-    <div class="right-col" [ngStyle]="{'color': response.bikeRentalPrice >= 0 ? 'green' : 'black'}">
-      {{ response.bicyclingPrice | currency:'USD':true }}
+    <div class="right-col" [ngStyle]="{'color': tripData.bikeRentalPrice >= 0 ? 'green' : 'black'}">
+      {{ tripData.bicyclingPrice | currency:'USD':true }}
     </div>
   </div>
 
@@ -72,7 +72,7 @@
   <div class="result-row">
 
     <div class="inner-row">
-      <div class="left-col">{{ response.reservation2Time | date: 'shortTime' }}</div>
+      <div class="left-col">{{ tripData.reservation2Time | date: 'shortTime' }}</div>
       <div class="icon-col">
         <!--<img class="station" src="assets/icons/station.svg" alt="">-->
       </div>
@@ -82,15 +82,15 @@
     </div>
 
     <div class="inner-row">
-      <div class="left-col">{{ response.reservation2Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="left-col">{{ tripData.reservation2Time | addMinutes: 10 | date: 'shortTime' }}</div>
       <div class="icon-col">
         <img class="station station-2" src="assets/icons/station.svg" alt="">
       </div>
       <div class="middle-col">
-        {{ response.station2Address | shortAddress }}
+        {{ tripData.station2Address | shortAddress }}
       </div>
-      <div class="right-col" [ngStyle]="{'color': response.reservation2Price >= 0 ? 'green' : 'black'}">
-        {{ response.reservation2Price | currency:'USD':true }}
+      <div class="right-col" [ngStyle]="{'color': tripData.reservation2Price >= 0 ? 'green' : 'black'}">
+        {{ tripData.reservation2Price | currency:'USD':true }}
       </div>
     </div>
 
@@ -105,17 +105,17 @@
       <img class="walk-dots" src="assets/icons/walk-dots.svg" alt="">
     </div>
     <div class="middle-col">
-      <i>Walk {{ response.walking2Distance.distanceText }} ({{ response.walking2Distance.duration | minutes }} min)</i>
+      <i>Walk {{ tripData.walking2Distance.distanceText }} ({{ tripData.walking2Distance.duration | minutes }} min)</i>
     </div>
   </div>
 
   <!-- END LOCATION -->
   <div class="result-row">
-    <div class="left-col">{{ response.arrivalTime | date: 'shortTime'  }}</div><!-- | date: 'shortTime' -->
+    <div class="left-col">{{ tripData.arrivalTime | date: 'shortTime'  }}</div><!-- | date: 'shortTime' -->
     <div class="icon-col">
       <span class="glyphicon glyphicon-record"></span> <!-- TODO: replace with same symbol as marker on map -->
     </div>
-    <div class="middle-col">{{ response.destinationAddress | shortAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
+    <div class="middle-col">{{ tripData.destinationAddress | shortAddress }}</div> <!-- TODO: add a lot more vertical whitespace... -->
   </div>
 
   <app-horizontal-line></app-horizontal-line>
@@ -124,10 +124,28 @@
       {{ totalPrice | currency:'USD':true }}
     </span>
   </div>
-  <button
+  <div
+    class="btn-group auth"
+    role="group"
+    aria-label="..."
+    *ngIf="!(authenticated | async)">
+    <button
+      type="button"
+      class="btn btn-default sign-up"
+      (click)="signUp()">
+      Sign Up
+    </button>
+    <button
+      type="button"
+      class="btn btn-default sign-up"
+      (click)="logIn()">
+      Log In
+    </button>
+  </div>
+  <button *ngIf="authenticated | async"
     type="button"
     class="btn btn-primary bike-reservation-submit"
-    (click)="bookReservation()">
+    (click)="readInfo()">
     Book this trip
   </button>
   <!--&lt;!&ndash; TODO: info/tooltips &ndash;&gt;-->

@@ -8,8 +8,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/reducer';
 import { Observable } from 'rxjs/Observable';
 import { Coords } from '../../../shared/coords';
-import { TripQueryResponse } from '../../../shared/tripQueryResponse';
-import {SearchService} from "../../../services/search.service";
+import { SearchService } from '../../../services/search.service';
+import { TripData } from '../../../shared/tripData';
 
 @Component({
   selector: 'app-map-container',
@@ -21,7 +21,7 @@ export class MapContainerComponent {
   mapCenter: Observable<Coords>;
   origin: Observable<Coords>;
   destination: Observable<Coords>;
-  response: Observable<TripQueryResponse>;
+  tripData: Observable<TripData>;
   styles = styles;
 
   originMarkerDragEnd($event) {
@@ -43,6 +43,6 @@ export class MapContainerComponent {
     this.mapCenter = this.store.select('search').map(search => search.map.center);
     this.origin = this.store.select('search').map(search => search.origin.coords);
     this.destination = this.store.select('search').map(search => search.destination.coords);
-    this.response = this.store.select('search').map(search => search.result.response);
+    this.tripData = this.store.select('search').map(search => search.result.response.tripData);
   }
 }

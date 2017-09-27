@@ -6,6 +6,7 @@ import {AppState} from '../store/reducer';
 import {MapSetCenter, MapSetZoomlevel} from '../home/store/search.actions';
 import {Observable} from 'rxjs/Observable';
 import {Coords} from '../shared/coords';
+// import {first} from "rxjs/operator/first";
 
 @Injectable()
 export class FitboundsService {
@@ -22,6 +23,7 @@ export class FitboundsService {
 
   update() {
     this.getBounds()
+      .first()
       .map(bounds => {
         const newCenter = this.getNewOffsetCenter(bounds.getCenter());
         this.store.dispatch(new MapSetCenter(newCenter));
@@ -31,12 +33,11 @@ export class FitboundsService {
         const newZoomLevel = this.getNewZoomLevel(bounds);
         this.store.dispatch(new MapSetZoomlevel(newZoomLevel));
       })
-      .take(1)
       .subscribe();
   }
 
   getBounds(): Observable<google.maps.LatLngBounds> {
-    return this.store.take(1).map(state => {
+    return this.store.first().map(state => {
       const newBounds = new google.maps.LatLngBounds();
       if (state.search.origin.coords) {
         newBounds.extend(state.search.origin.coords);
@@ -46,12 +47,13 @@ export class FitboundsService {
       }
       if (state.search.result.response) {
         newBounds.extend({
-          lat: state.search.result.response.station1Coords.lat,
-          lng: state.search.result.response.station1Coords.lng
+          lat: state.search.result.response.tripData.station1Coords.lat,
+          lng: state.search.result.response.tripData.station1Coords.lng
         });
         newBounds.extend({
-          lat: state.search.result.response.station2Coords.lat,
-          lng: state.search.result.response.station2Coords.lng });
+          lat: state.search.result.response.tripData.station2Coords.lat,
+          lng: state.search.result.response.tripData.station2Coords.lng
+        });
       }
       return newBounds;
     });

@@ -23,11 +23,13 @@ export class AuthEffects {
       return this.http.post(BASE_URL + 'auth/login', action.payload)
     })
     .map((res: HttpResponse<any>) => {
-      this.authService.logInSuccess(res['token']);
-    })
-    .catch(err => {
-      this.authService.logInError(err['error']);
-      return err;
+      if (res['token']) {
+        this.authService.logInSuccess(res['token']);
+      } else if (res['error']) {
+        this.authService.logInError(res['error']);
+      } else {
+        console.log('No error or token, what\'s going on?');
+      }
     });
 
   @Effect({dispatch: false}) signup$ = this.actions$
@@ -36,9 +38,14 @@ export class AuthEffects {
       return this.http.post(BASE_URL + 'auth/signup', action.payload)
     })
     .map((res: HttpResponse<any>) => {
-      this.authService.signUpSuccess(res['token']);
-    })
-    .catch(err => of(new auth.SignUpError(err['error'])));
+      if (res['token']) {
+        this.authService.signUpSuccess(res['token']);
+      } else if (res['error']) {
+        this.authService.signUpError(res['error']);
+      } else {
+        console.log('No error or token, what\'s going on?');
+      }
+    });
 
   constructor(
     private http: HttpClient,

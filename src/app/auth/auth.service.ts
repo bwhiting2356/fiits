@@ -26,23 +26,30 @@ export class AuthService {
 
   signUpError(err: string) {
     this.store.dispatch(new SignUpError(err));
+    this.store.dispatch(new ShowSignUp());
+    this.store.dispatch(new ShowFlashMessage({ message: err, clazz: 'alert-danger'}))
   }
 
   logInTry(userCredentials: UserCredentials) {
-
     this.store.dispatch(new LogInTry(userCredentials));
+    this.store.dispatch(new HideLogIn());
   }
 
   logInSuccess(token: string) {
     this.store.dispatch(new LogInSuccess(token));
+    this.store.dispatch(new HideAuth());
+    this.store.dispatch(new ShowFlashMessage({ message: 'Log in successful', clazz: 'alert-success'}))
   }
 
   logInError(err: string) {
     this.store.dispatch(new LogInError(err));
+    this.store.dispatch(new ShowLogIn());
+    this.store.dispatch(new ShowFlashMessage({ message: err, clazz: 'alert-danger'}))
   }
 
   logOut() {
     this.store.dispatch(new LogOut());
+    this.store.dispatch(new ShowFlashMessage({ message: 'You are now logged out', clazz: 'alert-success'}))
   }
 
   showLogIn() {

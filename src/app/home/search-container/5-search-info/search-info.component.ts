@@ -11,7 +11,7 @@ import { SearchService } from '../../../services/search.service';
     <button
       type="button"
       class="btn btn-primary bike-reservation-confirm"
-      (click)="confirmBooking()">
+      (click)="confirmBook()">
       Confirm Booking
     </button>
   `,
@@ -19,8 +19,8 @@ import { SearchService } from '../../../services/search.service';
 })
 export class SearchInfoComponent {
 
-  confirmBooking() {
-    this.searchService.searchConfirmBook()
+  confirmBook() {
+    this.searchService.confirmBook()
   }
 
   constructor(private searchService: SearchService ) { }

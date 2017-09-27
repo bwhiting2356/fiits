@@ -21,9 +21,9 @@ export interface SearchState {
   },
   progress: string;
   flash: {
-    message: string;
-    clazz: string;
-  }
+    message: string,
+    clazz: string
+  },
   result: {
     response: TripQueryResponse;
     error: string;

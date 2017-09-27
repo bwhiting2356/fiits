@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 @Component({
   selector: 'app-search-input-container',
   template: `
-    <form class="input-form">
+    <form class="input-form" (onSubmit)="searchSubmit()">
       <app-origin-input></app-origin-input>
       <app-switch-inputs></app-switch-inputs>
       <app-destination-input></app-destination-input>

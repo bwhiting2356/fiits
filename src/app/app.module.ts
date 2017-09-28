@@ -12,7 +12,6 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { ReservationSearchModule } from './home/reservation-search.module';
 import { searchReducer } from './home/store/search.reducers';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchEffects } from './home/store/search.effects';
@@ -26,7 +25,13 @@ import { FlashMessageComponent } from './home/flash-message/flash-message.compon
 import { SignupComponent } from './home/search-container/auth/signup/signup.component';
 import { AuthHeaderComponent } from './home/search-container/auth/auth-header/auth-header.component';
 import { AuthContainerComponent } from './home/search-container/auth/auth-container/auth-container.component';
+import { Routes } from "@angular/router";
+import {HomeComponent} from "./home/home.component";
+import {HomeModule} from "./home/home.module";
 
+const appRoutes: Routes = [
+  { path: '', component: HomeComponent}
+];
 
 
 @NgModule({
@@ -50,7 +55,7 @@ import { AuthContainerComponent } from './home/search-container/auth/auth-contai
     HttpClientModule,
     BsDropdownModule.forRoot(),
     BrowserAnimationsModule,
-    ReservationSearchModule,
+    HomeModule,
   ],
   providers: [
     AuthService,

@@ -5,7 +5,7 @@ import {AppState} from '../store/reducer';
 import {ClearFlashMessage} from './store/search.actions';
 
 @Component({
-  selector: 'app-reservation-search',
+  selector: 'app-home',
   template: `
     <app-menu-icon></app-menu-icon>
     <app-flash-message
@@ -19,7 +19,7 @@ import {ClearFlashMessage} from './store/search.actions';
   `,
   styles: [``]
 })
-export class ReservationSearchComponent {
+export class HomeComponent {
   error: Observable<string>;
   flashMessage: Observable<string>;
   messageClass: Observable<string>;

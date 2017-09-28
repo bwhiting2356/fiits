@@ -6,7 +6,7 @@ import { GMAP_KEY } from '../../environments/constants';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ReservationSearchComponent } from './reservation-search.component';
+import { HomeComponent } from './home.component';
 import { MapContainerComponent } from './map-container/map/map-container.component';
 import { DateTimeInputComponent } from './search-container/1-search-input-container/date-time-input/date-time-input.component';
 import { TimeTargetSelectComponent } from './search-container/1-search-input-container/date-time-input/time-target-select/time-target-select.component';
@@ -51,7 +51,7 @@ import { AuthContainerComponent } from './search-container/auth/auth-container/a
 export const COMPONENTS = [
   MapContainerComponent,
   PolylineComponent,
-  ReservationSearchComponent,
+  HomeComponent,
   DateTimeInputComponent,
   TimeTargetSelectComponent,
   DateInputComponent,
@@ -108,7 +108,7 @@ export const COMPONENTS = [
   ],
   exports: [COMPONENTS]
 })
-export class ReservationSearchModule { }
+export class HomeModule { }
 
 
 

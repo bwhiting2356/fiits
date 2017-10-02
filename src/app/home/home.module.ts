@@ -98,13 +98,13 @@ export const COMPONENTS = [
     ShortAddressPipe
   ],
   providers: [
-    GeolocationService,
-    ReverseGeocodeService,
-    SearchService,
-    MapService,
-    PolylineService,
-    FitboundsService,
-    GoogleMapsAPIWrapper,
+    // GeolocationService,
+    // ReverseGeocodeService,
+    // SearchService,
+    // MapService,
+    // PolylineService,
+    // FitboundsService,
+    // GoogleMapsAPIWrapper,
   ],
   exports: [COMPONENTS]
 })

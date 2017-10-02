@@ -1,4 +1,6 @@
-import {Component, OnInit, ViewChild, ElementRef, AfterViewChecked, AfterViewInit} from '@angular/core';
+import {
+  Component, OnInit, ViewChild, ElementRef, OnChanges
+} from '@angular/core';
 import { MapsAPILoader } from '@agm/core';
 import {} from 'googlemaps';
 
@@ -17,7 +19,7 @@ import { Observable } from 'rxjs/Observable';
     }
   `]
 })
-export class OriginInputComponent implements OnInit, AfterViewInit {
+export class OriginInputComponent implements OnInit, OnChanges {
   originAddress: Observable<string>;
   originFetching: Observable<boolean>;
   placeholderText: Observable<string>;
@@ -78,10 +80,11 @@ export class OriginInputComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  ngOnChanges() {
     this.store.select('search').map(search => search.origin.focus).subscribe(focus => {
       if (focus) {
         this.originInput.nativeElement.focus();
+        console.log("line 85")
       }
     });
   }

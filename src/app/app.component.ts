@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-root',
   template: `
     <app-side-nav></app-side-nav>
-    <app-reservation-search></app-reservation-search>
-    <!--<app-login></app-login>-->
+    <router-outlet></router-outlet>
+    <!--<app-home></app-home>-->
   `,
   styles: [`
     .test {

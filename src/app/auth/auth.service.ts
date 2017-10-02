@@ -9,9 +9,13 @@ import {
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
 import {ShowFlashMessage} from "../home/store/search.actions";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class AuthService {
+  isAuthenticated(): Observable<boolean> {
+    return this.store.select('auth').map(auth => !!auth.token);
+  }
 
   signUpTry(userCredentials: UserCredentials) {
     this.store.dispatch(new SignUpTry(userCredentials));

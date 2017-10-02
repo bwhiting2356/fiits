@@ -14,14 +14,21 @@ import { authReducer } from '../auth/store/auth.reducers';
 import { NavState } from '../navigation/store/nav.state';
 import { navInitialState } from '../navigation/store/nav.initialState';
 import { navReducer } from '../navigation/store/nav.reducers';
+import { RouterState } from '@angular/router';
+import { routerReducer } from '@ngrx/router-store';
+
 
 export interface AppState {
+  router: RouterState
   search: SearchState,
   auth: AuthState,
   nav: NavState
 }
 
 export const initialState = {
+  router: {
+    path: '/'
+  },
   search: searchInitialState,
   auth: authInitialState,
   nav: navInitialState
@@ -32,7 +39,8 @@ export const initialState = {
 const reducers = {
   search: searchReducer,
   auth: authReducer,
-  nav: navReducer
+  nav: navReducer,
+  router: routerReducer
 };
 
 export function reducer(state: any, action: any) {

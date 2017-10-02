@@ -23,40 +23,40 @@
 
   <!--walking directions # 1-->
   <app-polyline
-    *ngIf="response | async"
-    [points]="(response | async).walking1Points"
+    *ngIf="tripData | async"
+    [points]="(tripData | async).walking1Points"
     [lineId]="'WALKING_1'">
   </app-polyline>
 
   <!--station 1 location-->
   <agm-marker
     [iconUrl]="'assets/icons/station.svg'"
-    *ngIf="response | async"
-    [latitude]="(response | async).station1Coords.lat"
-    [longitude]="(response | async).station1Coords.lng"
+    *ngIf="tripData | async"
+    [latitude]="(tripData | async).station1Coords.lat"
+    [longitude]="(tripData | async).station1Coords.lng"
     [markerDraggable]="false">
   </agm-marker>
 
   <!--bicycle directions-->
   <app-polyline
-    *ngIf="response | async"
-    [points]="(response | async).bicyclingPoints"
+    *ngIf="tripData | async"
+    [points]="(tripData | async).bicyclingPoints"
     [lineId]="'BICYCLING'">
   </app-polyline>
 
   <!--station 2 location-->    <!--*ngIf="station2Lat | async"-->
   <agm-marker
     [iconUrl]="'assets/icons/station.svg'"
-    *ngIf="response | async"
-    [latitude]="(response | async).station2Coords.lat"
-    [longitude]="(response | async).station2Coords.lat"
+    *ngIf="tripData | async"
+    [latitude]="(tripData | async).station2Coords.lat"
+    [longitude]="(tripData | async).station2Coords.lat"
     [markerDraggable]="false">
   </agm-marker>
 
   <!--walking directions # 2-->
   <app-polyline
-    *ngIf="response | async"
-    [points]="(response | async).walking2Points"
+    *ngIf="tripData | async"
+    [points]="(tripData | async).walking2Points"
     [lineId]="'WALKING_2'">
   </app-polyline>
 

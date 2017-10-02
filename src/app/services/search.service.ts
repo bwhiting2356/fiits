@@ -317,10 +317,12 @@ export class SearchService {
   updateInputFocus() {
     this.store.first().subscribe(state => {
       if (state.search.origin.address.length === 0) {
+        // console.log("this happened 320")
         this.originFocus();
       } else if (state.search.destination.address.length === 0) {
         this.destinationFocus();
       } else {
+        console.log("this happened 325")
         this.noFocus();
       }
     });

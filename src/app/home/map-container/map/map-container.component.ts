@@ -43,6 +43,8 @@ export class MapContainerComponent {
     this.mapCenter = this.store.select('search').map(search => search.map.center);
     this.origin = this.store.select('search').map(search => search.origin.coords);
     this.destination = this.store.select('search').map(search => search.destination.coords);
-    this.tripData = this.store.select('search').map(search => search.result.response.tripData);
+    this.tripData = this.store.select('search').map(search => {
+      return search.result.response ? search.result.response.tripData : undefined;
+    });
   }
 }

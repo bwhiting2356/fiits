@@ -25,13 +25,22 @@ import { FlashMessageComponent } from './home/flash-message/flash-message.compon
 import { SignupComponent } from './home/search-container/auth/signup/signup.component';
 import { AuthHeaderComponent } from './home/search-container/auth/auth-header/auth-header.component';
 import { AuthContainerComponent } from './home/search-container/auth/auth-container/auth-container.component';
-import { Routes } from "@angular/router";
-import {HomeComponent} from "./home/home.component";
-import {HomeModule} from "./home/home.module";
-
-const appRoutes: Routes = [
-  { path: '', component: HomeComponent}
-];
+import { RouterModule } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { HomeModule } from './home/home.module';
+import { NavLayerComponent } from './navigation/nav-layer/nav-layer.component';
+import { CurrentTripComponent } from './current-trip/current-trip.component';
+import { AuthGuard } from './auth-guard.service';
+import {routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { environment } from '../environments/environment';
+import { routes } from './routes';
+import {GeolocationService} from "./services/geolocation.service";
+import {ReverseGeocodeService} from "./services/reverse-geocode.service";
+import {SearchService} from "./services/search.service";
+import {MapService} from "./services/map.service";
+import {PolylineService} from "./services/polyline.service";
+import {FitboundsService} from "./services/fitbounds.service";
+import {GoogleMapsAPIWrapper} from "@agm/core";
 
 
 @NgModule({
@@ -39,6 +48,8 @@ const appRoutes: Routes = [
     AppComponent,
     // LoginComponent,
     SideNavComponent,
+    NavLayerComponent,
+    CurrentTripComponent,
     // AuthContainerComponent,
     // AuthHeaderComponent,
     // SignupComponent,
@@ -49,16 +60,26 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     BrowserModule,
     FormsModule,
-    StoreModule.forRoot({ search: searchReducer, auth: authReducer , nav: navReducer}),
-    StoreDevtoolsModule.instrument(),
+    StoreModule.forRoot({ search: searchReducer, auth: authReducer , nav: navReducer, router: routerReducer}),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
     EffectsModule.forRoot([SearchEffects, AuthEffects]),
     HttpClientModule,
     BsDropdownModule.forRoot(),
     BrowserAnimationsModule,
     HomeModule,
+    RouterModule.forRoot(routes),
+    StoreRouterConnectingModule,
   ],
   providers: [
+    GeolocationService,
+    ReverseGeocodeService,
+    SearchService,
+    MapService,
+    PolylineService,
+    FitboundsService,
+    GoogleMapsAPIWrapper,
     AuthService,
+    AuthGuard,
     { provide: HTTP_INTERCEPTORS, useClass: JWTInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]

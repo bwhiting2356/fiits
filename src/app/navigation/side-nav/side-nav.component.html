@@ -1,3 +1,4 @@
+<app-nav-layer *ngIf="(showNav | async) === 'show'" (click)="closeNav()"></app-nav-layer>
 <div class="side-nav-container" [@slide]="showNav | async">
   <div class="side-nav">
     <div class="close-x" (click)="closeNav()">
@@ -5,26 +6,46 @@
     </div>
 
     <div class="nav-links">
-      <div class="nav-link">
+      <div class="nav-link"
+           routerLink="/"
+           routerLinkActive="active"
+           (click)="closeNav()"
+           [routerLinkActiveOptions]="{exact: true}">
         <p>Home</p>
       </div>
       <div *ngIf="authenticated | async">
-        <div class="nav-link">
+        <div class="nav-link"
+             routerLink="/current-trip"
+             routerLinkActive="active"
+             (click)="closeNav()">
           <p>Current Trip</p>
         </div>
-        <div class="nav-link">
+        <div class="nav-link"
+             routerLink="/reservations"
+             routerLinkActive="active"
+             (click)="closeNav()">
           <p>Reservations</p>
         </div>
-        <div class="nav-link">
+        <div class="nav-link"
+             routerLink="/payments"
+             routerLinkActive="active"
+             (click)="closeNav()">
           <p>Payments</p>
         </div>
-        <div class="nav-link">
+        <div class="nav-link"
+             routerLink="/help"
+             routerLinkActive="active"
+             (click)="closeNav()">
           <p>Help</p>
         </div>
-        <div class="nav-link">
+        <div class="nav-link"
+             routerLink="/settings"
+             routerLinkActive="active"
+             (click)="closeNav()">
           <p>Settings</p>
         </div>
-        <div class="nav-link" (click)="logOut()">
+        <div class="nav-link"
+             (click)="logOut()">
           <p>Log Out</p>
         </div>
       </div>
@@ -39,3 +60,4 @@
     </div>
   </div>
 </div>
+

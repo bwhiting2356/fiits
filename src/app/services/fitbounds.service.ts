@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MapService} from './map.service';
 
-import {Store} from '@ngrx/store';
-import {AppState} from '../store/reducer';
-import {MapSetCenter, MapSetZoomlevel} from '../home/store/search.actions';
-import {Observable} from 'rxjs/Observable';
-import {Coords} from '../shared/coords';
-// import {first} from "rxjs/operator/first";
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/reducer';
+import { MapSetCenter, MapSetZoomlevel } from '../home/store/search.actions';
+import { Observable } from 'rxjs/Observable';
+import { Coords } from '../shared/coords';
 
 @Injectable()
 export class FitboundsService {

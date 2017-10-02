@@ -32,14 +32,17 @@ export class SearchEffects {
 
   @Effect({ dispatch: false }) confirmBook$ = this.actions$
     .ofType(CONFIRM_BOOK)
-    .switchMap((action: ConfirmBook) => this.http.post(BASE_URL + 'api/confirm-book', action.payload))
+    .switchMap((action: ConfirmBook) => {
+    console.log(action.payload);
+    return this.http.post(BASE_URL + 'api/confirm-book', action.payload)
+    })
       .map((res: HttpResponse<any>) => {
         if (res['error']) {
           this.searchService.bookingError(res['error']);
         } else {
           this.searchService.bookingSuccess();
         }
-      })
+      });
     //   .catch(err => {
     //     console.log(err);
     //     return err;

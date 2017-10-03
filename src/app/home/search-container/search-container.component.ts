@@ -14,7 +14,7 @@ import { TripData } from '../../shared/tripData';
 })
 export class SearchContainerComponent implements OnInit {
   progress: Observable<string>;
-  response: Observable<TripData>;
+  tripData: Observable<TripData>;
   showAuth: Observable<boolean>;
 
   constructor(
@@ -22,7 +22,9 @@ export class SearchContainerComponent implements OnInit {
     private store: Store<AppState>
   ) {
     this.progress = this.store.select('search').map(search => search.progress);
-    this.response = this.store.select('search').map(search => search.result.response.tripData);
+    this.tripData = this.store.select('search').map(search => {
+      return search.result.response ? search.result.response.tripData : undefined;
+    });
     this.showAuth = this.store.select('auth').map(auth => auth.showAuth);
   }
 

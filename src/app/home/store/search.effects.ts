@@ -36,18 +36,18 @@ export class SearchEffects {
     console.log(action.payload);
     return this.http.post(BASE_URL + 'api/confirm-book', action.payload)
     })
-      .map((res: HttpResponse<any>) => {
-        if (res['error']) {
-          this.searchService.bookingError(res['error']);
-        } else {
-          this.searchService.bookingSuccess();
-        }
-      });
-    //   .catch(err => {
-    //     console.log(err);
-    //     return err;
-    //   })
-    // );
+    .map((res: HttpResponse<any>) => {
+      if (res['error']) {
+        this.searchService.bookingError(res['error']);
+      } else {
+        this.searchService.bookingSuccess();
+      }
+    })
+    .catch(err => {
+      this.searchService.bookingError(err);
+      console.log(err);
+      return err;
+    });
 
   constructor(
     private http: HttpClient,

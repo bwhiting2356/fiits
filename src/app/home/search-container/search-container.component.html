@@ -11,7 +11,7 @@
     </app-search-loader>
     <app-search-result
       *ngSwitchCase="'VIEWING_RESULT'"
-      [tripData]="response | async">
+      [tripData]="tripData | async">
     </app-search-result>
     <app-search-result-error
       *ngSwitchCase="'ERROR_1'"

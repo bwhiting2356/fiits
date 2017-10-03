@@ -38,7 +38,7 @@
     </div>
 
     <div class="inner">
-      <div class="left-col">{{ tripData.reservation1Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="left-col"></div>
       <div class="icon-col">
         <img class="bicycle-line" src="assets/icons/bicycle-line.svg" alt="">
       </div>
@@ -72,7 +72,7 @@
   <div class="result-row">
 
     <div class="inner-row">
-      <div class="left-col">{{ tripData.reservation2Time | date: 'shortTime' }}</div>
+      <div class="left-col"></div>
       <div class="icon-col">
         <!--<img class="station" src="assets/icons/station.svg" alt="">-->
       </div>
@@ -82,7 +82,7 @@
     </div>
 
     <div class="inner-row">
-      <div class="left-col">{{ tripData.reservation2Time | addMinutes: 10 | date: 'shortTime' }}</div>
+      <div class="left-col">{{ tripData.reservation2Time | date: 'shortTime' }}</div>
       <div class="icon-col">
         <img class="station station-2" src="assets/icons/station.svg" alt="">
       </div>

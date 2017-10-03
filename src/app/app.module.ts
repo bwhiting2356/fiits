@@ -15,46 +15,36 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { searchReducer } from './home/store/search.reducers';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchEffects } from './home/store/search.effects';
-import { LoginComponent } from './home/search-container/auth/login/login.component';
-import { AuthService } from './auth/auth.service';
+import { AuthService } from './services/auth.service';
 import { AuthEffects } from './auth/store/auth.effects';
 import { authReducer } from './auth/store/auth.reducers';
 import { SideNavComponent } from './navigation/side-nav/side-nav.component';
 import { navReducer } from './navigation/store/nav.reducers';
-import { FlashMessageComponent } from './home/flash-message/flash-message.component';
-import { SignupComponent } from './home/search-container/auth/signup/signup.component';
-import { AuthHeaderComponent } from './home/search-container/auth/auth-header/auth-header.component';
-import { AuthContainerComponent } from './home/search-container/auth/auth-container/auth-container.component';
 import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { HomeModule } from './home/home.module';
 import { NavLayerComponent } from './navigation/nav-layer/nav-layer.component';
 import { CurrentTripComponent } from './current-trip/current-trip.component';
 import { AuthGuard } from './auth-guard.service';
-import {routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { routerReducer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { environment } from '../environments/environment';
 import { routes } from './routes';
-import {GeolocationService} from "./services/geolocation.service";
-import {ReverseGeocodeService} from "./services/reverse-geocode.service";
-import {SearchService} from "./services/search.service";
-import {MapService} from "./services/map.service";
-import {PolylineService} from "./services/polyline.service";
-import {FitboundsService} from "./services/fitbounds.service";
-import {GoogleMapsAPIWrapper} from "@agm/core";
+import { GeolocationService } from './services/geolocation.service';
+import { ReverseGeocodeService } from './services/reverse-geocode.service';
+import { SearchService } from './services/search.service';
+import { MapService } from './services/map.service';
+import { PolylineService } from './services/polyline.service';
+import { FitboundsService } from './services/fitbounds.service';
+import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
+import {GMAP_KEY} from "../environments/constants";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    // LoginComponent,
     SideNavComponent,
     NavLayerComponent,
     CurrentTripComponent,
-    // AuthContainerComponent,
-    // AuthHeaderComponent,
-    // SignupComponent,
-    // FlashMessageComponent,
-    // MenuComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -69,6 +59,10 @@ import {GoogleMapsAPIWrapper} from "@agm/core";
     HomeModule,
     RouterModule.forRoot(routes),
     StoreRouterConnectingModule,
+    AgmCoreModule.forRoot({
+      apiKey: GMAP_KEY,
+      libraries: ['places']
+    }),
   ],
   providers: [
     GeolocationService,

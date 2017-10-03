@@ -12,7 +12,7 @@ import 'rxjs/add/operator/catch';
 import { of } from 'rxjs/observable/of';
 import { BASE_URL } from '../../../environments/constants';
 import { LogInTry, SignUpTry } from './auth.actions';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Injectable()
 export class AuthEffects {

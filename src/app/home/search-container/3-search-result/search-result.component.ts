@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { SearchService } from '../../../services/search.service';
-import { AuthService } from '../../../auth/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/reducer';
 import { Observable } from 'rxjs/Observable';

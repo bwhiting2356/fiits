@@ -28,24 +28,19 @@ import { SearchInfoComponent } from './search-container/5-search-info/search-inf
 import { BookingSuccessComponent } from './search-container/6-booking-success/booking-success.component';
 import { BookingErrorComponent } from './search-container/7-booking-error/booking-error.component';
 import { PolylineComponent } from './map-container/polyline/polyline.component';
-import { GeolocationService } from '../services/geolocation.service';
-import { ReverseGeocodeService } from '../services/reverse-geocode.service';
-import { SearchService } from '../services/search.service';
-import { MapService } from '../services/map.service';
-import { FitboundsService } from '../services/fitbounds.service';
 import { MinutesPipe } from '../pipes/minutes.pipe';
 import { AddMinutesPipe } from '../pipes/add-minutes.pipe';
 import { ShortAddressPipe } from '../pipes/short-address.pipe';
 import { HorizontalLineComponent } from './search-container/horizontal-line/horizontal-line.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { PolylineService } from '../services/polyline.service';
 import { LoginComponent} from './search-container/auth/login/login.component';
 import { MenuIconComponent} from 'app/menu-icon/menu-icon.component';
 import { FlashMessageComponent } from './flash-message/flash-message.component';
 import { SignupComponent } from './search-container/auth/signup/signup.component';
 import { AuthHeaderComponent } from './search-container/auth/auth-header/auth-header.component';
 import { AuthContainerComponent } from './search-container/auth/auth-container/auth-container.component';
+import {SharedModule} from "../shared/shared.module";
 
 
 export const COMPONENTS = [
@@ -86,10 +81,8 @@ export const COMPONENTS = [
     FormsModule,
     HttpClientModule,
     CommonModule,
-    AgmCoreModule.forRoot({
-      apiKey: GMAP_KEY,
-      libraries: ['places']
-    }),
+    // AgmCoreModule
+    SharedModule
   ],
   declarations: [
     COMPONENTS,
@@ -97,15 +90,7 @@ export const COMPONENTS = [
     AddMinutesPipe,
     ShortAddressPipe
   ],
-  providers: [
-    // GeolocationService,
-    // ReverseGeocodeService,
-    // SearchService,
-    // MapService,
-    // PolylineService,
-    // FitboundsService,
-    // GoogleMapsAPIWrapper,
-  ],
+  providers: [],
   exports: [COMPONENTS]
 })
 export class HomeModule { }

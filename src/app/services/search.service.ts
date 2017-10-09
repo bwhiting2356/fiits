@@ -196,6 +196,8 @@ export class SearchService {
     this.store.dispatch(new OriginAddressChange(address));
     this.store.dispatch(new OriginCoordsChange(coords));
     this.originFocus();
+
+    // TODO: something is broken about 'Current Location'
   }
 
   originClear() {
@@ -322,7 +324,6 @@ export class SearchService {
       } else if (state.search.destination.address.length === 0) {
         this.destinationFocus();
       } else {
-        console.log("this happened 325")
         this.noFocus();
       }
     });

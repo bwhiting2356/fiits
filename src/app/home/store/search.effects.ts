@@ -11,6 +11,8 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 
 import { BASE_URL } from '../../../environments/constants';
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/observable/of";
 
 @Injectable()
 export class SearchEffects {
@@ -33,11 +35,14 @@ export class SearchEffects {
 
   @Effect({ dispatch: false }) originOrDestinationChange$ = this.actions$
     .ofType(ORIGIN_COORDS_CHANGE, DESTINATION_COORDS_CHANGE)
-    .switchMap((action: OriginCoordsChange | DestinationCoordsChange) => this.http.post(BASE_URL + 'api/cache-coords', action.payload)
-      .map((res: HttpResponse<any>) => {
-        console.log(res);
-      })
-    );
+    .switchMap((action: OriginCoordsChange | DestinationCoordsChange) => this.http.post(BASE_URL + 'api/cache-coords', action.payload))
+    .catch(err => {
+      console.log(err)
+      return Observable.of(undefined);
+    });
+  // TODO: should I handle the response somehow?
+  // TODO: I think I'm sending empty addresses to the server when they delete it
+  // TODO: debounce, remove duplicates
 
   @Effect({ dispatch: false }) confirmBook$ = this.actions$
     .ofType(CONFIRM_BOOK)

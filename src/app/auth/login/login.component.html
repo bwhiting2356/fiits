@@ -1,0 +1,31 @@
+
+<app-menu-icon></app-menu-icon>
+<div class="container">
+  <form #f="ngForm" class="form-signup">
+    <h4 class="form-signin-heading">Log in to your account</h4>
+    <app-input
+      name="email"
+      type="email"
+      [inputValue]="email | async"
+      placeholderText="Enter your email"
+      (valueChange)="emailChange($event)">
+    </app-input>
+    <app-input
+      name="password"
+      type="password"
+      [inputValue]="password | async"
+      placeholderText="Enter your password"
+      (valueChange)="passwordChange($event)">
+    </app-input>
+    <button
+      class="btn log-in"
+      type="submit"
+      [disabled]="disabled | async"
+      (click)="logIn(f)">
+      {{ !(fetching | async ) ? 'Log In' : 'Authenticating...'}}
+      <span *ngIf="fetching | async" class="glyphicon glyphicon-repeat"></span>
+    </button>
+  </form>
+  <p>Not a member yet? <a routerLink="/signup">Sign up</a> instead.</p>
+</div>
+

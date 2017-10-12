@@ -84,7 +84,6 @@ export class OriginInputComponent implements OnInit, OnChanges {
     this.store.select('search').map(search => search.origin.focus).subscribe(focus => {
       if (focus) {
         this.originInput.nativeElement.focus();
-        console.log("line 85")
       }
     });
   }

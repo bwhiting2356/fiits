@@ -61,5 +61,6 @@ export class SideNavComponent {
   logOut() {
     this.authService.logOut();
     this.closeNav();
+    // TODO: redirect if I'm on an auth guard component
   }
 }

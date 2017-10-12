@@ -7,9 +7,9 @@ import { searchInitialState } from '../home/store/search.initialState';
 import { SearchState } from '../home/store/search.state';
 import { searchReducer } from '../home/store/search.reducers';
 
-import { AuthState } from '../auth/store/auth.state';
-import { authInitialState } from '../auth/store/auth.initialState';
-import { authReducer } from '../auth/store/auth.reducers';
+import { AuthState } from '../services/auth/store/auth.state';
+import { authInitialState } from '../services/auth/store/auth.initialState';
+import { authReducer } from '../services/auth/store/auth.reducers';
 
 import { NavState } from '../navigation/store/nav.state';
 import { navInitialState } from '../navigation/store/nav.initialState';

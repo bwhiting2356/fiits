@@ -4,4 +4,6 @@ export interface AuthState {
   showAuth: boolean;
   showLogin: boolean;
   showSignup: boolean;
+  email: string,
+  password: string
 }

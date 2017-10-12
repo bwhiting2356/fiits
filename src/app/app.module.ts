@@ -16,8 +16,8 @@ import { searchReducer } from './home/store/search.reducers';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchEffects } from './home/store/search.effects';
 import { AuthService } from './services/auth.service';
-import { AuthEffects } from './auth/store/auth.effects';
-import { authReducer } from './auth/store/auth.reducers';
+import { AuthEffects } from './services/auth/store/auth.effects';
+import { authReducer } from './services/auth/store/auth.reducers';
 import { SideNavComponent } from './navigation/side-nav/side-nav.component';
 import { navReducer } from './navigation/store/nav.reducers';
 import { RouterModule } from '@angular/router';
@@ -36,7 +36,11 @@ import { MapService } from './services/map.service';
 import { PolylineService } from './services/polyline.service';
 import { FitboundsService } from './services/fitbounds.service';
 import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
-import {GMAP_KEY} from "../environments/constants";
+import { GMAP_KEY } from '../environments/constants';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { InputComponent } from './input/input.component';
+import { CapitalizePipe } from './pipes/capitalize.pipe';
 
 
 @NgModule({
@@ -45,6 +49,10 @@ import {GMAP_KEY} from "../environments/constants";
     SideNavComponent,
     NavLayerComponent,
     CurrentTripComponent,
+    LoginComponent,
+    SignupComponent,
+    InputComponent,
+    CapitalizePipe,
   ],
   imports: [
     NgbModule.forRoot(),

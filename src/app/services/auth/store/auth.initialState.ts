@@ -5,5 +5,7 @@ export const authInitialState: AuthState = {
   fetching: false,
   showAuth: false,
   showLogin: false,
-  showSignup: false
+  showSignup: false,
+  email: '',
+  password: ''
 };

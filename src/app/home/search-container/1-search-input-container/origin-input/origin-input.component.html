@@ -12,9 +12,9 @@
     spellcheck="false"
     [value]="originAddress | async"
     (input)="inputChange($event)"/>
-<span
-  *ngIf="showX | async"
-  class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
-  (click)="onXClick()">
-</span>
+  <span
+    *ngIf="showX | async"
+    class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
+    (click)="onXClick()">
+  </span>
 </div>

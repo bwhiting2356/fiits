@@ -38,6 +38,12 @@ export function authReducer(state = authInitialState, action: auth.Actions): Aut
     case auth.HIDE_AUTH:
       return {...state, showAuth: false, showLogin: false, showSignup: false };
 
+    case auth.EMAIL_CHANGE:
+      return {...state, email: action.payload };
+
+    case auth.PASSWORD_CHANGE:
+      return {...state, password: action.payload };
+
     default:
       return state;
   }

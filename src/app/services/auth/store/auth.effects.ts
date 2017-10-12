@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { SearchService } from '../../services/search.service';
+// import { SearchService } from '../../services/search.service';
 import { Action } from '@ngrx/store';
 
 import * as auth from './auth.actions'
@@ -10,9 +10,9 @@ import * as auth from './auth.actions'
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/catch';
 import { of } from 'rxjs/observable/of';
-import { BASE_URL } from '../../../environments/constants';
 import { LogInTry, SignUpTry } from './auth.actions';
-import { AuthService } from '../../services/auth.service';
+import { BASE_URL } from '../../../../environments/constants';
+import { AuthService } from '../../auth.service';
 
 @Injectable()
 export class AuthEffects {

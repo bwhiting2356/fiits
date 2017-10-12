@@ -6,6 +6,7 @@ import { AppState } from '../store/reducer';
 import { MapSetCenter, MapSetZoomlevel } from '../home/store/search.actions';
 import { Observable } from 'rxjs/Observable';
 import { Coords } from '../shared/coords';
+import {MapsAPILoader} from "@agm/core";
 
 @Injectable()
 export class FitboundsService {
@@ -17,7 +18,8 @@ export class FitboundsService {
 
   constructor(
     private mapService: MapService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private mapsAPILoader: MapsAPILoader  // TODO: is this solving that problem?
   ) { }
 
   update() {

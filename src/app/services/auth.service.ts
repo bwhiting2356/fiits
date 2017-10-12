@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import { UserCredentials } from '../auth/store/userCredentials';
+import { UserCredentials } from './auth/store/userCredentials';
 import {
-  HideAuth, HideLogIn, HideSignUp, LogInError, LogInSuccess, LogInTry, LogOut, ShowAuth, ShowLogIn, ShowSignUp,
+  EmailChange,
+  HideAuth, HideLogIn, HideSignUp, LogInError, LogInSuccess, LogInTry, LogOut, PasswordChange, ShowAuth, ShowLogIn,
+  ShowSignUp,
   SignUpError,
   SignUpSuccess,
   SignUpTry
-} from '../auth/store/auth.actions';
+} from './auth/store/auth.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/reducer';
 import {ShowFlashMessage} from "../home/store/search.actions";
@@ -76,6 +78,14 @@ export class AuthService {
 
   hideAuth() {
     this.store.dispatch(new HideAuth());
+  }
+
+  emailChange(email: string) {
+    this.store.dispatch(new EmailChange(email));
+  }
+
+  passwordChange(password: string) {
+    this.store.dispatch(new PasswordChange(password));
   }
 
   constructor(private store: Store<AppState>) {}

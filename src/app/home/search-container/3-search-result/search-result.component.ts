@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../store/reducer';
 import { Observable } from 'rxjs/Observable';
 import { TripData } from '../../../shared/tripData';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-result',
@@ -26,11 +27,13 @@ export class SearchResultComponent {
   }
 
   logIn() {
-    this.authService.showLogIn()
+    this.router.navigate(['login'])
+    // this.authService.showLogIn()
   }
 
   signUp() {
-    this.authService.showSignUp()
+    this.router.navigate(['signup'])
+    // this.authService.showSignUp()
   }
 
   readInfo() {
@@ -40,7 +43,8 @@ export class SearchResultComponent {
   constructor(
     private searchService: SearchService,
     private authService: AuthService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) {
     this.authenticated = this.store.select('auth').map(auth => {
       return !!auth.token

@@ -50,10 +50,14 @@
         </div>
       </div>
       <div *ngIf="!(authenticated | async)">
-        <div class="nav-link" (click)="signUp()">
+        <div class="nav-link"
+             routerLink="/signup"
+             (click)="closeNav()">
           <p>Sign Up</p>
         </div>
-        <div class="nav-link" (click)="logIn()">
+        <div class="nav-link"
+             routerLink="/login"
+             (click)="closeNav()">
           <p>Log In</p>
         </div>
       </div>

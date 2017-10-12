@@ -15,6 +15,8 @@ export const SHOW_SIGN_UP = 'SHOW_SIGN_UP';
 export const HIDE_SIGN_UP = 'HIDE_SIGN_UP';
 export const SHOW_AUTH = 'SHOW_AUTH';
 export const HIDE_AUTH = 'HIDE_AUTH';
+export const EMAIL_CHANGE = 'EMAIL_CHANGE';
+export const PASSWORD_CHANGE = 'PASSWORD_CHANGE';
 
 export class SignUpTry implements Action {
   readonly type = SIGN_UP_TRY;
@@ -80,6 +82,18 @@ export class HideAuth implements Action {
   readonly type = HIDE_AUTH;
 }
 
+export class EmailChange implements Action {
+  readonly type = EMAIL_CHANGE;
+
+  constructor(public payload: string) {}
+}
+
+export class PasswordChange implements Action {
+  readonly type = PASSWORD_CHANGE;
+
+  constructor(public payload: string) {}
+}
+
 export type Actions
   = SignUpTry
   | SignUpSuccess
@@ -93,4 +107,6 @@ export type Actions
   | ShowSignUp
   | HideSignUp
   | ShowAuth
-  | HideAuth;
+  | HideAuth
+  | EmailChange
+  | PasswordChange;

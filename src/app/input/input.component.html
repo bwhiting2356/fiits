@@ -1,0 +1,20 @@
+<div class="form-group has-feedback has-clear">
+  <label for="{{ name }}">{{ name | capitalize }}:</label>
+  <input
+    #input
+    class="form-control"
+    [disabled]="disabled"
+    [type]="type"
+    id="{{ name }}"
+    [placeholder]="placeholderText"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    [value]="inputValue"
+    (input)="onChange($event)"/>
+  <span
+    *ngIf="showX"
+    class="form-control-clear glyphicon glyphicon-remove form-control-feedback"
+    (click)="onXClick()">
+  </span>
+</div>

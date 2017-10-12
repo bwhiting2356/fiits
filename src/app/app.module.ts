@@ -35,7 +35,7 @@ import { SearchService } from './services/search.service';
 import { MapService } from './services/map.service';
 import { PolylineService } from './services/polyline.service';
 import { FitboundsService } from './services/fitbounds.service';
-import {AgmCoreModule, GoogleMapsAPIWrapper} from '@agm/core';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
 import { GMAP_KEY } from '../environments/constants';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';

@@ -19,24 +19,24 @@ export function authReducer(state = authInitialState, action: auth.Actions): Aut
 
     case auth.LOG_OUT:
       return { ...state, fetching: false, token: '', error: '' };
-
-    case auth.SHOW_LOG_IN:
-      return {...state, showLogin: true, showSignup: false };
-
-    case auth.HIDE_LOG_IN:
-      return {...state, showLogin: false };
-
-    case auth.SHOW_SIGN_UP:
-      return {...state, showLogin: false, showSignup: true };
-
-    case auth.HIDE_SIGN_UP:
-      return {...state, showSignup: false };
-
-    case auth.SHOW_AUTH:
-      return {...state, showAuth: true };
-
-    case auth.HIDE_AUTH:
-      return {...state, showAuth: false, showLogin: false, showSignup: false };
+    //
+    // case auth.SHOW_LOG_IN:
+    //   return {...state, showLogin: true, showSignup: false };
+    //
+    // case auth.HIDE_LOG_IN:
+    //   return {...state, showLogin: false };
+    //
+    // case auth.SHOW_SIGN_UP:
+    //   return {...state, showLogin: false, showSignup: true };
+    //
+    // case auth.HIDE_SIGN_UP:
+    //   return {...state, showSignup: false };
+    //
+    // case auth.SHOW_AUTH:
+    //   return {...state, showAuth: true };
+    //
+    // case auth.HIDE_AUTH:
+    //   return {...state, showAuth: false, showLogin: false, showSignup: false };
 
     case auth.EMAIL_CHANGE:
       return {...state, email: action.payload };

@@ -18,6 +18,14 @@
   cursor: pointer;
 }
 
+.switch-auth {
+  margin-top: 10px;
+}
+
+.alert {
+  padding: 6px;
+}
+
 @keyframes round {
   from {
     transform: rotate(0deg)

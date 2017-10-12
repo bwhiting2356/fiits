@@ -2,11 +2,15 @@
 <div class="container">
   <form #f="ngForm" class="form-signup">
     <h4 class="form-signin-heading">Sign up for an account</h4>
+    <div *ngIf="error | async" class="alert alert-danger">
+      {{ error | async }}
+    </div>
     <app-input
       name="email"
       type="email"
       [inputValue]="email | async"
       placeholderText="Enter your email"
+      [disabled]="fetching | async"
       (valueChange)="emailChange($event)">
     </app-input>
     <app-input
@@ -14,13 +18,14 @@
       type="password"
       [inputValue]="password | async"
       placeholderText="Enter your password"
+      [disabled]="fetching | async"
       (valueChange)="passwordChange($event)">
     </app-input>
     <button
       class="btn log-in"
       type="submit"
       [disabled]="disabled | async"
-      (click)="logIn(f)">
+      (click)="signUp(f)">
       {{ !(fetching | async ) ? 'Sign Up' : 'Authenticating...'}}
       <span *ngIf="fetching | async" class="glyphicon glyphicon-repeat"></span>
     </button>

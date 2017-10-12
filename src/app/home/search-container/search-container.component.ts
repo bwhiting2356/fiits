@@ -15,7 +15,6 @@ import { TripData } from '../../shared/tripData';
 export class SearchContainerComponent implements OnInit {
   progress: Observable<string>;
   tripData: Observable<TripData>;
-  showAuth: Observable<boolean>;
 
   constructor(
     private geolocationService: GeolocationService,
@@ -25,7 +24,6 @@ export class SearchContainerComponent implements OnInit {
     this.tripData = this.store.select('search').map(search => {
       return search.result.response ? search.result.response.tripData : undefined;
     });
-    this.showAuth = this.store.select('auth').map(auth => auth.showAuth);
   }
 
   ngOnInit() {

@@ -48,15 +48,15 @@ export class SideNavComponent {
     this.store.dispatch(new CloseNav());
   }
 
-  signUp() {
-    this.authService.showSignUp();
-    this.closeNav();
-  }
-
-  logIn() {
-    this.authService.showLogIn();
-    this.closeNav();
-  }
+  // signUp() {
+  //   this.authService.showSignUp();
+  //   this.closeNav();
+  // }
+  //
+  // logIn() {
+  //   this.authService.showLogIn();
+  //   this.closeNav();
+  // }
 
   logOut() {
     this.authService.logOut();

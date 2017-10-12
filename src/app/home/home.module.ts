@@ -36,11 +36,11 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent} from './search-container/auth/login/login.component';
 import { MenuIconComponent} from 'app/menu-icon/menu-icon.component';
-import { FlashMessageComponent } from './flash-message/flash-message.component';
+import { ErrorMessageComponent } from '../error-message/error-message.component';
 import { SignupComponent } from './search-container/auth/signup/signup.component';
 import { AuthHeaderComponent } from './search-container/auth/auth-header/auth-header.component';
 import { AuthContainerComponent } from './search-container/auth/auth-container/auth-container.component';
-import {SharedModule} from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 
 
 export const COMPONENTS = [
@@ -68,7 +68,7 @@ export const COMPONENTS = [
   BookingErrorComponent,
   HorizontalLineComponent,
   MenuIconComponent,
-  FlashMessageComponent,
+  ErrorMessageComponent,
   LoginComponent,
   SignupComponent,
   AuthHeaderComponent,

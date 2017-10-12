@@ -8,12 +8,7 @@ import {ClearFlashMessage} from './store/search.actions';
   selector: 'app-home',
   template: `
     <app-menu-icon></app-menu-icon>
-    <app-flash-message
-      *ngIf="flashMessage | async"
-      [message]="flashMessage | async"
-      [clazz]="messageClass | async"
-      (clear)="clearFlashMessage()">
-    </app-flash-message>
+    <!--<app-flash-message></app-flash-message>-->
     <app-search-container></app-search-container>
     <app-map-container></app-map-container>
   `,

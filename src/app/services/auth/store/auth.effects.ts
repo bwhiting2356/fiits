@@ -45,6 +45,10 @@ export class AuthEffects {
       } else {
         console.log('No error or token, what\'s going on?');
       }
+    })
+    .catch(err => {
+      this.authService.signUpError(err.statusText);
+      return Observable.of(undefined)
     });
 
   constructor(

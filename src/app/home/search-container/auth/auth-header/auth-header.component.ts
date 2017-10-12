@@ -8,7 +8,7 @@ import { AuthService } from '../../../../services/auth.service';
 })
 export class AuthHeaderComponent {
   hideAuth() {
-    this.authService.hideAuth();
+    // this.authService.hideAuth();
   }
 
   constructor(private authService: AuthService) { }

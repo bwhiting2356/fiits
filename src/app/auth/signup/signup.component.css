@@ -1,3 +1,32 @@
 .container {
   max-width: 60%;
 }
+
+.btn {
+  position: relative;
+}
+
+.glyphicon-repeat {
+  position: absolute;
+  right: 8px;
+  top: 9px;
+  animation: round 1s linear infinite;
+}
+
+.switch-auth {
+  margin-top: 10px;
+}
+
+.alert {
+  padding: 6px;
+}
+
+@keyframes round {
+  from {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(360deg)
+  }
+}
+

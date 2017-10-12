@@ -25,7 +25,6 @@ import { addDay } from '../shared/timeHelperFunctions/addDay';
 import { subtractDay } from '../shared/timeHelperFunctions/subtractDay';
 import { ProgressSteps } from '../shared/progressSteps';
 import 'rxjs/add/operator/first';
-import { ShowSignUp } from './auth/store/auth.actions';
 
 @Injectable()
 export class SearchService {

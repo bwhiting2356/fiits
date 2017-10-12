@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserCredentials } from './auth/store/userCredentials';
 import {
-  EmailChange,
-  HideAuth, HideLogIn, HideSignUp, LogInError, LogInSuccess, LogInTry, LogOut, PasswordChange, ShowAuth, ShowLogIn,
-  ShowSignUp,
+  EmailChange, LogInError, LogInSuccess, LogInTry, LogOut, PasswordChange,
   SignUpError,
   SignUpSuccess,
   SignUpTry
@@ -21,63 +19,41 @@ export class AuthService {
 
   signUpTry(userCredentials: UserCredentials) {
     this.store.dispatch(new SignUpTry(userCredentials));
-    this.store.dispatch(new HideSignUp());
+    // this.store.dispatch(new HideSignUp());
   }
 
   signUpSuccess(token: string) {
     this.store.dispatch(new SignUpSuccess(token));
-    this.store.dispatch(new HideAuth());
+    // this.store.dispatch(new HideAuth());
     this.store.dispatch(new ShowFlashMessage({ message: 'Sign up successful', clazz: 'alert-success'}))
   }
 
   signUpError(err: string) {
     this.store.dispatch(new SignUpError(err));
-    this.store.dispatch(new ShowSignUp());
+    // this.store.dispatch(new ShowSignUp());
     this.store.dispatch(new ShowFlashMessage({ message: err, clazz: 'alert-danger'}))
   }
 
   logInTry(userCredentials: UserCredentials) {
     this.store.dispatch(new LogInTry(userCredentials));
-    this.store.dispatch(new HideLogIn());
+    // this.store.dispatch(new HideLogIn());
   }
 
   logInSuccess(token: string) {
     this.store.dispatch(new LogInSuccess(token));
-    this.store.dispatch(new HideAuth());
+    // this.store.dispatch(new HideAuth());
     this.store.dispatch(new ShowFlashMessage({ message: 'Log in successful', clazz: 'alert-success'}))
   }
 
   logInError(err: string) {
     this.store.dispatch(new LogInError(err));
-    this.store.dispatch(new ShowLogIn());
+    // this.store.dispatch(new ShowLogIn());
     this.store.dispatch(new ShowFlashMessage({ message: err, clazz: 'alert-danger'}))
   }
 
   logOut() {
     this.store.dispatch(new LogOut());
     this.store.dispatch(new ShowFlashMessage({ message: 'You are now logged out', clazz: 'alert-success'}))
-  }
-
-  showLogIn() {
-    this.store.dispatch(new ShowAuth());
-    this.store.dispatch(new ShowLogIn());
-  }
-
-  hideLogIn() {
-    this.store.dispatch(new HideLogIn());
-  }
-
-  showSignUp() {
-    this.store.dispatch(new ShowAuth());
-    this.store.dispatch(new ShowSignUp());
-  }
-
-  hideSignUp() {
-    this.store.dispatch(new HideSignUp());
-  }
-
-  hideAuth() {
-    this.store.dispatch(new HideAuth());
   }
 
   emailChange(email: string) {
